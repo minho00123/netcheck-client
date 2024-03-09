@@ -5,7 +5,7 @@ import About from "./About";
 
 function App() {
   return (
-    <main className="px-3 py-5">
+    <main>
       <Header />
       <Routes>
         <Route path="/" exact element={<Home />} />

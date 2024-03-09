@@ -9,8 +9,25 @@ export default {
       green: "#7BF277",
       red: "#F20505",
       black: "#0D0D0D",
+      white: "#FFFFFF",
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        fadeInDown: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+      },
+      animation: {
+        fadeInDown: "fadeInDown 1.5s ease-out forwards",
+      },
+    },
   },
   plugins: [],
 };
