@@ -1,2 +1,3 @@
-# netcheck-client
+# netcheck
+
 Network Diagnostic Test Tool
