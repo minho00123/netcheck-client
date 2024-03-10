@@ -23,9 +23,18 @@ export default {
             transform: "translateY(0)",
           },
         },
+        fadeIn: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
       },
       animation: {
         fadeInDown: "fadeInDown 1.5s ease-out forwards",
+        fadeIn: "fadeIn 1s ease-out forwards",
       },
     },
   },

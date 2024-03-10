@@ -1,3 +1,5 @@
+import useStore from "../store/store";
+import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 import homeImage from "../assets/home-img.jpg";
 
@@ -9,9 +11,11 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <h1 className="text-white text-7xl mb-2">Diagnose & Check</h1>
           <h2 className="text-white text-5xl mb-10">the website issues</h2>
-          <button className="py-3 px-6 rounded-xl bg-blue font-bold text-2xl text-white hover:bg-white hover:text-blue">
-            Learn more
-          </button>
+          <Link to="/learn">
+            <button className="py-3 px-6 rounded-xl bg-blue font-bold text-2xl text-white hover:bg-white hover:text-blue">
+              Learn more
+            </button>
+          </Link>
         </div>
       </div>
       <Input />

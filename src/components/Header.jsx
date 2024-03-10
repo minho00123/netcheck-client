@@ -13,7 +13,8 @@ export default function Header() {
       </Link>
       {showHeaderInput && (
         <>
-          <Input /> <button className="font-bold text-xl">Share</button>
+          <Input />
+          <button className="font-bold text-xl">Share</button>
         </>
       )}
       <Link to="/about">
