@@ -4,17 +4,18 @@ import { FaSearch } from "react-icons/fa";
 
 export default function Input() {
   const inputRef = useRef();
-  const { setUrl, setIpAddress, setLocation } = useStore();
+  const { setUrl, setTracerouteData, setUrlInfo } = useStore();
   const [showWarning, setShowWarning] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     const inputUrl = inputRef.current.value;
-    const urlPattern = /^(http:\/\/|https:\/\/).*/;
+    const urlPattern = /^(?!https?:\/\/).*$|.*\/$/;
 
-    if (!urlPattern.test(inputUrl)) {
+    if (urlPattern.test(inputUrl)) {
       setShowWarning(true);
+
       return;
     }
 
@@ -32,10 +33,12 @@ export default function Input() {
 
       const data = await response.json();
 
-      setIpAddress(data[0]);
-      setLocation(data[1]);
+      setTracerouteData(data[0]);
+      setUrlInfo(data[1]);
     } catch (error) {
       console.error(error);
+      setUrl("error");
+      setTracerouteData([{ ipAddress: "URL Error" }]);
     }
 
     if (inputRef.current) {
