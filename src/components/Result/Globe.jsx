@@ -40,7 +40,7 @@ export default function Globe({ markers }) {
           .style("stroke", "black")
           .style("stroke-width", "1px");
 
-        markers.forEach(marker => {
+        markers.forEach((marker, index) => {
           svg
             .append("circle")
             .attr("class", "marker")
@@ -48,6 +48,24 @@ export default function Globe({ markers }) {
             .attr("cy", projection([marker.lon, marker.lat])[1])
             .style("fill", "red")
             .attr("r", 5);
+
+          if (index > 0) {
+            svg
+              .append("line")
+              .attr("class", "connectLine")
+              .attr(
+                "x1",
+                projection([markers[index - 1].lon, markers[index - 1].lat])[0],
+              )
+              .attr(
+                "y1",
+                projection([markers[index - 1].lon, markers[index - 1].lat])[1],
+              )
+              .attr("x2", projection([marker.lon, marker.lat])[0])
+              .attr("y2", projection([marker.lon, marker.lat])[1])
+              .attr("stroke", "#0D0D0D")
+              .attr("stroke-width", 1);
+          }
         });
       } catch (error) {
         console.error(error);
