@@ -16,7 +16,7 @@ export default function Result() {
         lat: data.lat,
         lon: data.lon,
         country: data.country,
-        city: data.region,
+        city: data.city,
       });
     }
   });

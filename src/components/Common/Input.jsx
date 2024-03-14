@@ -8,6 +8,7 @@ export default function Input() {
   const [showWarning, setShowWarning] = useState(false);
 
   async function handleSubmit(event) {
+    setTracerouteData([]);
     event.preventDefault();
 
     const inputUrl = inputRef.current.value;

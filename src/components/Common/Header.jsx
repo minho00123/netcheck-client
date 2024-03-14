@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header className="flex items-center justify-between h-20 mx-10 m-3">
-      <Link to="/">
+      <Link to="/" onClick={() => showHeaderInput()}>
         <img src={logoImage} alt="logo" className="h-10" />
       </Link>
       {showHeaderInput && (

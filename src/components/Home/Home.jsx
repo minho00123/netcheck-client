@@ -5,11 +5,12 @@ import Input from "../Common/Input";
 import homeImage from "../../assets/home-img.jpg";
 
 export default function Home() {
-  const { url, changeHeaderInputState } = useStore();
+  const { url, setUrl, changeHeaderInputState } = useStore();
 
   useEffect(() => {
     if (url) {
       changeHeaderInputState();
+      setUrl("");
     }
   }, [url]);
 

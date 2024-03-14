@@ -4,22 +4,29 @@ import { useRef, useEffect } from "react";
 
 export default function Globe({ markers }) {
   const svgRef = useRef();
+  const dragPosition = useRef({ startX: 0, startY: 0 });
 
   useEffect(() => {
+    if (markers.length < 2) {
+      return;
+    }
+
     const svg = d3.select(svgRef.current);
     const width = Number(svg.attr("width"));
     const height = Number(svg.attr("height"));
+    const initialRotation = [-markers[0].lon, -markers[0].lat, 0];
+    const projection = d3
+      .geoOrthographic()
+      .rotate(initialRotation)
+      .translate([width / 2, height / 2]);
+    const path = d3.geoPath().projection(projection);
+    let currentRotation = initialRotation;
 
     async function drawMap() {
       try {
         const response = await fetch("https://d3js.org/world-110m.v1.json");
         const data = await response.json();
         const countries = feature(data, data.objects.countries).features;
-        const projection = d3
-          .geoOrthographic()
-          .rotate([-markers[0].lon, -markers[0].lat])
-          .translate([width / 2, height / 2]);
-        const path = d3.geoPath().projection(projection);
 
         svg
           .selectAll("path")
@@ -40,36 +47,144 @@ export default function Globe({ markers }) {
           .style("stroke", "black")
           .style("stroke-width", "1px");
 
-        markers.forEach((marker, index) => {
-          svg
-            .append("circle")
-            .attr("class", "marker")
-            .attr("cx", projection([marker.lon, marker.lat])[0])
-            .attr("cy", projection([marker.lon, marker.lat])[1])
-            .style("fill", "red")
-            .attr("r", 5);
-
-          if (index > 0) {
-            svg
-              .append("line")
-              .attr("class", "connectLine")
-              .attr(
-                "x1",
-                projection([markers[index - 1].lon, markers[index - 1].lat])[0],
-              )
-              .attr(
-                "y1",
-                projection([markers[index - 1].lon, markers[index - 1].lat])[1],
-              )
-              .attr("x2", projection([marker.lon, marker.lat])[0])
-              .attr("y2", projection([marker.lon, marker.lat])[1])
-              .attr("stroke", "#0D0D0D")
-              .attr("stroke-width", 1);
-          }
-        });
+        drawMarkersAndLines(svg, markers, projection);
+        return () => {
+          svg.selectAll("*").remove();
+        };
       } catch (error) {
         console.error(error);
       }
+    }
+
+    const drag = d3
+      .drag()
+      .on("start", event => {
+        dragPosition.current = [d3.pointer(event, svg.node()), currentRotation];
+      })
+      .on("drag", event => {
+        const [dx, dy] = d3.pointer(event, svg.node());
+        const [x, y] = dragPosition.current[0];
+        const [startLon, startLat] = dragPosition.current[1];
+        const sensitivity = 0.5;
+        const diffX = dx - x;
+        const diffY = dy - y;
+
+        currentRotation = [
+          startLon + diffX * sensitivity,
+          startLat - diffY * sensitivity,
+          0,
+        ];
+
+        projection.rotate(currentRotation);
+        svg.selectAll("path").attr("d", path);
+
+        drawMarkersAndLines(svg, markers, projection);
+      });
+
+    svg.call(drag);
+
+    function drawMarkersAndLines(svg, markers, projection) {
+      svg.selectAll(".marker").remove();
+      svg.selectAll(".line").remove();
+
+      const tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("visibility", "hidden")
+        .style("background", "#fff")
+        .style("border", "1px solid #ccc")
+        .style("padding", "5px")
+        .style("border-radius", "5px")
+        .style("text-align", "center");
+
+      markers.forEach((marker, index) => {
+        if (
+          d3.geoDistance(
+            [marker.lon, marker.lat],
+            projection.invert([width / 2, height / 2]),
+          ) >
+          Math.PI / 2
+        ) {
+          return;
+        }
+
+        const markerId = `marker-${index}`;
+
+        if (!svg.select(`#${markerId}`).empty()) {
+          return;
+        }
+
+        svg
+          .append("circle")
+          .attr("class", "marker")
+          .attr("cx", projection([marker.lon, marker.lat])[0])
+          .attr("cy", projection([marker.lon, marker.lat])[1])
+          .attr("r", 0)
+          .style("fill", "#7BF277")
+          .on("mouseover", event => {
+            tooltip
+              .style("visibility", "visible")
+              .text(`${marker.city}, ${marker.country}`)
+              .style("top", event.pageY - 10 + "px")
+              .style("left", event.pageX + 10 + "px");
+          })
+          .on("mouseout", () => {
+            tooltip.style("visibility", "hidden");
+          })
+          .transition()
+          .duration(index * 200)
+          .attr("r", 5);
+      });
+
+      markers.forEach((marker, index) => {
+        const lineId = `line-${index}`;
+
+        if (!svg.select(`#${lineId}`).empty()) {
+          return;
+        }
+
+        const nextMarker = markers[index + 1];
+
+        if (!nextMarker) {
+          return;
+        }
+
+        if (
+          d3.geoDistance(
+            [marker.lon, marker.lat],
+            projection.invert([width / 2, height / 2]),
+          ) >
+            Math.PI / 2 ||
+          d3.geoDistance(
+            [nextMarker.lon, nextMarker.lat],
+            projection.invert([width / 2, height / 2]),
+          ) >
+            Math.PI / 2
+        ) {
+          return;
+        }
+
+        setTimeout(
+          () => {
+            svg
+              .append("line")
+              .attr("class", "line")
+              .attr("x1", projection([marker.lon, marker.lat])[0])
+              .attr("y1", projection([marker.lon, marker.lat])[1])
+              .attr("x2", projection([marker.lon, marker.lat])[0])
+              .attr("y2", projection([marker.lon, marker.lat])[1])
+              .attr("stroke", "#0D0D0D")
+              .attr("stroke-width", 1)
+              .transition()
+              .duration(600)
+              .attr("x2", projection([nextMarker.lon, nextMarker.lat])[0])
+              .attr("y2", projection([nextMarker.lon, nextMarker.lat])[1]);
+          },
+          index * 200 + 200,
+        );
+      });
     }
 
     drawMap();

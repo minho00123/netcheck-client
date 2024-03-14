@@ -71,7 +71,7 @@ const VerticalLineChart = ({ data }) => {
               .style("opacity", 1);
           });
 
-        circle
+        text
           .on("mouseover", () => {
             const displayText = item.country
               ? `${item.ipAddress} / ${item.city}, ${item.country}`
