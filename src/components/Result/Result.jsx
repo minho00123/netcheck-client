@@ -1,8 +1,9 @@
 import useStore from "../../store/store";
 import { useState } from "react";
 import Line from "./Line";
-import Loading from "../Common/Loading";
 import Globe from "./Globe";
+import Summary from "./Summary";
+import Loading from "../Common/Loading";
 
 export default function Result() {
   const [isSummary, setIsSummary] = useState(true);
@@ -83,6 +84,7 @@ export default function Result() {
                 Detail
               </button>
             </div>
+            <Summary />
           </div>
         </main>
       )}
