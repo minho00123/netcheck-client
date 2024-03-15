@@ -2,6 +2,7 @@ import useStore from "../../store/store";
 import { useState } from "react";
 import Line from "./Line";
 import Globe from "./Globe";
+import Detail from "./Detail";
 import Summary from "./Summary";
 import Loading from "../Common/Loading";
 
@@ -84,7 +85,7 @@ export default function Result() {
                 Detail
               </button>
             </div>
-            <Summary />
+            {isSummary ? <Summary /> : <Detail />}
           </div>
         </main>
       )}
