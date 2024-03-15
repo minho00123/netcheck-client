@@ -11,6 +11,12 @@ export default function Summary() {
         <p>URL</p>
         {urlInfo.url ? "✓" : "X"}
       </div>
+      <div
+        className={`m-5 p-5 border-2 rounded-xl text-center shadow-md ${urlInfo.ipAddress ? "border-green bg-green-light" : "border-red bg-red-light"}`}
+      >
+        <p>DNS</p>
+        {urlInfo.ipAddress ? "✓" : "X"}
+      </div>
     </section>
   );
 }
