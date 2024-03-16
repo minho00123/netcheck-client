@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 
 export default function Input() {
   const inputRef = useRef();
-  const { setUrl, setTracerouteData, setUrlInfo } = useStore();
+  const { setUrl, setTracerouteData, setUrlInfo, setPingData } = useStore();
   const [showWarning, setShowWarning] = useState(false);
 
   async function handleSubmit(event) {
@@ -24,7 +24,7 @@ export default function Input() {
     setUrl(inputUrl);
 
     try {
-      const response = await fetch("http://localhost:8000/data", {
+      const response = await fetch("http://localhost:8000/result", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,6 +36,7 @@ export default function Input() {
 
       setTracerouteData(data[0]);
       setUrlInfo(data[1]);
+      setPingData(data[2]);
     } catch (error) {
       console.error(error);
       setUrl("error");
