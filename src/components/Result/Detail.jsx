@@ -1,28 +1,34 @@
 import useStore from "../../store/store";
 
 export default function Detail() {
-  const { urlInfo, pingData } = useStore();
+  const { urlInfo, pingData, bandwidthData } = useStore();
 
   return (
     <section className="text-center">
-      <p className="my-5 px-5 py-3 border-2 border-blue rounded-xl text-md">
+      <p className="my-5 px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-md">
         <span className="text-lg font-bold">URL: </span>
         {urlInfo.url}
       </p>
-      <p className="my-5 px-5 py-3 border-2 border-blue rounded-xl text-md">
+      <p className="my-5 px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-md">
         <p className="text-lg font-bold">IP Address / Location </p>
         {urlInfo.ipAddress} <br /> {urlInfo.city}, {urlInfo.country}
       </p>
-      <div className="flex justify-around">
-        <p className="flex flex-col items-center my-5 px-2 py-3 text-lg border-2 border-blue rounded-xl">
+      <div className="flex justify-between w-72">
+        <div className="flex flex-col items-center px-2 py-3 border-2 border-blue rounded-xl bg-blue-light text-lg">
           <p className="text-md font-bold">Packet Loss</p>
-          <p className="flex justify-center items-center size-20 border-2 border-blue rounded-full text-md">
+          <p className="flex justify-center items-center size-20 border-2 border-blue rounded-full bg-white text-md">
             {pingData.lossRate}%
           </p>
           <p className="text-xs">
             Sent: {pingData.sent} / Received: {pingData.received}
           </p>
-        </p>
+        </div>
+        <div className="flex flex-col justify-center items-center px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-lg">
+          <p className="text-lg font-bold">Bandwidth</p>
+          <p className="flex justify-center items-center size-20 border-2 border-blue rounded-full bg-white text-sm">
+            {bandwidthData.bandwidth.toFixed(2)}Mbit/s
+          </p>
+        </div>
       </div>
     </section>
   );

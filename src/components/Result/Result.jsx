@@ -70,7 +70,7 @@ export default function Result() {
             </div>
             <Globe markers={markers} />
           </div>
-          <div className="flex flex-col justify-center items-center mr-24">
+          <div className="flex flex-col items-center mr-24">
             <div className="flex justify-center items-center">
               <button
                 className={`mx-1 mr-3 px-6 py-2 border-2 border-blue rounded-xl text-xl font-bold shadow-md ${isSummary && "bg-blue text-white border-none"}`}

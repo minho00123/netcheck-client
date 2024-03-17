@@ -4,7 +4,13 @@ import { FaSearch } from "react-icons/fa";
 
 export default function Input() {
   const inputRef = useRef();
-  const { setUrl, setTracerouteData, setUrlInfo, setPingData } = useStore();
+  const {
+    setUrl,
+    setUrlInfo,
+    setPingData,
+    setBandwidthData,
+    setTracerouteData,
+  } = useStore();
   const [showWarning, setShowWarning] = useState(false);
 
   async function handleSubmit(event) {
@@ -37,6 +43,7 @@ export default function Input() {
       setTracerouteData(data[0]);
       setUrlInfo(data[1]);
       setPingData(data[2]);
+      setBandwidthData(data[3]);
     } catch (error) {
       console.error(error);
       setUrl("error");
