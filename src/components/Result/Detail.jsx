@@ -27,7 +27,8 @@ export default function Detail() {
         <div className="flex flex-col justify-center items-center px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-lg">
           <p className="text-lg font-bold">Bandwidth</p>
           <p className="flex justify-center items-center size-20 border-2 border-blue rounded-full bg-white text-sm">
-            {bandwidthData.bandwidth.toFixed(2)}Mbit/s
+            {bandwidthData.bandwidth ? bandwidthData.bandwidth.toFixed(2) : 0}
+            Mbit/s
           </p>
         </div>
       </div>

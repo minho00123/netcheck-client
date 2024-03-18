@@ -39,7 +39,10 @@ export default function Input() {
         body: JSON.stringify({ url: inputUrl }),
       });
 
+      console.log(response);
       const data = await response.json();
+
+      data[1].status = response.status;
 
       setTracerouteData(data[0]);
       setUrlInfo(data[1]);
@@ -47,6 +50,7 @@ export default function Input() {
       setBandwidthData(data[3]);
     } catch (error) {
       console.error(error);
+      console.log(error);
       setUrl("error");
       setTracerouteData([{ ipAddress: "URL Error" }]);
     }

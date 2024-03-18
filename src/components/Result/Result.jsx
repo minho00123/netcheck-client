@@ -80,10 +80,10 @@ export default function Result() {
                   Start
                 </p>
                 <p>
-                  <span className="pr-3 text-blue-dark">●</span>
+                  <span className="pr-3 text-black">●</span>
                   End
                 </p>
-                <p>
+                <div>
                   <span className="pr-3 text-gray cursor-pointer">●</span>
                   <span
                     className="hover:underline"
@@ -98,10 +98,9 @@ export default function Result() {
                       <p>1. Packet loss</p>
                       <p>2. Block packets by router</p>
                       <p>3. High network latency</p>
-                      <p></p>
                     </div>
                   )}
-                </p>
+                </div>
               </div>
               <Line data={tracerouteData} />
             </div>

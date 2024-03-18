@@ -46,7 +46,7 @@ const VerticalLineChart = ({ data }) => {
         } else if (item.ipAddress === "Timeout") {
           fillColor = "#8C8C8C";
         } else if (index === data.length - 1) {
-          fillColor = "#020659";
+          fillColor = "#0D0D0D";
         } else {
           fillColor = "#4B91F2";
         }

@@ -154,7 +154,7 @@ export default function Globe({ markers }) {
         } else if (marker === undefined) {
           fillColor = "#8C8C8C";
         } else if (index === markers.length - 1) {
-          fillColor = "#020659";
+          fillColor = "#0D0D0D";
         } else {
           fillColor = "#4B91F2";
         }
