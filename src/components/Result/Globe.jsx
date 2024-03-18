@@ -8,6 +8,44 @@ export default function Globe({ markers }) {
 
   useEffect(() => {
     if (markers.length < 2) {
+      const svg = d3.select(svgRef.current);
+      const width = Number(svg.attr("width"));
+      const height = Number(svg.attr("height"));
+      const projection = d3
+        .geoOrthographic()
+        .translate([width / 2, height / 2]);
+      const path = d3.geoPath().projection(projection);
+
+      async function drawSolidMap() {
+        try {
+          const response = await fetch("https://d3js.org/world-110m.v1.json");
+          const data = await response.json();
+          const countries = feature(data, data.objects.countries).features;
+
+          svg
+            .selectAll("path")
+            .data(countries)
+            .enter()
+            .append("path")
+            .attr("class", "country")
+            .attr("d", path)
+            .style("fill", "#CCCCCC")
+            .style("stroke", "#F2F2F2");
+
+          svg
+            .append("circle")
+            .attr("cx", width / 2)
+            .attr("cy", height / 2)
+            .attr("r", width / 2)
+            .style("fill", "none")
+            .style("stroke", "black")
+            .style("stroke-width", "1px");
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      drawSolidMap();
+
       return;
     }
 
@@ -110,6 +148,17 @@ export default function Globe({ markers }) {
           return;
         }
 
+        let fillColor;
+        if (index === 0) {
+          fillColor = "#7BF277";
+        } else if (marker === undefined) {
+          fillColor = "#8C8C8C";
+        } else if (index === markers.length - 1) {
+          fillColor = "#020659";
+        } else {
+          fillColor = "#4B91F2";
+        }
+
         const markerId = `marker-${index}`;
 
         if (!svg.select(`#${markerId}`).empty()) {
@@ -122,7 +171,7 @@ export default function Globe({ markers }) {
           .attr("cx", projection([marker.lon, marker.lat])[0])
           .attr("cy", projection([marker.lon, marker.lat])[1])
           .attr("r", 0)
-          .style("fill", "#7BF277")
+          .style("fill", fillColor)
           .on("mouseover", event => {
             tooltip
               .style("visibility", "visible")
@@ -134,7 +183,7 @@ export default function Globe({ markers }) {
             tooltip.style("visibility", "hidden");
           })
           .transition()
-          .duration(index * 200)
+          .duration(index * 1000)
           .attr("r", 5);
       });
 
@@ -178,11 +227,11 @@ export default function Globe({ markers }) {
               .attr("stroke", "#0D0D0D")
               .attr("stroke-width", 1)
               .transition()
-              .duration(600)
+              .duration(700)
               .attr("x2", projection([nextMarker.lon, nextMarker.lat])[0])
               .attr("y2", projection([nextMarker.lon, nextMarker.lat])[1]);
           },
-          index * 200 + 200,
+          index * 670 + 200,
         );
       });
     }
