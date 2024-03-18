@@ -2,7 +2,7 @@ import useStore from "../../store/store";
 
 export default function Summary() {
   const { urlInfo, pingData } = useStore();
-  console.log(pingData);
+
   return (
     <section className="px-8 py-4 border-blue border-2 rounded-xl font-bold text-4xl shadow-2xl">
       <div

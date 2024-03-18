@@ -1,11 +1,12 @@
 import useStore from "../../store/store";
+import Graph from "./Graph";
 
 export default function Detail() {
   const { urlInfo, pingData, bandwidthData } = useStore();
 
   return (
     <section className="text-center">
-      <p className="my-5 px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-md">
+      <p className="px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-md">
         <span className="text-lg font-bold">URL: </span>
         {urlInfo.url}
       </p>
@@ -13,7 +14,7 @@ export default function Detail() {
         <p className="text-lg font-bold">IP Address / Location </p>
         {urlInfo.ipAddress} <br /> {urlInfo.city}, {urlInfo.country}
       </p>
-      <div className="flex justify-between w-72">
+      <div className="flex justify-between">
         <div className="flex flex-col items-center px-2 py-3 border-2 border-blue rounded-xl bg-blue-light text-lg">
           <p className="text-md font-bold">Packet Loss</p>
           <p className="flex justify-center items-center size-20 border-2 border-blue rounded-full bg-white text-md">
@@ -30,6 +31,7 @@ export default function Detail() {
           </p>
         </div>
       </div>
+      <Graph />
     </section>
   );
 }
