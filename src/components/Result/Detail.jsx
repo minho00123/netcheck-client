@@ -10,10 +10,10 @@ export default function Detail() {
         <span className="text-lg font-bold">URL: </span>
         {urlInfo.url}
       </p>
-      <p className="my-5 px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-md">
+      <div className="my-5 px-5 py-3 border-2 border-blue rounded-xl bg-blue-light text-md">
         <p className="text-lg font-bold">IP Address / Location </p>
         {urlInfo.ipAddress} <br /> {urlInfo.city}, {urlInfo.country}
-      </p>
+      </div>
       <div className="flex justify-between">
         <div className="flex flex-col items-center px-2 py-3 border-2 border-blue rounded-xl bg-blue-light text-lg">
           <p className="text-md font-bold">Packet Loss</p>

@@ -10,6 +10,7 @@ export default function Input() {
     setPingData,
     setBandwidthData,
     setTracerouteData,
+    id,
   } = useStore();
   const [showWarning, setShowWarning] = useState(false);
 
@@ -30,7 +31,7 @@ export default function Input() {
     setUrl(inputUrl);
 
     try {
-      const response = await fetch("http://localhost:8000/result", {
+      const response = await fetch(`http://localhost:8000/result/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

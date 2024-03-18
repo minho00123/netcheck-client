@@ -1,11 +1,17 @@
+import useStore from "../../store/store";
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 const RealTimeGraph = () => {
+  const { trafficData, setTrafficData } = useStore();
   const [data, setData] = useState([]);
   const d3Container = useRef(null);
 
   useEffect(() => {
+    if (trafficData.length > 0) {
+      setData(trafficData);
+    }
+
     const ws = new WebSocket("ws://localhost:8080");
 
     ws.onmessage = event => {
@@ -70,6 +76,8 @@ const RealTimeGraph = () => {
         .attr("stroke-width", 1.5)
         .attr("d", line);
     }
+
+    setTrafficData(data);
   }, [data]);
 
   return (

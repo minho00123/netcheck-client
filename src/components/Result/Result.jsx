@@ -1,5 +1,6 @@
 import useStore from "../../store/store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Line from "./Line";
 import Globe from "./Globe";
 import Detail from "./Detail";
@@ -9,8 +10,37 @@ import Loading from "../Common/Loading";
 export default function Result() {
   const [isSummary, setIsSummary] = useState(true);
   const [showTooltip, setShowTooltip] = useState(false);
-  const { tracerouteData } = useStore();
+  const {
+    setUrlInfo,
+    setPingData,
+    tracerouteData,
+    setTrafficData,
+    setBandwidthData,
+    setTracerouteData,
+  } = useStore();
   const markers = [];
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function getDbData() {
+      const response = await fetch(`http://localhost:8000/result/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      setUrlInfo(data.urlInfo);
+      setPingData(data.pingData);
+      setTrafficData(data.trafficData);
+      setBandwidthData(data.bandwidthData);
+      setTracerouteData(data.tracerouteData);
+    }
+
+    getDbData();
+  }, []);
 
   tracerouteData.forEach(data => {
     if (data.lat && data.lon) {

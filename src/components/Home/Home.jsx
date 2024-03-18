@@ -5,11 +5,16 @@ import Input from "../Common/Input";
 import homeImage from "../../assets/home-img.jpg";
 
 export default function Home() {
-  const { url, setUrl, changeHeaderInputState } = useStore();
+  const { id, url, setId, setUrl, setShowHeaderInput } = useStore();
+  const newId = Math.random().toString(36).slice(2, 16);
+
+  useEffect(() => {
+    setId(newId);
+  }, []);
 
   useEffect(() => {
     if (url) {
-      changeHeaderInputState();
+      setShowHeaderInput();
       setUrl("");
     }
   }, [url]);
@@ -31,7 +36,7 @@ export default function Home() {
         </div>
         <Input />
       </div>
-      {url && <Navigate to="/result" />}
+      {url && id && <Navigate to={`/result/${id}`} />}
     </>
   );
 }

@@ -11,11 +11,16 @@ import { MdOutlineDns, MdOutlineTraffic } from "react-icons/md";
 import { RiDashboard3Line, RiRedPacketLine, RiTimerLine } from "react-icons/ri";
 
 export default function Learn() {
-  const { url, setUrl, changeHeaderInputState } = useStore();
+  const { id, url, setId, setUrl, setShowHeaderInput } = useStore();
+  const newId = Math.random().toString(36).slice(2, 16);
+
+  useEffect(() => {
+    setId(newId);
+  }, []);
 
   useEffect(() => {
     if (url) {
-      changeHeaderInputState();
+      setShowHeaderInput();
       setUrl("");
     }
   }, [url]);
@@ -41,7 +46,7 @@ export default function Learn() {
         </div>
         <Input />
       </div>
-      {url && <Navigate to="/result" />}
+      {url && id && <Navigate to={`/result/${id}`} />}
     </>
   );
 }
