@@ -29,14 +29,17 @@ export default function Result() {
           "Content-Type": "application/json",
         },
       });
+      const text = await response.text();
 
-      const data = await response.json();
+      if (text) {
+        const data = await response.json();
 
-      setUrlInfo(data.urlInfo);
-      setPingData(data.pingData);
-      setTrafficData(data.trafficData);
-      setBandwidthData(data.bandwidthData);
-      setTracerouteData(data.tracerouteData);
+        setUrlInfo(data.urlInfo);
+        setPingData(data.pingData);
+        setTrafficData(data.trafficData);
+        setBandwidthData(data.bandwidthData);
+        setTracerouteData(data.tracerouteData);
+      }
     }
 
     getDbData();
@@ -73,20 +76,24 @@ export default function Result() {
             <div className="flex">
               <div className="flex flex-col justify-center relative h-20 mt-12 p-5 border-2 rounded-xl text-sm">
                 <p>
-                  <span className="pr-3 text-blue">●</span>
-                  Normal
+                  <span className="pr-3 text-green">●</span>
+                  Start
                 </p>
                 <p>
-                  <span className="pr-3 text-red cursor-pointer">●</span>
+                  <span className="pr-3 text-blue-dark">●</span>
+                  End
+                </p>
+                <p>
+                  <span className="pr-3 text-gray cursor-pointer">●</span>
                   <span
                     className="hover:underline"
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
                   >
-                    Timeout
+                    Unknown
                   </span>
                   {showTooltip && (
-                    <div className="absolute top-14 left-0  mt-1 p-2 w-44 border-2 rounded bg-white text-xs  shadow-md">
+                    <div className="absolute top-18 left-0  mt-1 p-2 w-44 border-2 rounded bg-white text-xs  shadow-md">
                       <p>Possibilities of Timeout</p>
                       <p>1. Packet loss</p>
                       <p>2. Block packets by router</p>

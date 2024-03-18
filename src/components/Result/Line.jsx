@@ -34,8 +34,29 @@ const VerticalLineChart = ({ data }) => {
             .duration(500)
             .style(
               "stroke",
-              item.ipAddress === "Timeout" ? "#FEE6E6" : "#C9DEFC",
+              item.ipAddress === "Timeout" ? "#F2F2F2" : "#C9DEFC",
             );
+        }
+
+        let fillColor;
+        let strokeColor;
+
+        if (index === 0) {
+          fillColor = "#7BF277";
+        } else if (item.ipAddress === "Timeout") {
+          fillColor = "#8C8C8C";
+        } else if (index === data.length - 1) {
+          fillColor = "#020659";
+        } else {
+          fillColor = "#4B91F2";
+        }
+
+        if (item.ipAddress === "Timeout") {
+          strokeColor = "#F2F2F2";
+        } else if (index === 0 || index === data.length - 1) {
+          strokeColor = "#D7FBD6";
+        } else {
+          strokeColor = "#C9DEFC";
         }
 
         const circle = svg
@@ -61,8 +82,8 @@ const VerticalLineChart = ({ data }) => {
           .ease(d3.easeQuadIn)
           .delay(index * 500)
           .duration(500)
-          .style("fill", item.ipAddress === "Timeout" ? "#F20505" : "#4B91F2")
-          .attr("stroke", item.ipAddress === "Timeout" ? "#FEE6E6" : "#C9DEFC")
+          .style("fill", fillColor)
+          .attr("stroke", strokeColor)
           .attr("stroke-width", 2)
           .on("end", function () {
             d3.select(text.node())
@@ -85,7 +106,7 @@ const VerticalLineChart = ({ data }) => {
           .on("mousemove", event => {
             tooltip
               .style("top", event.pageY - 10 + "px")
-              .style("left", event.pageX + 10 + "px");
+              .style("left", event.pageX + 15 + "px");
           })
           .on("mouseout", () => {
             tooltip.style("visibility", "hidden");
