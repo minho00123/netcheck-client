@@ -18,12 +18,14 @@ export default {
       white: "#FFFFFF",
     },
     height: {
+      "1px": "1px",
       1: "0.25rem",
       5: "1.25rem",
       10: "2.5rem",
       20: "5rem",
       full: "100%",
       "75vh": "75vh",
+      "100vh": "100vh",
     },
     extend: {
       keyframes: {
