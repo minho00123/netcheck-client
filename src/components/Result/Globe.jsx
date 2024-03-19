@@ -13,6 +13,8 @@ export default function Globe({ markers }) {
       const height = Number(svg.attr("height"));
       const projection = d3
         .geoOrthographic()
+        .scale(width / 2)
+        .clipAngle(90)
         .translate([width / 2, height / 2]);
       const path = d3.geoPath().projection(projection);
 
@@ -239,5 +241,5 @@ export default function Globe({ markers }) {
     drawMap();
   }, []);
 
-  return <svg ref={svgRef} width={500} height={600} />;
+  return <svg ref={svgRef} width={350} height={350} />;
 }
