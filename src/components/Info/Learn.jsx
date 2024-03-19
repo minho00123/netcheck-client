@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Card from "./Card";
 import Input from "../Common/Input";
+import Header from "../Home/Header";
 import learnImage from "../../assets/learn-img.jpg";
 import { FaRoute } from "react-icons/fa6";
 import { TbWorldWww } from "react-icons/tb";
@@ -11,7 +12,7 @@ import { MdOutlineDns, MdOutlineTraffic } from "react-icons/md";
 import { RiDashboard3Line, RiRedPacketLine, RiTimerLine } from "react-icons/ri";
 
 export default function Learn() {
-  const { id, url, setId, setUrl, setShowHeaderInput } = useStore();
+  const { id, url, setId, setUrl } = useStore();
   const newId = Math.random().toString(36).slice(2, 16);
 
   useEffect(() => {
@@ -20,13 +21,13 @@ export default function Learn() {
 
   useEffect(() => {
     if (url) {
-      setShowHeaderInput();
       setUrl("");
     }
   }, [url]);
 
   return (
     <>
+      <Header />
       <div className="flex flex-col justify-between items-center">
         <div className="relative text-center mb-12 animate-fadeIn">
           <img src={learnImage} alt="Background" className="w-screen" />
