@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import useStore from "../../store/store";
 import axios from "axios";
+import useStore from "../../store/store";
+import { useEffect, useState } from "react";
 
 export default function Information() {
   const { url } = useStore();
