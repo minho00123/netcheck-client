@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function History() {
   const { url } = useStore();
+  const [sortOrder, setSortOrder] = useState("asc");
   const [historyData, setHistoryData] = useState([]);
   const [colorMapping, setColorMapping] = useState({});
   const [selectedRegion, setSelectedRegion] = useState("All");
@@ -14,13 +15,22 @@ export default function History() {
       const response = await axios.post(`${seoulServer}/history/all`, {
         url,
       });
+      const sortedData = sortData(response.data, sortOrder);
 
-      setHistoryData(response.data);
-      generateColorMapping(response.data);
+      setHistoryData(sortedData);
+      generateColorMapping(sortedData);
     }
 
     getHistoryData(url);
-  }, [url]);
+  }, [url, sortOrder]);
+
+  function sortData(data, order) {
+    return data.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return order === "asc" ? dateA - dateB : dateB - dateA;
+    });
+  }
 
   function generateColorMapping(data) {
     const newColorMapping = {};
@@ -54,7 +64,17 @@ export default function History() {
       <thead className="border-b-2 text-lg">
         <tr>
           <th className="px-5 py-2">No.</th>
-          <th className="px-5 py-2">Date</th>
+          <th className="px-5 py-2">
+            Date
+            <select
+              className="text-sm"
+              value={sortOrder}
+              onChange={e => setSortOrder(e.target.value)}
+            >
+              <option value="asc">↑ Asc.</option>
+              <option value="desc">↓ Desc.</option>
+            </select>
+          </th>
           <th className="px-5 py-2">
             <select
               value={selectedRegion}

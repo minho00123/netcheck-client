@@ -166,11 +166,11 @@ export default function Result() {
           This is the network information of your website,{" "}
           <span className="text-blue">{`${url}`}</span>
         </h1>
-        {selectedRegion === "Total" ? (
-          <Total />
+        {selectedRegion === "History" ? (
+          <History />
         ) : Object.keys(seoulData).length > 0 ? (
-          selectedRegion === "History" ? (
-            <History />
+          selectedRegion === "Total" ? (
+            <Total />
           ) : (
             <>
               <div className="flex justify-evenly">
@@ -187,7 +187,7 @@ export default function Result() {
             </>
           )
         ) : (
-          <Loading />
+          <Loading text="Getting the data" />
         )}
       </div>
     </div>

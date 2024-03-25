@@ -1,10 +1,12 @@
 import useStore from "../../store/store";
+import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
 export default function Input() {
   const inputRef = useRef();
-  const { setUrl, resetData } = useStore();
+  const navigate = useNavigate();
+  const { setUrl, resetData, setId } = useStore();
   const [showWarning, setShowWarning] = useState(false);
 
   async function handleSubmit(event) {
@@ -12,13 +14,16 @@ export default function Input() {
 
     const inputUrl = inputRef.current.value;
     const urlPattern = /^(?!https?:\/\/).*$|.*\/$/;
+    const newCustomId = Math.random().toString(36).substring(2);
 
     if (urlPattern.test(inputUrl)) {
       setShowWarning(true);
     } else {
       resetData();
+      setId(newCustomId);
       setUrl(inputUrl);
       setShowWarning(false);
+      navigate(`/result/${newCustomId}`);
     }
 
     if (inputRef.current) {
