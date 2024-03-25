@@ -1,13 +1,13 @@
+import useStore from "../../store/store";
+import { Link } from "react-router-dom";
+import logoImage from "../../assets/logo.png";
+import { IoEarth } from "react-icons/io5";
+import { FaHistory } from "react-icons/fa";
 import {
   HiGlobeAsiaAustralia,
   HiGlobeAmericas,
   HiGlobeEuropeAfrica,
 } from "react-icons/hi2";
-import { IoEarth } from "react-icons/io5";
-import { FaHistory } from "react-icons/fa";
-import logoImage from "../../assets/logo.png";
-import { Link } from "react-router-dom";
-import useStore from "../../store/store";
 
 export default function Sidebar() {
   const { setUrl, selectedRegion, setSelectedRegion } = useStore();
