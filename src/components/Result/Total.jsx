@@ -13,24 +13,24 @@ export default function Total() {
               <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Availability</h3>
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-1">
-                {seoulData.reliability?.statusCode}{" "}
+                {seoulData.reliabilityData?.statusCode}{" "}
                 <span
                   className={
-                    seoulData.reliability?.statusCode >= 200 &&
-                    seoulData.reliability?.statusCode < 300
+                    seoulData.reliabilityData?.statusCode >= 200 &&
+                    seoulData.reliabilityData?.statusCode < 300
                       ? "text-green"
                       : "text-red"
                   }
                 >
-                  {seoulData.reliability?.statusCode >= 200 &&
-                  seoulData.reliability?.statusCode < 300
+                  {seoulData.reliabilityData?.statusCode >= 200 &&
+                  seoulData.reliabilityData?.statusCode < 300
                     ? "OK"
                     : "Error"}
                 </span>
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">Response Time: </span>
-                {seoulData.reliability?.responseTime} ms
+                {seoulData.reliabilityData?.responseTime} ms
               </p>
             </div>
             <div className="mb-3 rounded-2xl bg-white text-md text-center shadow-md">
@@ -38,11 +38,11 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-2 mx-5 mb-2">
                 <div className="mb-3 text-xl font-bold">
-                  {seoulData.reliability?.lossRate}%
+                  {seoulData.reliabilityData?.lossRate}%
                 </div>
                 <div className="text-sm">
-                  Sent: {seoulData.reliability?.sent} / Received:{" "}
-                  {seoulData.reliability?.received}
+                  Sent: {seoulData.reliabilityData?.sent} / Received:{" "}
+                  {seoulData.reliabilityData?.received}
                 </div>
               </div>
             </div>
@@ -51,15 +51,15 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-2">
                 <span className="text-blue font-bold">min: </span>
-                {seoulData.speed?.minLatency} ms
+                {seoulData.speedData?.minLatency} ms
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">max: </span>
-                {seoulData.speed?.maxLatency} ms
+                {seoulData.speedData?.maxLatency} ms
               </p>
               <p className="mx-5 pb-2 ">
                 <span className="text-blue font-bold">average: </span>
-                {seoulData.speed?.averageLatency} ms
+                {seoulData.speedData?.averageLatency} ms
               </p>
             </div>
             <div className="rounded-2xl bg-white text-md text-center shadow-md">
@@ -67,7 +67,7 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-5 mx-5 mb-2">
                 <div className="text-xl font-bold">
-                  {seoulData.speed?.bandwidth}
+                  {seoulData.speedData?.bandwidth}
                 </div>
                 <div className="text-xl font-bold">Mbit/s</div>
               </div>
@@ -81,24 +81,24 @@ export default function Total() {
               <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Availability</h3>
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-1">
-                {virginiaData.reliability?.statusCode}{" "}
+                {virginiaData.reliabilityData?.statusCode}{" "}
                 <span
                   className={
-                    virginiaData.reliability?.statusCode >= 200 &&
-                    virginiaData.reliability?.statusCode < 300
+                    virginiaData.reliabilityData?.statusCode >= 200 &&
+                    virginiaData.reliabilityData?.statusCode < 300
                       ? "text-green"
                       : "text-red"
                   }
                 >
-                  {virginiaData.reliability?.statusCode >= 200 &&
-                  virginiaData.reliability?.statusCode < 300
+                  {virginiaData.reliabilityData?.statusCode >= 200 &&
+                  virginiaData.reliabilityData?.statusCode < 300
                     ? "OK"
                     : "Error"}
                 </span>
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">Response Time: </span>
-                {virginiaData.reliability?.responseTime} ms
+                {virginiaData.reliabilityData?.responseTime} ms
               </p>
             </div>
             <div className="mb-3 rounded-2xl bg-white text-md text-center shadow-md">
@@ -106,11 +106,11 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-2 mx-5 mb-2">
                 <div className="mb-3 text-xl font-bold">
-                  {virginiaData.reliability?.lossRate}%
+                  {virginiaData.reliabilityData?.lossRate}%
                 </div>
                 <div className="text-sm">
-                  Sent: {virginiaData.reliability?.sent} / Received:{" "}
-                  {virginiaData.reliability?.received}
+                  Sent: {virginiaData.reliabilityData?.sent} / Received:{" "}
+                  {virginiaData.reliabilityData?.received}
                 </div>
               </div>
             </div>
@@ -119,15 +119,15 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-2">
                 <span className="text-blue font-bold">min: </span>
-                {virginiaData.speed?.minLatency} ms
+                {virginiaData.speedData?.minLatency} ms
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">max: </span>
-                {virginiaData.speed?.maxLatency} ms
+                {virginiaData.speedData?.maxLatency} ms
               </p>
               <p className="mx-5 pb-2 ">
                 <span className="text-blue font-bold">average: </span>
-                {virginiaData.speed?.averageLatency} ms
+                {virginiaData.speedData?.averageLatency} ms
               </p>
             </div>
             <div className="rounded-2xl bg-white text-md text-center shadow-md">
@@ -135,7 +135,7 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-5 mx-5 mb-2">
                 <div className="text-xl font-bold">
-                  {virginiaData.speed?.bandwidth}
+                  {virginiaData.speedData?.bandwidth}
                 </div>
                 <div className="text-xl font-bold">Mbit/s</div>
               </div>
@@ -149,24 +149,24 @@ export default function Total() {
               <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Availability</h3>
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-1">
-                {londonData.reliability?.statusCode}{" "}
+                {londonData.reliabilityData?.statusCode}{" "}
                 <span
                   className={
-                    londonData.reliability?.statusCode >= 200 &&
-                    londonData.reliability?.statusCode < 300
+                    londonData.reliabilityData?.statusCode >= 200 &&
+                    londonData.reliabilityData?.statusCode < 300
                       ? "text-green"
                       : "text-red"
                   }
                 >
-                  {londonData.reliability?.statusCode >= 200 &&
-                  londonData.reliability?.statusCode < 300
+                  {londonData.reliabilityData?.statusCode >= 200 &&
+                  londonData.reliabilityData?.statusCode < 300
                     ? "OK"
                     : "Error"}
                 </span>
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">Response Time: </span>
-                {londonData.reliability?.responseTime} ms
+                {londonData.reliabilityData?.responseTime} ms
               </p>
             </div>
             <div className="mb-3 rounded-2xl bg-white text-md text-center shadow-md">
@@ -174,11 +174,11 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-2 mx-5 mb-2">
                 <div className="mb-3 text-xl font-bold">
-                  {londonData.reliability?.lossRate}%
+                  {londonData.reliabilityData?.lossRate}%
                 </div>
                 <div className="text-sm">
-                  Sent: {londonData.reliability?.sent} / Received:{" "}
-                  {londonData.reliability?.received}
+                  Sent: {londonData.reliabilityData?.sent} / Received:{" "}
+                  {londonData.reliabilityData?.received}
                 </div>
               </div>
             </div>
@@ -187,15 +187,15 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-2">
                 <span className="text-blue font-bold">min: </span>
-                {londonData.speed?.minLatency} ms
+                {londonData.speedData?.minLatency} ms
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">max: </span>
-                {londonData.speed?.maxLatency} ms
+                {londonData.speedData?.maxLatency} ms
               </p>
               <p className="mx-5 pb-2 ">
                 <span className="text-blue font-bold">average: </span>
-                {londonData.speed?.averageLatency} ms
+                {londonData.speedData?.averageLatency} ms
               </p>
             </div>
             <div className="rounded-2xl bg-white text-md text-center shadow-md">
@@ -203,7 +203,7 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-5 mx-5 mb-2">
                 <div className="text-xl font-bold">
-                  {londonData.speed?.bandwidth}
+                  {londonData.speedData?.bandwidth}
                 </div>
                 <div className="text-xl font-bold">Mbit/s</div>
               </div>

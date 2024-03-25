@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 
 export default function Input() {
   const inputRef = useRef();
-  const { setUrl } = useStore();
+  const { setUrl, resetData } = useStore();
   const [showWarning, setShowWarning] = useState(false);
 
   async function handleSubmit(event) {
@@ -16,6 +16,7 @@ export default function Input() {
     if (urlPattern.test(inputUrl)) {
       setShowWarning(true);
     } else {
+      resetData();
       setUrl(inputUrl);
       setShowWarning(false);
     }

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export default function History() {
   const { url } = useStore();
   const [historyData, setHistoryData] = useState([]);
+  const [colorMapping, setColorMapping] = useState({});
   const [selectedRegion, setSelectedRegion] = useState("All");
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
 
@@ -15,10 +16,34 @@ export default function History() {
       });
 
       setHistoryData(response.data);
+      generateColorMapping(response.data);
     }
 
     getHistoryData(url);
   }, [url]);
+
+  function generateColorMapping(data) {
+    const newColorMapping = {};
+    const colors = ["#FFFFFF", "#caf0f8", "#a2d2ff"];
+    let colorIndex = 0;
+
+    data.forEach(item => {
+      const dateTime = new Date(item.createdAt).toLocaleString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      if (!newColorMapping[dateTime]) {
+        newColorMapping[dateTime] = colors[colorIndex % colors.length];
+        colorIndex++;
+      }
+    });
+
+    setColorMapping(newColorMapping);
+  }
 
   function handleClick(customId) {
     window.open(`http://localhost:5173/result/${customId}`);
@@ -56,7 +81,22 @@ export default function History() {
               selectedRegion === "All" || data.serverRegion === selectedRegion,
           )
           .map((data, index) => (
-            <tr key={data._id} className="border-b border-gray-light">
+            <tr
+              key={data._id}
+              className="border-b border-gray-light"
+              style={{
+                backgroundColor:
+                  colorMapping[
+                    new Date(data.createdAt).toLocaleString("en-US", {
+                      month: "2-digit",
+                      day: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  ],
+              }}
+            >
               <td className="py-2">{index + 1}</td>
               <td
                 className="cursor-pointer underline hover:text-blue"

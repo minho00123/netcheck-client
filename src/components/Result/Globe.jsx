@@ -8,6 +8,9 @@ export default function Globe({ markers }) {
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
+
+    svg.selectAll("*").remove();
+
     const width = Number(svg.attr("width"));
     const height = Number(svg.attr("height"));
     const projection = d3
@@ -78,5 +81,5 @@ export default function Globe({ markers }) {
 
     drawMap();
   }, [markers]);
-  return <svg ref={svgRef} width={600} height={400} className="mx-auto" />;
+  return <svg ref={svgRef} width={600} height={400} />;
 }

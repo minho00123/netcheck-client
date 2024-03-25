@@ -9,6 +9,7 @@ const useStore = create(set => ({
   selectedRegion: "Seoul",
   setId: id => set({ id }),
   setUrl: url => set({ url }),
+  resetData: () => set({ seoulData: {}, londonData: {}, virginiaData: {} }),
   setSeoulData: data => set({ seoulData: data }),
   setLondonData: data => set({ londonData: data }),
   setVirginiaData: data => set({ virginiaData: data }),

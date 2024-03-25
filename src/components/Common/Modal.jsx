@@ -1,19 +1,10 @@
-import useStore from "../../store/store.js";
+import axios from "axios";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function Modal({ isOpen, onClose, setIsModalOpen }) {
   const [email, setEmail] = useState("");
-  const { tracerouteData, urlInfo, pingData, bandwidthData, id, trafficData } =
-    useStore();
-  const result = {
-    email,
-    urlInfo,
-    pingData,
-    trafficData,
-    customId: id,
-    bandwidthData,
-    tracerouteData,
-  };
+  const { id } = useParams();
 
   if (!isOpen) {
     return null;
@@ -23,12 +14,9 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/share", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(result),
+      const response = await axios.post("http://localhost:8000/share", {
+        email,
+        customId: id,
       });
 
       if (response.ok) {

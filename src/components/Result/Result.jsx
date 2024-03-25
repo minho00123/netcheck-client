@@ -155,7 +155,7 @@ export default function Result() {
 
       setMarkers(temp);
     }
-  }, [selectedRegion]);
+  }, [selectedRegion, seoulData, londonData, virginiaData]);
 
   return (
     <div className="flex h-100vh">
@@ -166,28 +166,26 @@ export default function Result() {
           This is the network information of your website,{" "}
           <span className="text-blue">{`${url}`}</span>
         </h1>
-        {Object.keys(seoulData).length > 0 ? (
-          <>
-            {selectedRegion === "Total" ? (
-              <Total />
-            ) : selectedRegion === "History" ? (
-              <History />
-            ) : (
-              <>
-                <div className="flex justify-between">
-                  <Information />
-                  <Security />
+        {selectedRegion === "Total" ? (
+          <Total />
+        ) : Object.keys(seoulData).length > 0 ? (
+          selectedRegion === "History" ? (
+            <History />
+          ) : (
+            <>
+              <div className="flex justify-evenly">
+                <Information />
+                <Security />
+              </div>
+              <div className="flex justify-evenly">
+                <div>
+                  <Reliability />
+                  <Speed />
                 </div>
-                <div className="flex justify-between">
-                  <div>
-                    <Reliability />
-                    <Speed />
-                  </div>
-                  {markers && <Globe markers={markers} />}
-                </div>
-              </>
-            )}
-          </>
+                {markers && <Globe markers={markers} />}
+              </div>
+            </>
+          )
         ) : (
           <Loading />
         )}
