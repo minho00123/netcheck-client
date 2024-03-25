@@ -1,7 +1,6 @@
 import useStore from "../../store/store";
 import { useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Navigate } from "react-router-dom";
 
 export default function Input() {
   const inputRef = useRef();
