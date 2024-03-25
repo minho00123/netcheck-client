@@ -1,9 +1,9 @@
 import useStore from "../../store/store";
+import { useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import Input from "../Common/Input";
 import Header from "./Header";
 import homeImage from "../../assets/home-img.jpg";
-import { useEffect } from "react";
 
 export default function Home() {
   const { id, url, setId } = useStore();

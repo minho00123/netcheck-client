@@ -1,6 +1,6 @@
 import useStore from "../../store/store";
-import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import Card from "./Card";
 import Input from "../Common/Input";
 import Header from "../Home/Header";
@@ -12,7 +12,16 @@ import { MdOutlineDns, MdOutlineTraffic } from "react-icons/md";
 import { RiDashboard3Line, RiRedPacketLine, RiTimerLine } from "react-icons/ri";
 
 export default function Learn() {
-  const { url } = useStore();
+  const { id, url, setId } = useStore();
+  const customId = Math.random().toString(36).slice(2, 16);
+
+  useEffect(() => {
+    setId(customId);
+  }, []);
+
+  if (url) {
+    return <Navigate to={`/result/${id}`} replace={true} />;
+  }
 
   return (
     <>
@@ -36,7 +45,6 @@ export default function Learn() {
         </div>
         <Input />
       </div>
-      {url && <Navigate to={"/result"} />}
     </>
   );
 }
