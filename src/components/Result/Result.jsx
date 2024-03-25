@@ -1,65 +1,161 @@
 import axios from "axios";
 import useStore from "../../store/store";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Globe from "./Globe";
 import Speed from "./Speed";
-import Header from "./Header";
-import Security from "./Security";
-import Sidebar from "../Common/Sidebar";
-import Reliability from "./Reliability";
-import Information from "./Information";
 import Total from "./Total";
+import Header from "./Header";
+import Loading from "../Common/Loading";
+import History from "./History";
+import Sidebar from "../Common/Sidebar";
+import Security from "./Security";
+import Information from "./Information";
+import Reliability from "./Reliability";
 
 export default function Result() {
-  const { url, selectedRegion, tracerouteData, setTracerouteData } = useStore();
-  const markers = [];
+  const { id } = useParams();
+  const [markers, setMarkers] = useState([]);
+  const {
+    url,
+    seoulData,
+    londonData,
+    virginiaData,
+    selectedRegion,
+    setUrl,
+    setSeoulData,
+    setLondonData,
+    setVirginiaData,
+  } = useStore();
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
-  function getServerRegion(region) {
-    switch (region) {
-      case "Seoul":
-        return seoulServer;
-      case "Virginia":
-        return virginiaServer;
-      case "London":
-        return londonServer;
-    }
-  }
-
   useEffect(() => {
-    async function getData(url) {
+    async function getIdData(customId) {
       try {
-        const serverAddress = getServerRegion(selectedRegion);
-        const response = await axios.post(
-          `${serverAddress}/result/traceroute`,
-          {
-            url,
-          },
-        );
+        const response = await axios.post(`${seoulServer}/history/id`, {
+          customId,
+        });
 
-        setTracerouteData(response.data);
+        if (response.data && response.data.length > 0) {
+          setUrl(response.data[0].url);
+
+          response.data.forEach(data => {
+            if (data.serverRegion === "Seoul") {
+              setSeoulData(data);
+            } else if (data.serverRegion === "Virginia") {
+              setVirginiaData(data);
+            } else if (data.serverRegion === "London") {
+              setLondonData(data);
+            }
+          });
+        } else {
+          getSeoulData(url);
+          getVirginiaData(url);
+          getLondonData(url);
+        }
       } catch (error) {
         console.error(error);
       }
     }
 
-    getData(url);
-  }, [url, selectedRegion]);
-
-  if (tracerouteData.length > 0) {
-    tracerouteData.forEach(data => {
-      if (data.lat && data.lon) {
-        return markers.push({
-          lat: data.lat,
-          lon: data.lon,
-          country: data.country,
-          city: data.city,
+    async function getSeoulData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/all`, {
+          id,
+          url,
+          serverRegion: "Seoul",
         });
+        const data = response.data;
+
+        setSeoulData(data);
+      } catch (error) {
+        console.error(error);
       }
-    });
-  }
+    }
+
+    async function getVirginiaData(url) {
+      try {
+        const response = await axios.post(`${virginiaServer}/result/all`, {
+          id,
+          url,
+          serverRegion: "Virginia",
+        });
+        const data = response.data;
+
+        setVirginiaData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function getLondonData(url) {
+      try {
+        const response = await axios.post(`${londonServer}/result/all`, {
+          id,
+          url,
+          serverRegion: "London",
+        });
+        const data = response.data;
+
+        setLondonData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getIdData(id);
+  }, [url, id]);
+
+  useEffect(() => {
+    if (seoulData.tracerouteData && selectedRegion === "Seoul") {
+      const temp = [];
+
+      seoulData.tracerouteData.forEach(data => {
+        if (data.lat && data.lon) {
+          temp.push({
+            country: data.country,
+            city: data.city,
+            lat: data.lat,
+            lon: data.lon,
+          });
+        }
+      });
+
+      setMarkers(temp);
+    } else if (virginiaData.tracerouteData && selectedRegion === "Virginia") {
+      const temp = [];
+
+      virginiaData.tracerouteData.forEach(data => {
+        if (data.lat && data.lon) {
+          temp.push({
+            country: data.country,
+            city: data.city,
+            lat: data.lat,
+            lon: data.lon,
+          });
+        }
+      });
+
+      setMarkers(temp);
+    } else if (londonData.tracerouteData && selectedRegion === "London") {
+      const temp = [];
+
+      londonData.tracerouteData.forEach(data => {
+        if (data.lat && data.lon) {
+          temp.push({
+            country: data.country,
+            city: data.city,
+            lat: data.lat,
+            lon: data.lon,
+          });
+        }
+      });
+
+      setMarkers(temp);
+    }
+  }, [selectedRegion]);
 
   return (
     <div className="flex h-100vh">
@@ -70,22 +166,30 @@ export default function Result() {
           This is the network information of your website,{" "}
           <span className="text-blue">{`${url}`}</span>
         </h1>
-        {selectedRegion === "Total" ? (
-          <Total />
-        ) : (
+        {Object.keys(seoulData).length > 0 ? (
           <>
-            <div className="flex justify-between">
-              <Information />
-              <Security />
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <Reliability />
-                <Speed />
-              </div>
-              {markers && <Globe markers={markers} />}
-            </div>
+            {selectedRegion === "Total" ? (
+              <Total />
+            ) : selectedRegion === "History" ? (
+              <History />
+            ) : (
+              <>
+                <div className="flex justify-between">
+                  <Information />
+                  <Security />
+                </div>
+                <div className="flex justify-between">
+                  <div>
+                    <Reliability />
+                    <Speed />
+                  </div>
+                  {markers && <Globe markers={markers} />}
+                </div>
+              </>
+            )}
           </>
+        ) : (
+          <Loading />
         )}
       </div>
     </div>
