@@ -1,23 +1,21 @@
 import useStore from "../../store/store";
-import { useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
-import Header from "./Header";
 import Input from "../Common/Input";
+import Header from "./Header";
 import homeImage from "../../assets/home-img.jpg";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { id, url, setId, setUrl } = useStore();
-  const newId = Math.random().toString(36).slice(2, 16);
+  const { id, url, setId } = useStore();
+  const customId = Math.random().toString(36).slice(2, 16);
 
   useEffect(() => {
-    setId(newId);
+    setId(customId);
   }, []);
 
-  useEffect(() => {
-    if (url) {
-      setUrl("");
-    }
-  }, [url]);
+  if (url) {
+    return <Navigate to={`/result/${id}`} replace={true} />;
+  }
 
   return (
     <>
@@ -37,7 +35,6 @@ export default function Home() {
         </div>
         <Input />
       </div>
-      {url && id && <Navigate to={`/result/${id}`} />}
     </>
   );
 }

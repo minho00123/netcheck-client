@@ -3,14 +3,30 @@ import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Information() {
-  const { url } = useStore();
-  const [informationData, setInformationData] = useState({});
+  const { url, selectedRegion, informationData, setInformationData } =
+    useStore();
+  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
+  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
+  const londonServer = import.meta.env.VITE_LONDON_SERVER;
+
+  function getServerRegion(region) {
+    switch (region) {
+      case "Seoul":
+        return seoulServer;
+      case "Virginia":
+        return virginiaServer;
+      case "London":
+        return londonServer;
+    }
+  }
 
   useEffect(() => {
     async function getData(url) {
+      const serverAddress = getServerRegion(selectedRegion);
+
       try {
         const response = await axios.post(
-          "http://localhost:8000/result/information",
+          `${serverAddress}/result/information`,
           { url },
         );
 
@@ -21,7 +37,7 @@ export default function Information() {
     }
 
     getData(url);
-  }, [url]);
+  }, [url, selectedRegion]);
 
   return (
     informationData && (
@@ -35,21 +51,22 @@ export default function Information() {
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">Registrar: </span>
-              {informationData.registrar}
+              {informationData?.registrar}
             </p>
             <p className="mx-5 mb-2">
               <span className="text-sm text-blue font-bold">
                 Registry Expiry Date:{" "}
               </span>
-              {informationData.registerExpiryDate}
+              {informationData?.registerExpiryDate}
             </p>
           </div>
           <div className="rounded-2xl bg-white text-md text-center shadow-md">
             <h3 className="mt-2 mx-5 mb-1 text-lg font-bold">IP Address</h3>
             <div className="w-full h-1px bg-gray"></div>
-            <p className="mt-5 mx-5 mb-1">{informationData.ipAddress}</p>
+            <p className="mt-5 mx-5 mb-1">{informationData?.ipAddress}</p>
             <p className="mx-5 mb-2">
-              {`${informationData.city}, ${informationData.country}`}
+              {informationData?.city &&
+                `${informationData?.city}, ${informationData?.country}`}
             </p>
           </div>
         </div>

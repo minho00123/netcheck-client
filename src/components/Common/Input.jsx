@@ -1,21 +1,14 @@
 import useStore from "../../store/store";
 import { useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { Navigate } from "react-router-dom";
 
 export default function Input() {
   const inputRef = useRef();
-  const {
-    setUrl,
-    setUrlInfo,
-    setPingData,
-    setBandwidthData,
-    setTracerouteData,
-    id,
-  } = useStore();
+  const { setUrl } = useStore();
   const [showWarning, setShowWarning] = useState(false);
 
   async function handleSubmit(event) {
-    setTracerouteData([]);
     event.preventDefault();
 
     const inputUrl = inputRef.current.value;
@@ -23,33 +16,9 @@ export default function Input() {
 
     if (urlPattern.test(inputUrl)) {
       setShowWarning(true);
-
-      return;
-    }
-
-    setShowWarning(false);
-    setUrl(inputUrl);
-
-    try {
-      const response = await fetch(`http://localhost:8000/result/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url: inputUrl }),
-      });
-      const data = await response.json();
-
-      data[1].status = response.status;
-
-      setTracerouteData(data[0]);
-      setUrlInfo(data[1]);
-      setPingData(data[2]);
-      setBandwidthData(data[3]);
-    } catch (error) {
-      console.error(error);
-      setUrl("error");
-      setTracerouteData([{ ipAddress: "URL Error" }]);
+    } else {
+      setUrl(inputUrl);
+      setShowWarning(false);
     }
 
     if (inputRef.current) {

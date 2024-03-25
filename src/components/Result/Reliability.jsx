@@ -3,14 +3,35 @@ import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Reliability() {
-  const { url, setLatencies } = useStore();
-  const [reliabilityData, setReliabilityData] = useState({});
+  const {
+    url,
+    setLatencies,
+    selectedRegion,
+    reliabilityData,
+    setReliabilityData,
+  } = useStore();
+  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
+  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
+  const londonServer = import.meta.env.VITE_LONDON_SERVER;
+
+  function getServerRegion(region) {
+    switch (region) {
+      case "Seoul":
+        return seoulServer;
+      case "Virginia":
+        return virginiaServer;
+      case "London":
+        return londonServer;
+    }
+  }
 
   useEffect(() => {
     async function getData(url) {
+      const serverAddress = getServerRegion(selectedRegion);
+
       try {
         const response = await axios.post(
-          "http://localhost:8000/result/reliability",
+          `${serverAddress}/result/reliability`,
           { url },
         );
 
@@ -22,7 +43,7 @@ export default function Reliability() {
     }
 
     getData(url);
-  }, [url]);
+  }, [url, selectedRegion]);
 
   return (
     reliabilityData && (
@@ -33,24 +54,24 @@ export default function Reliability() {
             <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Availability</h3>
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-1">
-              {reliabilityData.statusCode}{" "}
+              {reliabilityData?.statusCode}{" "}
               <span
                 className={
-                  reliabilityData.statusCode >= 200 &&
-                  reliabilityData.statusCode < 300
+                  reliabilityData?.statusCode >= 200 &&
+                  reliabilityData?.statusCode < 300
                     ? "text-green"
                     : "text-red"
                 }
               >
-                {reliabilityData.statusCode >= 200 &&
-                reliabilityData.statusCode < 300
+                {reliabilityData?.statusCode >= 200 &&
+                reliabilityData?.statusCode < 300
                   ? "OK"
                   : "Error"}
               </span>
             </p>
             <p className="mx-5 mb-2">
               <span className="text-blue font-bold">Response Time: </span>
-              {reliabilityData.responseTime} ms
+              {reliabilityData?.responseTime} ms
             </p>
           </div>
           <div className="rounded-2xl bg-white text-md text-center shadow-md">
@@ -58,11 +79,11 @@ export default function Reliability() {
             <div className="w-full h-1px bg-gray"></div>
             <div className="mt-2 mx-5 mb-2">
               <div className="mb-3 text-xl font-bold">
-                {reliabilityData.lossRate}%
+                {reliabilityData?.lossRate}%
               </div>
               <div className="text-sm">
-                Sent: {reliabilityData.sent} / Received:{" "}
-                {reliabilityData.received}
+                Sent: {reliabilityData?.sent} / Received:{" "}
+                {reliabilityData?.received}
               </div>
             </div>
           </div>

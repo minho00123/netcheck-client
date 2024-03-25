@@ -1,22 +1,35 @@
 import axios from "axios";
 import useStore from "../../store/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function Speed() {
-  const { url, latencies } = useStore();
-  const [speedData, setSpeedData] = useState({});
+  const { url, latencies, selectedRegion, speedData, setSpeedData } =
+    useStore();
+  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
+  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
+  const londonServer = import.meta.env.VITE_LONDON_SERVER;
+
+  function getServerRegion(region) {
+    switch (region) {
+      case "Seoul":
+        return seoulServer;
+      case "Virginia":
+        return virginiaServer;
+      case "London":
+        return londonServer;
+    }
+  }
 
   useEffect(() => {
     async function getData(url) {
-      try {
-        const response = await axios.post(
-          "http://localhost:8000/result/speed",
-          {
-            url,
-          },
-        );
+      const serverAddress = getServerRegion(selectedRegion);
 
-        if (latencies && response.data) {
+      try {
+        const response = await axios.post(`${serverAddress}/result/speed`, {
+          url,
+        });
+
+        if (latencies.length > 0) {
           const averageLatency =
             latencies.reduce((a, b) => a + b, 0) / latencies.length;
 
@@ -32,8 +45,10 @@ export default function Speed() {
       }
     }
 
-    getData(url);
-  }, [url]);
+    if (url) {
+      getData(url);
+    }
+  }, [url, latencies, selectedRegion]);
 
   return (
     speedData && (
@@ -45,22 +60,22 @@ export default function Speed() {
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">min: </span>
-              {speedData.minLatency} ms
+              {speedData?.minLatency ? speedData?.minLatency : "-"} ms
             </p>
             <p className="mx-5 mb-2">
               <span className="text-blue font-bold">max: </span>
-              {speedData.maxLatency} ms
+              {speedData?.maxLatency ? speedData?.maxLatency : "-"} ms
             </p>
             <p className="mx-5 pb-2 ">
               <span className="text-blue font-bold">average: </span>
-              {speedData.averageLatency} ms
+              {speedData?.averageLatency ? speedData?.averageLatency : "-"} ms
             </p>
           </div>
           <div className="rounded-2xl bg-white text-md text-center shadow-md">
             <h3 className="mx-5 mt-2 mb-1 font-bold text-lg">Bandwidth</h3>
             <div className="w-full h-1px bg-gray"></div>
             <div className="mt-5 mx-5 mt-2">
-              <div className="text-xl font-bold">{speedData.bandwidth}</div>
+              <div className="text-xl font-bold">{speedData?.bandwidth}</div>
               <div className="text-xl font-bold">Mbit/s</div>
             </div>
           </div>

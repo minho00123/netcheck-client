@@ -12,18 +12,7 @@ import { MdOutlineDns, MdOutlineTraffic } from "react-icons/md";
 import { RiDashboard3Line, RiRedPacketLine, RiTimerLine } from "react-icons/ri";
 
 export default function Learn() {
-  const { id, url, setId, setUrl } = useStore();
-  const newId = Math.random().toString(36).slice(2, 16);
-
-  useEffect(() => {
-    setId(newId);
-  }, []);
-
-  useEffect(() => {
-    if (url) {
-      setUrl("");
-    }
-  }, [url]);
+  const { url } = useStore();
 
   return (
     <>
@@ -47,7 +36,7 @@ export default function Learn() {
         </div>
         <Input />
       </div>
-      {url && id && <Navigate to={`/result/${id}`} />}
+      {url && <Navigate to={"/result"} />}
     </>
   );
 }

@@ -1,3 +1,4 @@
+import axios from "axios";
 import useStore from "../../store/store";
 import { useState, useEffect } from "react";
 import Globe from "./Globe";
@@ -7,35 +8,45 @@ import Security from "./Security";
 import Sidebar from "../Common/Sidebar";
 import Reliability from "./Reliability";
 import Information from "./Information";
+import Total from "./Total";
 
 export default function Result() {
-  const { url } = useStore();
-  const [tracerouteData, setTracerouteData] = useState([]);
+  const { url, selectedRegion, tracerouteData, setTracerouteData } = useStore();
   const markers = [];
+  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
+  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
+  const londonServer = import.meta.env.VITE_LONDON_SERVER;
+
+  function getServerRegion(region) {
+    switch (region) {
+      case "Seoul":
+        return seoulServer;
+      case "Virginia":
+        return virginiaServer;
+      case "London":
+        return londonServer;
+    }
+  }
 
   useEffect(() => {
     async function getData(url) {
       try {
-        const response = await fetch(
-          `http://localhost:8000/result/traceroute`,
+        const serverAddress = getServerRegion(selectedRegion);
+        const response = await axios.post(
+          `${serverAddress}/result/traceroute`,
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ url }),
+            url,
           },
         );
-        const data = await response.json();
 
-        setTracerouteData(data);
+        setTracerouteData(response.data);
       } catch (error) {
         console.error(error);
       }
     }
 
     getData(url);
-  }, [url]);
+  }, [url, selectedRegion]);
 
   if (tracerouteData.length > 0) {
     tracerouteData.forEach(data => {
@@ -59,17 +70,23 @@ export default function Result() {
           This is the network information of your website,{" "}
           <span className="text-blue">{`${url}`}</span>
         </h1>
-        <div className="flex justify-evenly">
-          <Information />
-          <Security />
-        </div>
-        <div className="flex justify-evenly">
-          <div>
-            <Reliability />
-            <Speed />
-          </div>
-          <Globe markers={markers} />
-        </div>
+        {selectedRegion === "Total" ? (
+          <Total />
+        ) : (
+          <>
+            <div className="flex justify-between">
+              <Information />
+              <Security />
+            </div>
+            <div className="flex justify-between">
+              <div>
+                <Reliability />
+                <Speed />
+              </div>
+              {markers && <Globe markers={markers} />}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
