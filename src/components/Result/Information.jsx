@@ -3,41 +3,18 @@ import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Information() {
-  const { url, selectedRegion, informationData, setInformationData } =
-    useStore();
-  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
-  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
-  const londonServer = import.meta.env.VITE_LONDON_SERVER;
-
-  function getServerRegion(region) {
-    switch (region) {
-      case "Seoul":
-        return seoulServer;
-      case "Virginia":
-        return virginiaServer;
-      case "London":
-        return londonServer;
-    }
-  }
+  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const [informationData, setInformationData] = useState({});
 
   useEffect(() => {
-    async function getData(url) {
-      const serverAddress = getServerRegion(selectedRegion);
-
-      try {
-        const response = await axios.post(
-          `${serverAddress}/result/information`,
-          { url },
-        );
-
-        setInformationData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    if (selectedRegion === "Seoul") {
+      setInformationData(seoulData.informationData);
+    } else if (selectedRegion === "Virginia") {
+      setInformationData(virginiaData.informationData);
+    } else if (selectedRegion === "London") {
+      setInformationData(londonData.informationData);
     }
-
-    getData(url);
-  }, [url, selectedRegion]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     informationData && (
