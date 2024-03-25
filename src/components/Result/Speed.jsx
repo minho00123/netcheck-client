@@ -1,54 +1,19 @@
-import axios from "axios";
 import useStore from "../../store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Speed() {
-  const { url, latencies, selectedRegion, speedData, setSpeedData } =
-    useStore();
-  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
-  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
-  const londonServer = import.meta.env.VITE_LONDON_SERVER;
-
-  function getServerRegion(region) {
-    switch (region) {
-      case "Seoul":
-        return seoulServer;
-      case "Virginia":
-        return virginiaServer;
-      case "London":
-        return londonServer;
-    }
-  }
+  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const [speedData, setSpeedData] = useState({});
 
   useEffect(() => {
-    async function getData(url) {
-      const serverAddress = getServerRegion(selectedRegion);
-
-      try {
-        const response = await axios.post(`${serverAddress}/result/speed`, {
-          url,
-        });
-
-        if (latencies.length > 0) {
-          const averageLatency =
-            latencies.reduce((a, b) => a + b, 0) / latencies.length;
-
-          setSpeedData({
-            maxLatency: Math.max(...latencies),
-            minLatency: Math.min(...latencies),
-            averageLatency: averageLatency.toFixed(2),
-            bandwidth: response.data.bandwidth.toFixed(2),
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    if (selectedRegion === "Seoul") {
+      setSpeedData(seoulData.speedData);
+    } else if (selectedRegion === "Virginia") {
+      setSpeedData(virginiaData.speedData);
+    } else if (selectedRegion === "London") {
+      setSpeedData(londonData.speedData);
     }
-
-    if (url) {
-      getData(url);
-    }
-  }, [url, latencies, selectedRegion]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     speedData && (
@@ -60,15 +25,15 @@ export default function Speed() {
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">min: </span>
-              {speedData?.minLatency ? speedData?.minLatency : "-"} ms
+              {speedData?.minLatency} ms
             </p>
             <p className="mx-5 mb-2">
               <span className="text-blue font-bold">max: </span>
-              {speedData?.maxLatency ? speedData?.maxLatency : "-"} ms
+              {speedData?.maxLatency} ms
             </p>
             <p className="mx-5 pb-2 ">
               <span className="text-blue font-bold">average: </span>
-              {speedData?.averageLatency ? speedData?.averageLatency : "-"} ms
+              {speedData?.averageLatency} ms
             </p>
           </div>
           <div className="rounded-2xl bg-white text-md text-center shadow-md">
