@@ -55,18 +55,15 @@ export default function Globe({ markers }) {
         .attr("stroke-linecap", "round")
         .attr("stroke-linejoin", "round");
 
-      // 선의 총 길이를 계산합니다.
       const totalLength = linePath.node().getTotalLength();
 
-      // 애니메이션을 위한 stroke-dasharray와 stroke-dashoffset을 설정합니다.
       linePath
         .attr("stroke-dasharray", totalLength + " " + totalLength)
         .attr("stroke-dashoffset", totalLength)
-        .transition() // 애니메이션 시작
-        .duration(4000) // 4초 동안 진행
+        .transition()
+        .duration(4000)
         .attr("stroke-dashoffset", 0);
 
-      // 위치 데이터를 기반으로 마커 추가
       svg
         .selectAll(".marker")
         .data(markerData)
