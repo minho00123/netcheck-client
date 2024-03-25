@@ -1,49 +1,19 @@
-import axios from "axios";
 import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Reliability() {
-  const {
-    url,
-    setLatencies,
-    selectedRegion,
-    reliabilityData,
-    setReliabilityData,
-  } = useStore();
-  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
-  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
-  const londonServer = import.meta.env.VITE_LONDON_SERVER;
-
-  function getServerRegion(region) {
-    switch (region) {
-      case "Seoul":
-        return seoulServer;
-      case "Virginia":
-        return virginiaServer;
-      case "London":
-        return londonServer;
-    }
-  }
+  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const [reliabilityData, setReliabilityData] = useState({});
 
   useEffect(() => {
-    async function getData(url) {
-      const serverAddress = getServerRegion(selectedRegion);
-
-      try {
-        const response = await axios.post(
-          `${serverAddress}/result/reliability`,
-          { url },
-        );
-
-        setReliabilityData(response.data);
-        setLatencies(response.data.latencies);
-      } catch (error) {
-        console.error(error);
-      }
+    if (selectedRegion === "Seoul") {
+      setReliabilityData(seoulData.reliabilityData);
+    } else if (selectedRegion === "Virginia") {
+      setReliabilityData(virginiaData.reliabilityData);
+    } else if (selectedRegion === "London") {
+      setReliabilityData(londonData.reliabilityData);
     }
-
-    getData(url);
-  }, [url, selectedRegion]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     reliabilityData && (
