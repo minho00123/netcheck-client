@@ -1,41 +1,19 @@
-import axios from "axios";
 import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Security() {
-  const { url, selectedRegion, securityData, setSecurityData } = useStore();
-  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
-  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
-  const londonServer = import.meta.env.VITE_LONDON_SERVER;
-
-  function getServerRegion(region) {
-    switch (region) {
-      case "Seoul":
-        return seoulServer;
-      case "Virginia":
-        return virginiaServer;
-      case "London":
-        return londonServer;
-    }
-  }
+  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const [securityData, setSecurityData] = useState({});
 
   useEffect(() => {
-    async function getData(url) {
-      const serverAddress = getServerRegion(selectedRegion);
-
-      try {
-        const response = await axios.post(`${serverAddress}/result/security`, {
-          url,
-        });
-
-        setSecurityData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    if (selectedRegion === "Seoul") {
+      setSecurityData(seoulData.securityData);
+    } else if (selectedRegion === "Virginia") {
+      setSecurityData(virginiaData.securityData);
+    } else if (selectedRegion === "London") {
+      setSecurityData(londonData.securityData);
     }
-
-    getData(url);
-  }, [url, selectedRegion]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     <div className="flex flex-col justify-center mr-4 my-5 p-4 rounded-xl bg-blue-light shadow-md">
