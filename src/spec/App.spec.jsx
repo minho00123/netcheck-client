@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import App from "../components/App";
 
 describe("App component routing tests", () => {
-  test('Home component should render at "/" route', () => {
+  it('Home component should render at "/" route', () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <App />
@@ -12,7 +12,7 @@ describe("App component routing tests", () => {
     expect(screen.getByText("Diagnose & Check")).toBeInTheDocument();
   });
 
-  test('About component should render at "/about" route', () => {
+  it('About component should render at "/about" route', () => {
     render(
       <MemoryRouter initialEntries={["/about"]}>
         <App />
@@ -21,7 +21,7 @@ describe("App component routing tests", () => {
     expect(screen.getByText("Made by Min Ho Jang")).toBeInTheDocument();
   });
 
-  test('Learn component should render at "/learn" route', () => {
+  it('Learn component should render at "/learn" route', () => {
     render(
       <MemoryRouter initialEntries={["/learn"]}>
         <App />
@@ -30,7 +30,7 @@ describe("App component routing tests", () => {
     expect(screen.getByText("netcheck Features")).toBeInTheDocument();
   });
 
-  test('Result component should render at "/result/:id" route', () => {
+  it('Result component should render at "/result/:id" route', () => {
     render(
       <MemoryRouter initialEntries={["/result/123"]}>
         <App />
