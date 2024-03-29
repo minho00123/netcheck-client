@@ -20,7 +20,9 @@ export default function Security() {
       <h2 className="text-xl font-bold">Security</h2>
       <div className="flex mt-2">
         <div className="mr-4 rounded-2xl bg-white text-md shadow-md">
-          <h3 className="mx-5 mb-1 pt-2 text-lg text-center font-bold">SSL</h3>
+          <h3 className="mx-5 mb-1 pt-2 text-lg text-center font-bold">
+            SSL Certificate
+          </h3>
           <div className="w-full h-1px bg-gray"></div>
           <p className="mx-5 mt-2 mb-2">
             <span className="text-blue font-bold">Issuer: </span>
