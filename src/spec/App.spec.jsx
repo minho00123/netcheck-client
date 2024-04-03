@@ -9,6 +9,7 @@ describe("App component tests", () => {
         <App />
       </MemoryRouter>,
     );
+
     expect(screen.getByText("Diagnose & Check")).toBeInTheDocument();
   });
 
@@ -18,6 +19,7 @@ describe("App component tests", () => {
         <App />
       </MemoryRouter>,
     );
+
     expect(screen.getByText("Made by Min Ho Jang")).toBeInTheDocument();
   });
 
@@ -27,6 +29,7 @@ describe("App component tests", () => {
         <App />
       </MemoryRouter>,
     );
+
     expect(screen.getByText("netcheck Features")).toBeInTheDocument();
   });
 
@@ -36,6 +39,7 @@ describe("App component tests", () => {
         <App />
       </MemoryRouter>,
     );
+
     expect(
       screen.getByText("This is the network information of your website,"),
     ).toBeInTheDocument();
