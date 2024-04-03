@@ -1,13 +1,13 @@
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import About from "../../components/Home/About";
 
 describe("About component test", () => {
   it("Should render properly", () => {
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <About />
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Made by Min Ho Jang")).toBeInTheDocument();
