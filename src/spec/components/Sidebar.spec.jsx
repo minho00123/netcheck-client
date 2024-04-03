@@ -1,5 +1,5 @@
 import useStore from "../../store/store";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import Sidebar from "../../components/Common/Sidebar";
 
@@ -21,17 +21,15 @@ describe("Sidebar component tests", () => {
       selectedRegion: "Seoul",
       setSelectedRegion,
     }));
+
+    render(
+      <MemoryRouter>
+        <Sidebar />
+      </MemoryRouter>,
+    );
   });
 
-  const renderingComponent = (
-    <BrowserRouter>
-      <Sidebar />
-    </BrowserRouter>
-  );
-
   it("Should render properly", async () => {
-    render(renderingComponent);
-
     expect(screen.getByText("North East Asia (Seoul)")).toBeInTheDocument();
     expect(screen.getByText("US - East (Virginia)")).toBeInTheDocument();
     expect(screen.getByText("Europe (London)")).toBeInTheDocument();
@@ -40,8 +38,6 @@ describe("Sidebar component tests", () => {
   });
 
   it("Should handle selected region buttons", async () => {
-    render(renderingComponent);
-
     const seoulButton = screen.getByText("North East Asia (Seoul)");
     const virginiaButton = screen.getByText("US - East (Virginia)");
     const londonButton = screen.getByText("Europe (London)");
@@ -75,11 +71,10 @@ describe("Sidebar component tests", () => {
   });
 
   it("Should handle logo", async () => {
-    render(renderingComponent);
-
     const logo = screen.getByAltText("logo");
 
     fireEvent.click(logo);
+
     await waitFor(() => {
       expect(setUrl).toHaveBeenCalledWith("");
       expect(setSelectedRegion).toHaveBeenCalledWith("Seoul");
