@@ -1,5 +1,5 @@
-import { BrowserRouter } from "react-router-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Home from "../../components/Home/Home";
 
 vi.mock("../../store/store.js", () => {
@@ -15,18 +15,27 @@ vi.mock("../../store/store.js", () => {
 });
 
 describe("Home component tests", () => {
-  const renderingComponent = (
-    <BrowserRouter>
-      <Home />
-    </BrowserRouter>
-  );
+  beforeEach(() => {
+    render(
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/learn" element={<div>Learn page</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+  });
 
-  it("Should render properly", async () => {
-    render(renderingComponent);
+  it("Should render properly", () => {
+    expect(screen.getByText("Diagnose & Check")).toBeInTheDocument();
+    expect(screen.getByText("your website")).toBeInTheDocument();
+  });
 
-    await waitFor(() => {
-      expect(screen.getByText("Diagnose & Check")).toBeInTheDocument();
-      expect(screen.getByText("your website")).toBeInTheDocument();
-    });
+  it("Should go to /learn when clicking the 'Learn more' button", () => {
+    const learnMoreButton = screen.getByRole("link", { name: "Learn more" });
+
+    fireEvent.click(learnMoreButton);
+
+    expect(screen.getByText("Learn page")).toBeInTheDocument();
   });
 });
