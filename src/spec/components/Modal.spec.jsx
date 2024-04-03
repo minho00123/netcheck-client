@@ -1,8 +1,7 @@
 import axios from "axios";
-import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import Modal from "../../components/Common/Modal";
-import { expect } from "vitest";
 
 vi.mock("axios");
 vi.mock("react-router-dom", async () => {
@@ -34,6 +33,7 @@ describe("Modal component tests", () => {
         />
       </MemoryRouter>,
     );
+
     expect(screen.queryByText("Share with your friends")).toBeNull();
   });
 
@@ -47,6 +47,7 @@ describe("Modal component tests", () => {
         />
       </MemoryRouter>,
     );
+
     expect(
       screen.getByPlaceholderText("Write the email here."),
     ).toBeInTheDocument();
@@ -71,6 +72,7 @@ describe("Modal component tests", () => {
     const warningText = await screen.findByText(
       "Please enter a valid email address.",
     );
+
     expect(warningText).toBeInTheDocument();
   });
 
@@ -109,6 +111,7 @@ describe("Modal component tests", () => {
         />
       </MemoryRouter>,
     );
+
     fireEvent.click(screen.getByText("Cancel"));
 
     expect(onCloseMock).toHaveBeenCalled();
