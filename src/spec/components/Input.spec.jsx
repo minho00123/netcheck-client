@@ -4,7 +4,6 @@ import Input from "../../components/Common/Input";
 
 vi.mock("../../store/store.js", () => {
   return {
-    __esModule: true,
     default: vi.fn(() => ({
       setUrl: vi.fn(),
       resetData: vi.fn(),
@@ -35,7 +34,7 @@ describe("Input component tests", () => {
       "Write the URL here (ex. https://www.example.com)",
     );
 
-    fireEvent.change(inputPlaceholder, { target: { value: "invalid-url" } });
+    fireEvent.change(inputPlaceholder, { target: { value: "example.com" } });
     fireEvent.click(screen.getByRole("button"));
 
     const warningText = await screen.findByText(
