@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { render, screen } from "@testing-library/react";
 import App from "../components/App";
 
-describe("App component routing tests", () => {
+describe("App component tests", () => {
   it('Home component should render at "/" route', () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
