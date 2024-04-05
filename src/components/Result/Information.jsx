@@ -1,4 +1,3 @@
-import axios from "axios";
 import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 

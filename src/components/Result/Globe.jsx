@@ -22,6 +22,7 @@ export default function Globe({ markers }) {
 
     async function drawMap() {
       const response = await axios("https://d3js.org/world-110m.v1.json");
+      console.log(response);
       const countries = feature(
         response.data,
         response.data.objects.countries,

@@ -160,7 +160,7 @@ export default function Result() {
   return (
     <div className="flex h-100vh">
       <Sidebar />
-      <div className="w-full">
+      <div className="w-full" data-testid="network-info">
         <Header />
         <h1 className="text-2xl text-center font-bold">
           This is the network information of your website,{" "}
