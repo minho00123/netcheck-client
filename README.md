@@ -2,11 +2,15 @@
 
 <p align="center">
 <img src="https://github.com/minho00123/netcheck-client/blob/main/src/assets/logo.png?raw=true" alt="netcheck logo">
-<p/>
+</p>
 
 <p align="center">
 특정 웹사이트에 대한 네트워크 정보를 제공하는 웹 애플리케이션입니다. 사용자가 웹사이트의 URL을 입력하면 해당 웹사이트에 대한 다양한 네트워크 정보를 분석하여 제공합니다.
-<p/>
+</p>
+
+<p align="center">
+<a href="https://github.com/minho00123/netcheck-server">netcheck Server</a>
+</p>
 
 <br>
 
@@ -32,7 +36,7 @@
 
 <p align="center">
 <img src="./src/assets/preview.png" alt="netcheck preview" width="600px">
-<p/>
+</p>
 
 - Information
   - Domain: 도메인이 등록된 회사 정보와 만료일을 표시합니다.
@@ -51,19 +55,19 @@
 
 <p align="center">
 <img src="./src/assets/total-preview.png" alt="netcheck total preview" width="600px">
-<p/>
+</p>
 
 - 다양한 지역(서울, 미국 버지니아, 영국 런던)에서의 정보를 한 눈에 비교할 수 있습니다.
 
 <p align="center">
 <img src="./src/assets/history-preview.png" alt="netcheck history preview" width="600px">
-<p/>
+</p>
 
 - 사용자가 입력한 웹사이트의 이전 정보를 조회하고 비교할 수 있습니다.
 
 <p align="center">
 <img src="./src/assets/share-preview.png" alt="netcheck share preview" width="600px">
-<p/>
+</p>
 
 - 다른 사용자와 이메일로 정보를 교환할 수 있습니다.
 
@@ -103,13 +107,13 @@
 - MongoDB Atlas에 저장된 데이터를 사용하여, 실제 프로젝트 환경을 모사하여 테스트를 진행하였습니다.
   <p align="center">
 <img src="./src/assets/test-screen.png" alt="test screen" width="600px">
-<p/>
+</p>
 
 - 렌더링 속도 측정은 개발자 도구의 "Performance" 탭을 통해 이루어졌고, LCP(Largest Contentful Paint)를 기준으로 삼았습니다.
   - LCP는 가장 큰 콘텐츠(ex. 이미지, 비디오 블록, 텍스트 블록 등)가 렌더링되기까지 걸린 시간을 말합니다.
     <p align="center">
   <img src="./src/assets/lcp-result.png" alt="LCP result" width="600px">
-  <p/>
+  </p>
 
 ◉ 결과
 
