@@ -32,21 +32,24 @@ export default function Input() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center w-3/5">
+    <form onSubmit={handleSubmit} className="flex items-center w-4/5 lg:w-3/5">
       <div className="flex flex-col items-center w-full">
         <input
           ref={inputRef}
           type="text"
-          className="w-full p-2 border-b-4 border-gray text-center text-2xl placeholder-gray focus:outline-none focus:border-blue focus:placeholder-opacity-0"
+          className="w-full p-2 border-b-4 border-gray text-center text-sm md:text-xl lg:text-2xl placeholder-gray focus:outline-none focus:border-blue focus:placeholder-opacity-0"
           placeholder="Write the URL here (ex. https://www.example.com)"
         />
         {showWarning && (
-          <p className="text-red font-bold text-sm">
+          <p className="text-red font-bold text-xs md:text-sm lg:text-sm">
             Please write the url in correct form (Ex. https://www.example.com)
           </p>
         )}
       </div>
-      <button type="submit" className="text-gray text-2xl hover:text-blue">
+      <button
+        type="submit"
+        className="text-gray text-base md:text-lg lg:text-2xl hover:text-blue"
+      >
         <FaSearch />
       </button>
     </form>

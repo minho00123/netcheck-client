@@ -10,7 +10,8 @@ export default defineConfig({
     setupFiles: "./src/setupTests.js",
     testMatch: ["./src/spec/*.spec.jsx"],
     coverage: {
-      all: true,
+      provider: "v8",
+      reporter: ["text"],
       exclude: ["*.config.js", "*.cjs", "**/atoms/**", "**/main.jsx"],
     },
   },

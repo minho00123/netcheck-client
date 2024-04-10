@@ -56,7 +56,7 @@ export default function History() {
   }
 
   function handleClick(customId) {
-    window.open(`http://localhost:5173/result/${customId}`);
+    window.open(`https://client.netcheck.site/result/${customId}`);
   }
 
   return (

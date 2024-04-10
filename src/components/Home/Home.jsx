@@ -22,12 +22,16 @@ export default function Home() {
       <Header />
       <div className="flex flex-col justify-between items-center">
         <div className="relative text-center mb-12 animate-fadeInDown">
-          <img src={homeImage} alt="Background" className="w-screen" />
+          <img src={homeImage} alt="Background" className="w-screen mt-10" />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h1 className="text-white text-7xl mb-2">Diagnose & Check</h1>
-            <h2 className="text-white text-5xl mb-10">your website</h2>
+            <h1 className="mt-6 text-white text-xl md:text-5xl lg:text-7xl">
+              Diagnose & Check
+            </h1>
+            <h2 className="text-white text-lg md:text-3xl lg:text-5xl mb-2 md:mb-8 lg:mb-10">
+              your website
+            </h2>
             <Link to="/learn">
-              <button className="py-3 px-6 rounded-xl bg-blue font-bold text-2xl text-white hover:bg-white hover:text-blue">
+              <button className="py-2 px-4 md:py-3 md:px-6 rounded-xl bg-blue font-bold text-sm md:text-xl lg:text-2xl text-white hover:bg-white hover:text-blue">
                 Learn more
               </button>
             </Link>
