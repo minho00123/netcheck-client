@@ -16,6 +16,7 @@
 
 # 📌 Table of Contents
 
+- [⚡️ Motivation](#⚡️-motivation)
 - [💡 Preview & Features](#💡-preview--features)
 - [⚒️ Tech Stacks](#⚒️-tech-stacks)
   - [❓ Why React? (React vs. Next.js)](#❓-why-react-react-vs-nextjs)
@@ -26,6 +27,10 @@
   - [4. `ping` 직접 구현하기](#4-ping-직접-구현하기)
 
 <br>
+
+# ⚡️ Motivation
+
+현재 우리는 인터넷 없이 살 수 없는 상황이 되었습니다. 언제, 어디서든 인터넷을 이용해 많은 정보를 얻고 있습니다.아침에 일어나 날씨를 확인하고, 궁금한 단어가 있으면 핸드폰을 통해 찾아보고, 또한 실시간으로 영상통화를 진행하기도 합니다. 이러한 인터넷이 어떠한 경로를 통해 우리에게 전달되는지가 저의 가장 큰 궁금증이었습니다. 경로를 알기 위해서는 다양한 네트워크 정보들이 필요했습니다. DNS, 보안, 그리고 연결이 제대로 되었는 지를 알아야 했습니다. 이러한 정보들을 한 곳에서 다른 사람들에게 제공할 수 있으면 좋겠다는 생각을 통해 프로젝트를 진행하였습니다.
 
 # 💡 Preview & Features
 
