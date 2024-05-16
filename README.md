@@ -16,9 +16,9 @@
 
 # 📌 Table of Contents
 
-- [⚡️ Motivation](#-motivation)
+- [⚡️ Motivation](#️-motivation)
 - [💡 Preview & Features](#-preview--features)
-- [⚒️ Tech Stacks](#-tech-stacks)
+- [⚒️ Tech Stacks](#️-tech-stacks)
   - [❓ Why React? (React vs. Next.js)](#-why-react-react-vs-nextjs)
 - [🔥 Challenges](#-challenges)
   - [1. 네트워크 유틸리티 직접 구현하기](#1-네트워크-유틸리티-직접-구현하기)
