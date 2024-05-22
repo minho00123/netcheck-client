@@ -108,6 +108,8 @@ export default function Result() {
     getIdData(id);
   }, [url, id]);
 
+  console.log(seoulData);
+
   useEffect(() => {
     if (seoulData.tracerouteData && selectedRegion === "Seoul") {
       const temp = [];
