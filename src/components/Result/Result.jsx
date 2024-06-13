@@ -117,7 +117,7 @@ export default function Result() {
 
     getIdData(id);
 
-    ws.current = new WebSocket(`${seoulServer.replace(/^http/, "ws")}`);
+    ws.current = new WebSocket(`wss://${seoulServer}:80`);
     ws.current.onopen = () => {
       ws.current.send(JSON.stringify({ url }));
     };
