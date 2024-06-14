@@ -117,7 +117,7 @@ export default function Result() {
 
     getIdData(id);
 
-    const wsUrl = `wss://${seoulServer}`;
+    const wsUrl = `wss://${seoulServer}:443`;
     console.log(`Connecting to WebSocket at ${wsUrl}`);
     ws.current = new WebSocket(wsUrl);
 
