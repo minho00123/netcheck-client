@@ -118,12 +118,15 @@ export default function Result() {
     getIdData(id);
 
     ws.current = new WebSocket(`wss://${seoulServer}:8080`);
+    console.log("test1");
     ws.current.onopen = () => {
+      console.log("test2: ws opened");
       ws.current.send(JSON.stringify({ url }));
     };
     ws.current.onmessage = function (event) {
+      console.log("test3");
       const data = JSON.parse(event.data);
-
+      console.log("test4, DATA: ", data);
       if (data.done) {
         return;
       } else if (data.pingData) {
