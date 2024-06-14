@@ -117,16 +117,19 @@ export default function Result() {
 
     getIdData(id);
 
-    ws.current = new WebSocket(`wss://${seoulServer}:8080`);
-    console.log("test1");
+    const wsUrl = `wss://${seoulServer}:8080`;
+    console.log(`Connecting to WebSocket at ${wsUrl}`);
+    ws.current = new WebSocket(wsUrl);
+
     ws.current.onopen = () => {
-      console.log("test2: ws opened");
+      console.log("WebSocket connection opened");
       ws.current.send(JSON.stringify({ url }));
     };
+
     ws.current.onmessage = function (event) {
-      console.log("test3");
+      console.log("WebSocket message received");
       const data = JSON.parse(event.data);
-      console.log("test4, DATA: ", data);
+      console.log("Received data: ", data);
       if (data.done) {
         return;
       } else if (data.pingData) {
@@ -135,9 +138,11 @@ export default function Result() {
         changeTracerouteData(data.tracerouteData);
       }
     };
+
     ws.current.onerror = error => {
-      console.error(error);
+      console.error("WebSocket error: ", error);
     };
+
     ws.current.onclose = () => {
       console.log("WebSocket connection closed");
     };
@@ -158,7 +163,6 @@ export default function Result() {
     setSeoulData,
     setVirginiaData,
     setLondonData,
-    setAddSeoulData,
   ]);
 
   async function changeTracerouteData(tracerouteData) {
