@@ -48,7 +48,5 @@
     "tailwindcss": "^3.4.1",
     "vite": "^5.1.4",
     "vitest": "^1.4.0"
-  },
-  "proxy": "http://netcheck-seoul.ap-northeast-2.elasticbeanstalk.com",
-  "homepage": "http://netcheck-seoul.ap-northeast-2.elasticbeanstalk.com"
+  }
 }
