@@ -89,7 +89,7 @@ export default function Result() {
 
     async function getIdData(customId) {
       try {
-        const response = await axios.post(`${seoulServer}/history/id`, {
+        const response = await axios.post(`https://${seoulServer}/history/id`, {
           customId,
         });
 
