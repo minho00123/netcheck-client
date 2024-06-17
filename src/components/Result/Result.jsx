@@ -91,6 +91,7 @@ export default function Result() {
       try {
         const response = await axios.post(`https://${seoulServer}/history/id`, {
           customId,
+          withCredentials: true,
         });
 
         if (response.data && response.data.length > 0) {
