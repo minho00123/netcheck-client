@@ -16,6 +16,7 @@ import Reliability from "./Reliability";
 export default function Result() {
   const { id } = useParams();
   const [markers, setMarkers] = useState([]);
+  const ws = useRef(null);
   const {
     url,
     seoulData,
@@ -88,9 +89,8 @@ export default function Result() {
 
     async function getIdData(customId) {
       try {
-        const response = await axios.post(`https://${seoulServer}/history/id`, {
+        const response = await axios.post(`${seoulServer}/history/id`, {
           customId,
-          withCredentials: true,
         });
 
         if (response.data && response.data.length > 0) {
@@ -116,6 +116,42 @@ export default function Result() {
     }
 
     getIdData(id);
+
+    const wsUrl = `wss://${seoulServer}:8080`;
+    console.log(`Connecting to WebSocket at ${wsUrl}`);
+    ws.current = new WebSocket(wsUrl);
+
+    ws.current.onopen = () => {
+      console.log("WebSocket connection opened");
+      ws.current.send(JSON.stringify({ url }));
+    };
+
+    ws.current.onmessage = function (event) {
+      console.log("WebSocket message received");
+      const data = JSON.parse(event.data);
+      console.log("Received data: ", data);
+      if (data.done) {
+        return;
+      } else if (data.pingData) {
+        setAddSeoulData({ pingData: data.pingData });
+      } else if (data.tracerouteData) {
+        changeTracerouteData(data.tracerouteData);
+      }
+    };
+
+    ws.current.onerror = error => {
+      console.error("WebSocket error: ", error);
+    };
+
+    ws.current.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
   }, [
     url,
     id,
