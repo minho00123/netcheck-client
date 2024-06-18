@@ -47,7 +47,7 @@ export default function Result() {
   useEffect(() => {
     async function getSeoulData(url) {
       try {
-        const response = await axios.post(`${seoulServer}/result/all`, {
+        const response = await axios.post(`${seoulServer}/result/all:8080`, {
           id,
           url,
           serverRegion: "Seoul",
@@ -61,7 +61,7 @@ export default function Result() {
 
     async function getVirginiaData(url) {
       try {
-        const response = await axios.post(`${virginiaServer}/result/all`, {
+        const response = await axios.post(`${virginiaServer}/result/all:8080`, {
           id,
           url,
           serverRegion: "Virginia",
@@ -75,7 +75,7 @@ export default function Result() {
 
     async function getLondonData(url) {
       try {
-        const response = await axios.post(`${londonServer}/result/all`, {
+        const response = await axios.post(`${londonServer}/result/all:8080`, {
           id,
           url,
           serverRegion: "London",
@@ -89,7 +89,7 @@ export default function Result() {
 
     async function getIdData(customId) {
       try {
-        const response = await axios.post(`${seoulServer}/history/id`, {
+        const response = await axios.post(`${seoulServer}/history/id:8080`, {
           customId,
         });
 
