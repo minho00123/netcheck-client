@@ -2,8 +2,7 @@ import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Reliability() {
-  const { seoulData, virginiaData, londonData, selectedRegion, pingData } =
-    useStore();
+  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
   const [reliabilityData, setReliabilityData] = useState({});
 
   useEffect(() => {
@@ -49,12 +48,8 @@ export default function Reliability() {
             <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Packet Loss</h3>
             <div className="w-full h-1px bg-gray"></div>
             <div className="mt-2 mx-5 mb-2">
-              <div className="mb-3 text-xl font-bold">
-                {pingData?.lossRate}%
-              </div>
-              <div className="text-sm">
-                Sent: {pingData?.sent} / Received: {pingData?.received}
-              </div>
+              <div className="mb-3 text-xl font-bold">%</div>
+              <div className="text-sm">Sent: / Received:</div>
             </div>
           </div>
         </div>
