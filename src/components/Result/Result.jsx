@@ -14,7 +14,7 @@ import Information from "./Information";
 import Reliability from "./Reliability";
 
 export default function Result() {
-  const { id } = useParams();
+  const { customId } = useParams();
   const [markers, setMarkers] = useState([]);
   const {
     url,
@@ -34,11 +34,10 @@ export default function Result() {
     async function getSeoulData(url) {
       try {
         const response = await axios.post(`${seoulServer}/result/all`, {
-          id,
+          customId,
           url,
           serverRegion: "Seoul",
         });
-        console.log("RESPONSE: ", response);
         const data = response.data;
 
         setSeoulData(data);
@@ -50,7 +49,7 @@ export default function Result() {
     async function getVirginiaData(url) {
       try {
         const response = await axios.post(`${virginiaServer}/result/all`, {
-          id,
+          customId,
           url,
           serverRegion: "Virginia",
         });
@@ -64,7 +63,7 @@ export default function Result() {
     async function getLondonData(url) {
       try {
         const response = await axios.post(`${londonServer}/result/all`, {
-          id,
+          customId,
           url,
           serverRegion: "London",
         });
@@ -103,10 +102,10 @@ export default function Result() {
       }
     }
 
-    getIdData(id);
+    getIdData(customId);
   }, [
     url,
-    id,
+    customId,
     seoulServer,
     virginiaServer,
     londonServer,

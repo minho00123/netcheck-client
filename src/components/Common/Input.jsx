@@ -3,6 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
+function generateObjectId() {
+  const timestamp = Math.floor(Date.now() / 1000).toString(16);
+  const randomValue = Math.random().toString(16).substring(2, 12);
+  const counter = Math.floor(Math.random() * 16777215).toString(16);
+
+  return (timestamp + randomValue + counter).padEnd(24, "0");
+}
+
 export default function Input() {
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -14,7 +22,7 @@ export default function Input() {
 
     const inputUrl = inputRef.current.value;
     const urlPattern = /^(?!https?:\/\/).*$|.*\/$/;
-    const newCustomId = Math.random().toString(36).substring(2);
+    const newCustomId = generateObjectId();
 
     if (urlPattern.test(inputUrl)) {
       setShowWarning(true);
