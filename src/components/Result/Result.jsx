@@ -24,7 +24,6 @@ export default function Result() {
     setSeoulData,
     setVirginiaData,
     setLondonData,
-    setPingData,
   } = useStore();
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
@@ -41,21 +40,6 @@ export default function Result() {
         const data = response.data;
 
         setSeoulData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getSeoulPingData(url) {
-      try {
-        const response = await axios.post(`${seoulServer}/result/ping`, {
-          customId,
-          url,
-          count: 10,
-        });
-        const data = response.data;
-
-        setPingData(data);
       } catch (error) {
         console.error(error);
       }
@@ -129,7 +113,6 @@ export default function Result() {
     setSeoulData,
     setVirginiaData,
     setLondonData,
-    setPingData,
   ]);
 
   return (
