@@ -19,8 +19,6 @@ export default function Result() {
   const {
     url,
     seoulData,
-    pingData,
-    tracerouteData,
     selectedRegion,
     setUrl,
     setSeoulData,
