@@ -25,7 +25,6 @@ export default function Result() {
     setVirginiaData,
     setLondonData,
     setPingData,
-    setTracerouteData,
   } = useStore();
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
@@ -90,29 +89,6 @@ export default function Result() {
       }
     }
 
-    async function getTracerouteData(url) {
-      try {
-        const response = await axios.post(`${seoulServer}/result/traceroute`, {
-          url,
-        });
-        const tracerouteData = response.data;
-
-        tracerouteData
-          .filter(data => data.lat && data.lon)
-          .map(data => ({
-            country: data.country,
-            city: data.city,
-            lat: data.lat,
-            lon: data.lon,
-          }));
-
-        setTracerouteData(tracerouteData);
-        setMarkers(tracerouteData);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
     async function getIdData(customId) {
       try {
         const response = await axios.post(`${seoulServer}/history/id`, {
@@ -136,7 +112,6 @@ export default function Result() {
           getVirginiaData(url);
           getLondonData(url);
           getPingData(url);
-          getTracerouteData(url);
         }
       } catch (error) {
         console.error(error);
@@ -155,7 +130,6 @@ export default function Result() {
     setVirginiaData,
     setLondonData,
     setPingData,
-    setTracerouteData,
   ]);
 
   return (
