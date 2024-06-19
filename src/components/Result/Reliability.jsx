@@ -15,7 +15,6 @@ export default function Reliability() {
       setReliabilityData(londonData.reliabilityData);
     }
   }, [selectedRegion, seoulData, virginiaData, londonData]);
-  console.log(pingData);
 
   return (
     reliabilityData && (
