@@ -160,10 +160,6 @@ export default function Result() {
     setTracerouteData,
   ]);
 
-  console.log(seoulData);
-  console.log(pingData);
-  console.log(tracerouteData);
-
   return (
     <div className="flex h-100vh">
       <Sidebar />
