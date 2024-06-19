@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import useStore from "../../store/store";
+import { useParams } from "react-router-dom";
 import Globe from "./Globe";
 import Speed from "./Speed";
 import Total from "./Total";
@@ -19,15 +19,13 @@ export default function Result() {
   const {
     url,
     seoulData,
-    londonData,
-    virginiaData,
-    selectedRegion,
     pingData,
     tracerouteData,
+    selectedRegion,
     setUrl,
     setSeoulData,
-    setLondonData,
     setVirginiaData,
+    setLondonData,
     setPingData,
     setTracerouteData,
   } = useStore();
@@ -43,6 +41,7 @@ export default function Result() {
           url,
           serverRegion: "Seoul",
         });
+        console.log("RESPONSE: ", response);
         const data = response.data;
 
         setSeoulData(data);
@@ -87,7 +86,7 @@ export default function Result() {
         });
         const pingData = response.data;
 
-        setPingData({ pingData });
+        setPingData(pingData);
       } catch (error) {
         console.error(error);
       }
@@ -97,11 +96,20 @@ export default function Result() {
       try {
         const response = await axios.post(`${seoulServer}/result/traceroute`, {
           url,
-          count: 10,
         });
         const tracerouteData = response.data;
 
-        setTracerouteData({ tracerouteData });
+        tracerouteData
+          .filter(data => data.lat && data.lon)
+          .map(data => ({
+            country: data.country,
+            city: data.city,
+            lat: data.lat,
+            lon: data.lon,
+          }));
+
+        setTracerouteData(tracerouteData);
+        setMarkers(tracerouteData);
       } catch (error) {
         console.error(error);
       }
@@ -152,40 +160,9 @@ export default function Result() {
     setTracerouteData,
   ]);
 
-  useEffect(() => {
-    let temp = [];
-
-    if (selectedRegion === "Seoul" && tracerouteData.tracerouteData) {
-      temp = tracerouteData.tracerouteData
-        .filter(data => data.lat && data.lon)
-        .map(data => ({
-          country: data.country,
-          city: data.city,
-          lat: data.lat,
-          lon: data.lon,
-        }));
-    } else if (selectedRegion === "Virginia" && tracerouteData.tracerouteData) {
-      temp = tracerouteData.tracerouteData
-        .filter(data => data.lat && data.lon)
-        .map(data => ({
-          country: data.country,
-          city: data.city,
-          lat: data.lat,
-          lon: data.lon,
-        }));
-    } else if (selectedRegion === "London" && tracerouteData.tracerouteData) {
-      temp = tracerouteData.tracerouteData
-        .filter(data => data.lat && data.lon)
-        .map(data => ({
-          country: data.country,
-          city: data.city,
-          lat: data.lat,
-          lon: data.lon,
-        }));
-    }
-
-    setMarkers(temp);
-  }, [selectedRegion, tracerouteData]);
+  console.log(seoulData);
+  console.log(pingData);
+  console.log(tracerouteData);
 
   return (
     <div className="flex h-100vh">

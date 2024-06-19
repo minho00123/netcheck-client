@@ -51,11 +51,10 @@ export default function Reliability() {
             <div className="w-full h-1px bg-gray"></div>
             <div className="mt-2 mx-5 mb-2">
               <div className="mb-3 text-xl font-bold">
-                {pingData.pingData[0]?.lossRate}%
+                {pingData?.lossRate}%
               </div>
               <div className="text-sm">
-                Sent: {pingData.pingData[0]?.sent} / Received:{" "}
-                {pingData.pingData[0]?.received}
+                Sent: {pingData?.sent} / Received: {pingData?.received}
               </div>
             </div>
           </div>
