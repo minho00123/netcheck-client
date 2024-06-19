@@ -2,8 +2,10 @@ import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Speed() {
-  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const { seoulData, virginiaData, londonData, selectedRegion, pingData } =
+    useStore();
   const [speedData, setSpeedData] = useState({});
+  let modifiedPingData = {};
 
   useEffect(() => {
     if (selectedRegion === "Seoul") {
@@ -15,6 +17,21 @@ export default function Speed() {
     }
   }, [selectedRegion, seoulData, virginiaData, londonData]);
 
+  if (pingData.latencies) {
+    const minLatency = Math.min(...pingData.latencies);
+    const maxLatency = Math.max(...pingData.latencies);
+    const averageLatency =
+      pingData.latencies.reduce((a, b) => a + b, 0) / pingData.latencies.length;
+
+    modifiedPingData = { minLatency, maxLatency, averageLatency };
+  } else {
+    modifiedPingData = {
+      minLatency: "N/A",
+      maxLatency: "N/A",
+      averageLatency: "N/A",
+    };
+  }
+
   return (
     speedData && (
       <div className="flex flex-col justify-center mt-4 mx-4 p-4 rounded-xl bg-blue-light shadow-md">
@@ -24,16 +41,16 @@ export default function Speed() {
             <h3 className="mx-5 mb-1 pt-2 font-bold text-lg">Latency</h3>
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-2">
-              <span className="text-blue font-bold">min: </span>
-              ms
+              <span className="text-blue font-bold">min:</span>
+              {modifiedPingData.minLatency} ms
             </p>
             <p className="mx-5 mb-2">
-              <span className="text-blue font-bold">max: </span>
-              ms
+              <span className="text-blue font-bold">max:</span>
+              {modifiedPingData.maxLatency} ms
             </p>
             <p className="mx-5 pb-2 ">
-              <span className="text-blue font-bold">average: </span>
-              ms
+              <span className="text-blue font-bold">average:</span>
+              {modifiedPingData.averageLatency} ms
             </p>
           </div>
           <div className="rounded-2xl bg-white text-md text-center shadow-md">

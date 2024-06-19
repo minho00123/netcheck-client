@@ -46,6 +46,21 @@ export default function Result() {
       }
     }
 
+    async function getSeoulPingData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/ping`, {
+          customId,
+          url,
+          count: 10,
+        });
+        const data = response.data;
+
+        setPingData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     async function getVirginiaData(url) {
       try {
         const response = await axios.post(`${virginiaServer}/result/all`, {
@@ -94,6 +109,7 @@ export default function Result() {
           });
         } else {
           getSeoulData(url);
+          getSeoulPingData(url);
           getVirginiaData(url);
           getLondonData(url);
         }
