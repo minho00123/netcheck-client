@@ -26,23 +26,24 @@ export default function Speed() {
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">min: </span>
-              {pingData.latencies > 0
+              {pingData.latencies.length > 0
                 ? Math.min(...pingData.latencies)
                 : "N/A"}{" "}
               ms
             </p>
             <p className="mx-5 mb-2">
               <span className="text-blue font-bold">max: </span>
-              {pingData.latencies > 0
+              {pingData.latencies.length > 0
                 ? Math.max(...pingData.latencies)
                 : "N/A"}{" "}
               ms
             </p>
             <p className="mx-5 pb-2 ">
               <span className="text-blue font-bold">average: </span>
-              {pingData &&
-                pingData.latencies.reduce((a, b) => a + b, 0) /
-                  pingData.latencies.length}{" "}
+              {pingData.latencies.length > 0
+                ? pingData.latencies.reduce((a, b) => a + b, 0) /
+                  pingData.latencies.length
+                : "N/A"}
               ms
             </p>
           </div>
