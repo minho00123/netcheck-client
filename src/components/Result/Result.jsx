@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useStore from "../../store/store";
 import Globe from "./Globe";
@@ -16,30 +16,21 @@ import Reliability from "./Reliability";
 export default function Result() {
   const { id } = useParams();
   const [markers, setMarkers] = useState([]);
-  const ws = useRef(null);
   const {
     url,
     seoulData,
     londonData,
     virginiaData,
     selectedRegion,
+    pingData,
+    tracerouteData,
     setUrl,
     setSeoulData,
     setLondonData,
     setVirginiaData,
-    setAddSeoulData,
-  } = useStore(state => ({
-    url: state.url,
-    seoulData: state.seoulData,
-    londonData: state.londonData,
-    virginiaData: state.virginiaData,
-    selectedRegion: state.selectedRegion,
-    setUrl: state.setUrl,
-    setSeoulData: state.setSeoulData,
-    setLondonData: state.setLondonData,
-    setVirginiaData: state.setVirginiaData,
-    setAddSeoulData: state.setAddSeoulData,
-  }));
+    setPingData,
+    setTracerouteData,
+  } = useStore();
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
@@ -53,6 +44,7 @@ export default function Result() {
           serverRegion: "Seoul",
         });
         const data = response.data;
+
         setSeoulData(data);
       } catch (error) {
         console.error(error);
@@ -87,6 +79,34 @@ export default function Result() {
       }
     }
 
+    async function getPingData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/ping`, {
+          url,
+          count: 10,
+        });
+        const pingData = response.data;
+
+        setPingData({ pingData });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function getTracerouteData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/traceroute`, {
+          url,
+          count: 10,
+        });
+        const tracerouteData = response.data;
+
+        setTracerouteData({ tracerouteData });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     async function getIdData(customId) {
       try {
         const response = await axios.post(`${seoulServer}/history/id`, {
@@ -109,6 +129,8 @@ export default function Result() {
           getSeoulData(url);
           getVirginiaData(url);
           getLondonData(url);
+          getPingData(url);
+          getTracerouteData(url);
         }
       } catch (error) {
         console.error(error);
@@ -116,80 +138,25 @@ export default function Result() {
     }
 
     getIdData(id);
-
-    const wsUrl = `wss://${seoulServer}:5000`;
-    console.log(`Connecting to WebSocket at ${wsUrl}`);
-    ws.current = new WebSocket(wsUrl);
-
-    ws.current.onopen = () => {
-      console.log("WebSocket connection opened");
-      ws.current.send(JSON.stringify({ url }));
-    };
-
-    ws.current.onmessage = function (event) {
-      console.log("WebSocket message received");
-      const data = JSON.parse(event.data);
-      console.log("Received data: ", data);
-      if (data.done) {
-        return;
-      } else if (data.pingData) {
-        setAddSeoulData({ pingData: data.pingData });
-      } else if (data.tracerouteData) {
-        changeTracerouteData(data.tracerouteData);
-      }
-    };
-
-    ws.current.onerror = error => {
-      console.error("WebSocket error: ", error);
-    };
-
-    ws.current.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
-
-    return () => {
-      if (ws.current) {
-        ws.current.close();
-      }
-    };
   }, [
     url,
     id,
     seoulServer,
     virginiaServer,
     londonServer,
-    setAddSeoulData,
     setUrl,
     setSeoulData,
     setVirginiaData,
     setLondonData,
+    setPingData,
+    setTracerouteData,
   ]);
-
-  async function changeTracerouteData(tracerouteData) {
-    const updatedData = await Promise.all(
-      tracerouteData.map(async data => {
-        const response = await axios(
-          `http://ip-api.com/json/${data.ipAddress}?fields=status,message,country,city,lat,lon,query`,
-        );
-
-        return {
-          ...data,
-          country: response.data.country,
-          city: response.data.city,
-          lat: response.data.lat,
-          lon: response.data.lon,
-        };
-      }),
-    );
-
-    setAddSeoulData({ tracerouteData: updatedData });
-  }
 
   useEffect(() => {
     let temp = [];
 
-    if (selectedRegion === "Seoul" && seoulData.tracerouteData) {
-      temp = seoulData.tracerouteData
+    if (selectedRegion === "Seoul" && tracerouteData.tracerouteData) {
+      temp = tracerouteData.tracerouteData
         .filter(data => data.lat && data.lon)
         .map(data => ({
           country: data.country,
@@ -197,8 +164,8 @@ export default function Result() {
           lat: data.lat,
           lon: data.lon,
         }));
-    } else if (selectedRegion === "Virginia" && virginiaData.tracerouteData) {
-      temp = virginiaData.tracerouteData
+    } else if (selectedRegion === "Virginia" && tracerouteData.tracerouteData) {
+      temp = tracerouteData.tracerouteData
         .filter(data => data.lat && data.lon)
         .map(data => ({
           country: data.country,
@@ -206,8 +173,8 @@ export default function Result() {
           lat: data.lat,
           lon: data.lon,
         }));
-    } else if (selectedRegion === "London" && londonData.tracerouteData) {
-      temp = londonData.tracerouteData
+    } else if (selectedRegion === "London" && tracerouteData.tracerouteData) {
+      temp = tracerouteData.tracerouteData
         .filter(data => data.lat && data.lon)
         .map(data => ({
           country: data.country,
@@ -218,7 +185,7 @@ export default function Result() {
     }
 
     setMarkers(temp);
-  }, [selectedRegion, seoulData, londonData, virginiaData]);
+  }, [selectedRegion, tracerouteData]);
 
   return (
     <div className="flex h-100vh">

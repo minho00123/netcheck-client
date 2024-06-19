@@ -2,7 +2,8 @@ import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Reliability() {
-  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const { seoulData, virginiaData, londonData, selectedRegion, pingData } =
+    useStore();
   const [reliabilityData, setReliabilityData] = useState({});
 
   useEffect(() => {
@@ -14,6 +15,7 @@ export default function Reliability() {
       setReliabilityData(londonData.reliabilityData);
     }
   }, [selectedRegion, seoulData, virginiaData, londonData]);
+  console.log(pingData);
 
   return (
     reliabilityData && (
@@ -49,11 +51,11 @@ export default function Reliability() {
             <div className="w-full h-1px bg-gray"></div>
             <div className="mt-2 mx-5 mb-2">
               <div className="mb-3 text-xl font-bold">
-                {seoulData.pingData && seoulData.pingData[0].lossRate}%
+                {pingData.pingData[0]?.lossRate}%
               </div>
               <div className="text-sm">
-                Sent: {seoulData.pingData && seoulData.pingData[0].sent} /
-                Received: {seoulData.pingData && seoulData.pingData[0].received}
+                Sent: {pingData.pingData[0]?.sent} / Received:{" "}
+                {pingData.pingData[0]?.received}
               </div>
             </div>
           </div>

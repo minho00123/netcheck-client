@@ -2,7 +2,8 @@ import useStore from "../../store/store";
 import { useEffect, useState } from "react";
 
 export default function Speed() {
-  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const { seoulData, virginiaData, londonData, selectedRegion, pingData } =
+    useStore();
   const [speedData, setSpeedData] = useState({});
 
   useEffect(() => {
@@ -25,21 +26,21 @@ export default function Speed() {
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">min: </span>
-              {seoulData.pingData &&
-                Math.min(...seoulData.pingData[0].latencies)}{" "}
+              {pingData.pingData[0] &&
+                Math.min(...pingData.pingData[0].latencies)}{" "}
               ms
             </p>
             <p className="mx-5 mb-2">
               <span className="text-blue font-bold">max: </span>
-              {seoulData.pingData &&
-                Math.max(...seoulData.pingData[0].latencies)}{" "}
+              {pingData.pingData[0] &&
+                Math.max(...pingData.pingData[0].latencies)}{" "}
               ms
             </p>
             <p className="mx-5 pb-2 ">
               <span className="text-blue font-bold">average: </span>
-              {seoulData.pingData &&
-                seoulData.pingData[0].latencies.reduce((a, b) => a + b, 0) /
-                  seoulData.pingData[0].latencies.length}{" "}
+              {pingData.pingData[0] &&
+                pingData.pingData[0].latencies.reduce((a, b) => a + b, 0) /
+                  pingData.pingData[0].latencies.length}{" "}
               ms
             </p>
           </div>
