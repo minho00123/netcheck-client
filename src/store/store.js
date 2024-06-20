@@ -8,7 +8,7 @@ const useStore = create(set => ({
   virginiaData: {},
   selectedRegion: "Seoul",
   pingData: {},
-  tracerouteData: {},
+  tracerouteData: [],
   setId: customId => set({ customId }),
   setUrl: url => set({ url }),
   resetData: () => set({ seoulData: {}, londonData: {}, virginiaData: {} }),

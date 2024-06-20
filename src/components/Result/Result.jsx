@@ -81,6 +81,7 @@ export default function Result() {
           url,
         });
         const data = response.data;
+        console.log("DATA: ", data);
 
         setTracerouteData(data);
       } catch (error) {
@@ -131,7 +132,24 @@ export default function Result() {
     setTracerouteData,
   ]);
 
-  console.log(tracerouteData);
+  useEffect(() => {
+    if (tracerouteData && selectedRegion === "Seoul") {
+      const temp = [];
+
+      tracerouteData.forEach(data => {
+        if (data.lat && data.lon) {
+          temp.push({
+            country: data.country,
+            city: data.city,
+            lat: data.lat,
+            lon: data.lon,
+          });
+        }
+      });
+
+      setMarkers(temp);
+    }
+  }, [selectedRegion, tracerouteData]);
 
   return (
     <div className="flex h-100vh">
