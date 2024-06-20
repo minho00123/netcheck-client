@@ -20,10 +20,12 @@ export default function Result() {
     url,
     seoulData,
     selectedRegion,
+    tracerouteData,
     setUrl,
     setSeoulData,
     setVirginiaData,
     setLondonData,
+    setTracerouteData,
   } = useStore();
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
@@ -79,7 +81,8 @@ export default function Result() {
           url,
         });
         const data = response.data;
-        console.log(data);
+
+        setTracerouteData(data);
       } catch (error) {
         console.error(error);
       }
@@ -125,7 +128,10 @@ export default function Result() {
     setSeoulData,
     setVirginiaData,
     setLondonData,
+    setTracerouteData,
   ]);
+
+  console.log(tracerouteData);
 
   return (
     <div className="flex h-100vh">
