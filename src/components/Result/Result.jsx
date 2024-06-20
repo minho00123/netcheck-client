@@ -73,6 +73,18 @@ export default function Result() {
       }
     }
 
+    async function getTracerouteData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/traceroute`, {
+          url,
+        });
+        const data = response.data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     async function getIdData(customId) {
       try {
         const response = await axios.post(`${seoulServer}/history/id`, {
@@ -95,6 +107,7 @@ export default function Result() {
           getSeoulData(url);
           getVirginiaData(url);
           getLondonData(url);
+          getTracerouteData(url);
         }
       } catch (error) {
         console.error(error);
