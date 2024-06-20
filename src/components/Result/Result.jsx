@@ -93,7 +93,6 @@ export default function Result() {
           });
         } else {
           getSeoulData(url);
-          getSeoulPingData(url);
           getVirginiaData(url);
           getLondonData(url);
         }
