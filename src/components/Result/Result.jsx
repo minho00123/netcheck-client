@@ -34,11 +34,17 @@ export default function Result() {
   useEffect(() => {
     async function getSeoulData(url) {
       try {
-        const response = await axios.post(`${seoulServer}/result/all`, {
-          customId,
-          url,
-          serverRegion: "Seoul",
-        });
+        const response = await axios.post(
+          `${seoulServer}/result/all`,
+          {
+            customId,
+            url,
+            serverRegion: "Seoul",
+          },
+          {
+            timeout: 10000,
+          },
+        );
         const data = response.data;
 
         setSeoulData(data);
