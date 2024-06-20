@@ -16,74 +16,16 @@ import Reliability from "./Reliability";
 export default function Result() {
   const { customId } = useParams();
   const [markers, setMarkers] = useState([]);
-  const {
-    url,
-    seoulData,
-    selectedRegion,
-    tracerouteData,
-    setUrl,
-    setSeoulData,
-    setVirginiaData,
-    setLondonData,
-    setTracerouteData,
-  } = useStore();
+  const { url, selectedRegion, setUrl } = useStore();
+  const [tracerouteData, setTracerouteData] = useState([]);
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
   useEffect(() => {
-    async function getSeoulData(url) {
+    async function getTracerouteData(url, server) {
       try {
-        const response = await axios.post(
-          `${seoulServer}/result/all`,
-          {
-            customId,
-            url,
-            serverRegion: "Seoul",
-          },
-          {
-            timeout: 10000,
-          },
-        );
-        const data = response.data;
-
-        setSeoulData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getVirginiaData(url) {
-      try {
-        const response = await axios.post(`${virginiaServer}/result/all`, {
-          customId,
-          url,
-          serverRegion: "Virginia",
-        });
-        const data = response.data;
-        setVirginiaData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getLondonData(url) {
-      try {
-        const response = await axios.post(`${londonServer}/result/all`, {
-          customId,
-          url,
-          serverRegion: "London",
-        });
-        const data = response.data;
-        setLondonData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getTracerouteData(url) {
-      try {
-        const response = await axios.post(`${seoulServer}/result/traceroute`, {
+        const response = await axios.post(`${server}/result/traceroute`, {
           url,
         });
         const data = response.data;
@@ -95,48 +37,38 @@ export default function Result() {
       }
     }
 
-    async function getIdData(customId) {
-      try {
-        const response = await axios.post(`${seoulServer}/history/id`, {
-          customId,
-        });
-
-        if (response.data && response.data.length > 0) {
-          setUrl(response.data[0].url);
-
-          response.data.forEach(data => {
-            if (data.serverRegion === "Seoul") {
-              setSeoulData(data);
-            } else if (data.serverRegion === "Virginia") {
-              setVirginiaData(data);
-            } else if (data.serverRegion === "London") {
-              setLondonData(data);
-            }
-          });
-        } else {
-          getSeoulData(url);
-          getVirginiaData(url);
-          getLondonData(url);
-          getTracerouteData(url);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    if (selectedRegion === "Seoul") {
+      getTracerouteData(url, seoulServer, "Seoul");
+    } else if (selectedRegion === "Virginia") {
+      getTracerouteData(url, virginiaServer, "Virginia");
+    } else if (selectedRegion === "London") {
+      getTracerouteData(url, londonServer, "London");
     }
 
+    // async function getIdData(customId) {
+    //   try {
+    //     const response = await axios.post(`${seoulServer}/history/id`, {
+    //       customId,
+    //     });
+    //     if (response.data && response.data.length > 0) {
+    //       setUrl(response.data[0].url);
+    //       response.data.forEach(data => {
+    //         if (data.serverRegion === "Seoul") {
+    //           setSeoulData(data);
+    //         } else if (data.serverRegion === "Virginia") {
+    //           setVirginiaData(data);
+    //         } else if (data.serverRegion === "London") {
+    //           setLondonData(data);
+    //         }
+    //       });
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
+
     getIdData(customId);
-  }, [
-    url,
-    customId,
-    seoulServer,
-    virginiaServer,
-    londonServer,
-    setUrl,
-    setSeoulData,
-    setVirginiaData,
-    setLondonData,
-    setTracerouteData,
-  ]);
+  }, [url, customId, setUrl, setTracerouteData]);
 
   useEffect(() => {
     if (tracerouteData && selectedRegion === "Seoul") {
@@ -168,26 +100,22 @@ export default function Result() {
         </h1>
         {selectedRegion === "History" ? (
           <History />
-        ) : Object.keys(seoulData).length > 0 ? (
-          selectedRegion === "Total" ? (
-            <Total />
-          ) : (
-            <>
-              <div className="flex justify-evenly">
-                <Information />
-                <Security />
-              </div>
-              <div className="flex justify-evenly">
-                <div>
-                  <Reliability />
-                  <Speed />
-                </div>
-                {markers && <Globe markers={markers} />}
-              </div>
-            </>
-          )
+        ) : selectedRegion === "Total" ? (
+          <Total />
         ) : (
-          <Loading text="Getting the data" />
+          <>
+            <div className="flex justify-evenly">
+              <Information />
+              <Security />
+            </div>
+            <div className="flex justify-evenly">
+              <div>
+                <Reliability />
+                <Speed />
+              </div>
+              {markers && <Globe markers={markers} />}
+            </div>
+          </>
         )}
       </div>
     </div>

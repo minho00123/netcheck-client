@@ -1,19 +1,83 @@
+import axios from "axios";
 import useStore from "../../store/store";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function Speed() {
-  const { seoulData, virginiaData, londonData, selectedRegion } = useStore();
+  const { customId } = useParams();
+  const {
+    url,
+    seoulData,
+    virginiaData,
+    londonData,
+    selectedRegion,
+    setSeoulData,
+    setLondonData,
+    setVirginiaData,
+  } = useStore();
   const [speedData, setSpeedData] = useState({});
+  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
+  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
+  const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
   useEffect(() => {
-    if (selectedRegion === "Seoul") {
-      setSpeedData(seoulData.speedData);
-    } else if (selectedRegion === "Virginia") {
-      setSpeedData(virginiaData.speedData);
-    } else if (selectedRegion === "London") {
-      setSpeedData(londonData.speedData);
+    async function getSeoulSpeedData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/speed`, {
+          customId,
+          url,
+          serverRegion: "Seoul",
+        });
+        const data = response.data;
+
+        setSeoulData(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [selectedRegion, seoulData, virginiaData, londonData]);
+
+    async function getVirginiaSpeedData(url) {
+      try {
+        const response = await axios.post(`${virginiaServer}/result/speed`, {
+          customId,
+          url,
+          serverRegion: "Virginia",
+        });
+        const data = response.data;
+
+        setVirginiaData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function getLondonSpeedData(url) {
+      try {
+        const response = await axios.post(`${londonServer}/result/speed`, {
+          customId,
+          url,
+          serverRegion: "London",
+        });
+        const data = response.data;
+
+        setLondonData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getSeoulSpeedData(url);
+    getVirginiaSpeedData(url);
+    getLondonSpeedData(url);
+
+    if (selectedRegion === "Seoul") {
+      setSpeedData(seoulData);
+    } else if (selectedRegion === "Virginia") {
+      setSpeedData(londonData);
+    } else if (selectedRegion === "London") {
+      setSpeedData(virginiaData);
+    }
+  }, [url, customId, speedData]);
 
   return (
     speedData && (
@@ -40,7 +104,9 @@ export default function Speed() {
             <h3 className="mx-5 mt-2 mb-1 font-bold text-lg">Bandwidth</h3>
             <div className="w-full h-1px bg-gray"></div>
             <div className="mt-5 mx-5 mt-2">
-              <div className="text-xl font-bold">{speedData?.bandwidth}</div>
+              <div className="text-xl font-bold">
+                {speedData ? speedData.bandwidth : "N/A"}
+              </div>
               <div className="text-xl font-bold">Mbit/s</div>
             </div>
           </div>

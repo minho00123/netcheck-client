@@ -12,9 +12,18 @@ const useStore = create(set => ({
   setId: customId => set({ customId }),
   setUrl: url => set({ url }),
   resetData: () => set({ seoulData: {}, londonData: {}, virginiaData: {} }),
-  setSeoulData: data => set({ seoulData: data }),
-  setLondonData: data => set({ londonData: data }),
-  setVirginiaData: data => set({ virginiaData: data }),
+  setSeoulData: data =>
+    set(state => ({
+      seoulData: { ...state.seoulData, ...data },
+    })),
+  setLondonData: data =>
+    set(state => ({
+      londonData: { ...state.londonData, ...data },
+    })),
+  setVirginiaData: data =>
+    set(state => ({
+      virginiaData: { ...state.virginiaData, ...data },
+    })),
   setSelectedRegion: region => set(() => ({ selectedRegion: region })),
   setPingData: data => set({ pingData: data }),
   setTracerouteData: data => set({ tracerouteData: data }),
