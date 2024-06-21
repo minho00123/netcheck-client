@@ -21,23 +21,48 @@ export default function Reliability() {
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
   useEffect(() => {
-    async function getSeoulReliabilityData(url) {
+    async function fetchReliabilityData() {
       try {
-        const response = await axios.post(`${seoulServer}/result/reliability`, {
-          customId,
-          url,
-          serverRegion: "Seoul",
-        });
-        const data = response.data;
+        const [seoulResponse, virginiaResponse, londonResponse] =
+          await Promise.all([
+            axios.post(`${seoulServer}/result/reliability`, {
+              customId,
+              url,
+              serverRegion: "Seoul",
+            }),
+            axios.post(`${virginiaServer}/result/reliability`, {
+              customId,
+              url,
+              serverRegion: "Virginia",
+            }),
+            axios.post(`${londonServer}/result/reliability`, {
+              customId,
+              url,
+              serverRegion: "London",
+            }),
+          ]);
 
-        setSeoulData(data);
+        setSeoulData(seoulResponse.data);
+        setVirginiaData(virginiaResponse.data);
+        setLondonData(londonResponse.data);
       } catch (error) {
         console.error(error);
       }
     }
 
-    getSeoulReliabilityData(url);
+    fetchReliabilityData();
+  }, [
+    customId,
+    url,
+    seoulServer,
+    virginiaServer,
+    londonServer,
+    setSeoulData,
+    setVirginiaData,
+    setLondonData,
+  ]);
 
+  useEffect(() => {
     if (selectedRegion === "Seoul") {
       setReliabilityData(seoulData);
     } else if (selectedRegion === "Virginia") {
@@ -45,7 +70,7 @@ export default function Reliability() {
     } else if (selectedRegion === "London") {
       setReliabilityData(londonData);
     }
-  }, [url, customId, seoulData]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     reliabilityData && (
