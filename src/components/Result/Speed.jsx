@@ -36,39 +36,7 @@ export default function Speed() {
       }
     }
 
-    async function getVirginiaSpeedData(url) {
-      try {
-        const response = await axios.post(`${virginiaServer}/result/speed`, {
-          customId,
-          url,
-          serverRegion: "Virginia",
-        });
-        const data = response.data;
-
-        setVirginiaData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getLondonSpeedData(url) {
-      try {
-        const response = await axios.post(`${londonServer}/result/speed`, {
-          customId,
-          url,
-          serverRegion: "London",
-        });
-        const data = response.data;
-
-        setLondonData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
     getSeoulSpeedData(url);
-    getVirginiaSpeedData(url);
-    getLondonSpeedData(url);
 
     if (selectedRegion === "Seoul") {
       setSpeedData(seoulData);
@@ -77,7 +45,7 @@ export default function Speed() {
     } else if (selectedRegion === "London") {
       setSpeedData(londonData);
     }
-  }, [url, customId, speedData, seoulData, virginiaData, londonData]);
+  }, [url, customId, speedData, seoulData]);
 
   return (
     speedData && (

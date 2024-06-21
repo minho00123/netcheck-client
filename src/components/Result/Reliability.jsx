@@ -36,45 +36,7 @@ export default function Reliability() {
       }
     }
 
-    async function getVirginiaReliabilityData(url) {
-      try {
-        const response = await axios.post(
-          `${virginiaServer}/result/reliability`,
-          {
-            customId,
-            url,
-            serverRegion: "Virginia",
-          },
-        );
-        const data = response.data;
-
-        setVirginiaData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getLondonReliabilityData(url) {
-      try {
-        const response = await axios.post(
-          `${londonServer}/result/reliability`,
-          {
-            customId,
-            url,
-            serverRegion: "London",
-          },
-        );
-        const data = response.data;
-
-        setLondonData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
     getSeoulReliabilityData(url);
-    getVirginiaReliabilityData(url);
-    getLondonReliabilityData(url);
 
     if (selectedRegion === "Seoul") {
       setReliabilityData(seoulData);
@@ -83,7 +45,7 @@ export default function Reliability() {
     } else if (selectedRegion === "London") {
       setReliabilityData(londonData);
     }
-  }, [url, customId, reliabilityData, seoulData, virginiaData, londonData]);
+  }, [url, customId, seoulData]);
 
   return (
     reliabilityData && (

@@ -119,7 +119,7 @@ export default function Result() {
     getSeoulPingData(url);
     getVirginiaPingData(url);
     getLondonPingData(url);
-  }, [url, customId, setUrl]);
+  }, [url, customId]);
 
   useEffect(() => {
     if (tracerouteData && selectedRegion === "Seoul") {
