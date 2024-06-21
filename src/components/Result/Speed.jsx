@@ -21,23 +21,48 @@ export default function Speed() {
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
   useEffect(() => {
-    async function getSeoulSpeedData(url) {
+    async function fetchSpeedData() {
       try {
-        const response = await axios.post(`${seoulServer}/result/speed`, {
-          customId,
-          url,
-          serverRegion: "Seoul",
-        });
-        const data = response.data;
+        const [seoulResponse, virginiaResponse, londonResponse] =
+          await Promise.all([
+            axios.post(`${seoulServer}/result/speed`, {
+              customId,
+              url,
+              serverRegion: "Seoul",
+            }),
+            axios.post(`${virginiaServer}/result/speed`, {
+              customId,
+              url,
+              serverRegion: "Virginia",
+            }),
+            axios.post(`${londonServer}/result/speed`, {
+              customId,
+              url,
+              serverRegion: "London",
+            }),
+          ]);
 
-        setSeoulData(data);
+        setSeoulData(seoulResponse.data);
+        setVirginiaData(virginiaResponse.data);
+        setLondonData(londonResponse.data);
       } catch (error) {
         console.error(error);
       }
     }
 
-    getSeoulSpeedData(url);
+    fetchSpeedData();
+  }, [
+    customId,
+    url,
+    seoulServer,
+    virginiaServer,
+    londonServer,
+    setSeoulData,
+    setVirginiaData,
+    setLondonData,
+  ]);
 
+  useEffect(() => {
     if (selectedRegion === "Seoul") {
       setSpeedData(seoulData);
     } else if (selectedRegion === "Virginia") {
@@ -45,7 +70,7 @@ export default function Speed() {
     } else if (selectedRegion === "London") {
       setSpeedData(londonData);
     }
-  }, [url, customId, speedData, seoulData]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     speedData && (
