@@ -16,7 +16,14 @@ import Reliability from "./Reliability";
 export default function Result() {
   const { customId } = useParams();
   const [markers, setMarkers] = useState([]);
-  const { url, selectedRegion, setUrl } = useStore();
+  const {
+    url,
+    selectedRegion,
+    setUrl,
+    setSeoulData,
+    setLondonData,
+    setVirginiaData,
+  } = useStore();
   const [tracerouteData, setTracerouteData] = useState([]);
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
@@ -29,7 +36,6 @@ export default function Result() {
           url,
         });
         const data = response.data;
-        console.log("DATA: ", data);
 
         setTracerouteData(data);
       } catch (error) {
@@ -67,8 +73,53 @@ export default function Result() {
     //   }
     // }
 
-    getIdData(customId);
+    // getIdData(customId);
   }, [url, customId, setUrl, setTracerouteData]);
+
+  useEffect(() => {
+    async function getSeoulPingData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/ping`, {
+          url,
+        });
+        const data = response.data;
+
+        setSeoulData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function getVirginiaPingData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/ping`, {
+          url,
+        });
+        const data = response.data;
+
+        setVirginiaData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function getLondonPingData(url) {
+      try {
+        const response = await axios.post(`${seoulServer}/result/ping`, {
+          url,
+        });
+        const data = response.data;
+
+        setLondonData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getSeoulPingData(url);
+    getVirginiaPingData(url);
+    getLondonPingData(url);
+  }, [url, customId, setUrl]);
 
   useEffect(() => {
     if (tracerouteData && selectedRegion === "Seoul") {

@@ -79,11 +79,11 @@ export default function Reliability() {
     if (selectedRegion === "Seoul") {
       setReliabilityData(seoulData);
     } else if (selectedRegion === "Virginia") {
-      setReliabilityData(londonData);
-    } else if (selectedRegion === "London") {
       setReliabilityData(virginiaData);
+    } else if (selectedRegion === "London") {
+      setReliabilityData(londonData);
     }
-  }, [url, customId, reliabilityData]);
+  }, [url, customId, reliabilityData, seoulData, virginiaData, londonData]);
 
   return (
     reliabilityData && (
@@ -118,8 +118,14 @@ export default function Reliability() {
             <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Packet Loss</h3>
             <div className="w-full h-1px bg-gray"></div>
             <div className="mt-2 mx-5 mb-2">
-              <div className="mb-3 text-xl font-bold">N/A %</div>
-              <div className="text-sm">Sent: N/A / Received: N/A</div>
+              <div className="mb-3 text-xl font-bold">
+                {selectedRegion === "Seoul"
+                  ? seoulData?.packetLoss
+                  : selectedRegion === "Virginia"
+                    ? virginiaData?.packetLoss
+                    : londonData?.packetLoss}{" "}
+                %
+              </div>
             </div>
           </div>
         </div>

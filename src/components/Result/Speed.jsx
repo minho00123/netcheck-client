@@ -73,11 +73,11 @@ export default function Speed() {
     if (selectedRegion === "Seoul") {
       setSpeedData(seoulData);
     } else if (selectedRegion === "Virginia") {
-      setSpeedData(londonData);
-    } else if (selectedRegion === "London") {
       setSpeedData(virginiaData);
+    } else if (selectedRegion === "London") {
+      setSpeedData(londonData);
     }
-  }, [url, customId, speedData]);
+  }, [url, customId, speedData, seoulData, virginiaData, londonData]);
 
   return (
     speedData && (
@@ -89,15 +89,30 @@ export default function Speed() {
             <div className="w-full h-1px bg-gray"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">min: </span>
-              N/A ms
+              {selectedRegion === "Seoul"
+                ? seoulData?.min
+                : selectedRegion === "Virginia"
+                  ? virginiaData?.min
+                  : londonData?.min}{" "}
+              ms
             </p>
             <p className="mx-5 mb-2">
               <span className="text-blue font-bold">max: </span>
-              N/A ms
+              {selectedRegion === "Seoul"
+                ? seoulData?.max
+                : selectedRegion === "Virginia"
+                  ? virginiaData?.max
+                  : londonData?.max}{" "}
+              ms
             </p>
             <p className="mx-5 pb-2 ">
               <span className="text-blue font-bold">average: </span>
-              N/A ms
+              {selectedRegion === "Seoul"
+                ? seoulData?.avg
+                : selectedRegion === "Virginia"
+                  ? virginiaData?.avg
+                  : londonData?.avg}{" "}
+              ms
             </p>
           </div>
           <div className="rounded-2xl bg-white text-md text-center shadow-md">

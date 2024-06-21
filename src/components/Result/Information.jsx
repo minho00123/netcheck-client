@@ -81,9 +81,9 @@ export default function Information() {
     if (selectedRegion === "Seoul") {
       setInformationData(seoulData);
     } else if (selectedRegion === "Virginia") {
-      setInformationData(londonData);
-    } else if (selectedRegion === "London") {
       setInformationData(virginiaData);
+    } else if (selectedRegion === "London") {
+      setInformationData(londonData);
     }
   }, [url, customId, informationData]);
 

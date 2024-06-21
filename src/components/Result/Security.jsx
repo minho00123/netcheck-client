@@ -73,9 +73,9 @@ export default function Security() {
     if (selectedRegion === "Seoul") {
       setSecurityData(seoulData);
     } else if (selectedRegion === "Virginia") {
-      setSecurityData(londonData);
-    } else if (selectedRegion === "London") {
       setSecurityData(virginiaData);
+    } else if (selectedRegion === "London") {
+      setSecurityData(londonData);
     }
   }, [url, customId, securityData]);
 
