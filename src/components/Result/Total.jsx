@@ -36,10 +36,7 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-2 mx-5 mb-2">
                 <div className="mb-3 text-xl font-bold">
-                  {seoulData?.lossRate}%
-                </div>
-                <div className="text-sm">
-                  Sent: {seoulData?.sent} / Received: {seoulData?.received}
+                  {seoulData?.packetLoss}%
                 </div>
               </div>
             </div>
@@ -48,15 +45,15 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-2">
                 <span className="text-blue font-bold">min: </span>
-                {seoulData?.minLatency} ms
+                {seoulData?.min} ms
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">max: </span>
-                {seoulData?.maxLatency} ms
+                {seoulData?.max} ms
               </p>
               <p className="mx-5 pb-2 ">
                 <span className="text-blue font-bold">average: </span>
-                {seoulData?.averageLatency} ms
+                {seoulData?.avg} ms
               </p>
             </div>
             <div className="rounded-2xl bg-white text-md text-center shadow-md">
@@ -101,11 +98,7 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-2 mx-5 mb-2">
                 <div className="mb-3 text-xl font-bold">
-                  {virginiaData?.lossRate}%
-                </div>
-                <div className="text-sm">
-                  Sent: {virginiaData?.sent} / Received:{" "}
-                  {virginiaData?.received}
+                  {virginiaData?.packetLoss}%
                 </div>
               </div>
             </div>
@@ -114,15 +107,15 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-2">
                 <span className="text-blue font-bold">min: </span>
-                {virginiaData?.minLatency} ms
+                {virginiaData?.min} ms
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">max: </span>
-                {virginiaData?.maxLatency} ms
+                {virginiaData?.max} ms
               </p>
               <p className="mx-5 pb-2 ">
                 <span className="text-blue font-bold">average: </span>
-                {virginiaData?.averageLatency} ms
+                {virginiaData?.avg} ms
               </p>
             </div>
             <div className="rounded-2xl bg-white text-md text-center shadow-md">
@@ -168,10 +161,7 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <div className="mt-2 mx-5 mb-2">
                 <div className="mb-3 text-xl font-bold">
-                  {londonData?.lossRate}%
-                </div>
-                <div className="text-sm">
-                  Sent: {londonData?.sent} / Received: {londonData?.received}
+                  {londonData?.packetLoss}%
                 </div>
               </div>
             </div>
@@ -180,15 +170,15 @@ export default function Total() {
               <div className="w-full h-1px bg-gray"></div>
               <p className="mx-5 mt-2 mb-2">
                 <span className="text-blue font-bold">min: </span>
-                {londonData?.minLatency} ms
+                {londonData?.min} ms
               </p>
               <p className="mx-5 mb-2">
                 <span className="text-blue font-bold">max: </span>
-                {londonData?.maxLatency} ms
+                {londonData?.max} ms
               </p>
               <p className="mx-5 pb-2 ">
                 <span className="text-blue font-bold">average: </span>
-                {londonData?.averageLatency} ms
+                {londonData?.avg} ms
               </p>
             </div>
             <div className="rounded-2xl bg-white text-md text-center shadow-md">
