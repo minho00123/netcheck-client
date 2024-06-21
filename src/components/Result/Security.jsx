@@ -21,55 +21,48 @@ export default function Security() {
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
   useEffect(() => {
-    async function getSeoulSecurityData(url) {
+    async function fetchSecurityData() {
       try {
-        const response = await axios.post(`${seoulServer}/result/security`, {
-          customId,
-          url,
-          serverRegion: "Seoul",
-        });
-        const data = response.data;
+        const [seoulResponse, virginiaResponse, londonResponse] =
+          await Promise.all([
+            axios.post(`${seoulServer}/result/security`, {
+              customId,
+              url,
+              serverRegion: "Seoul",
+            }),
+            axios.post(`${virginiaServer}/result/security`, {
+              customId,
+              url,
+              serverRegion: "Virginia",
+            }),
+            axios.post(`${londonServer}/result/security`, {
+              customId,
+              url,
+              serverRegion: "London",
+            }),
+          ]);
 
-        setSeoulData(data);
+        setSeoulData(seoulResponse.data);
+        setVirginiaData(virginiaResponse.data);
+        setLondonData(londonResponse.data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching security data:", error);
       }
     }
 
-    async function getVirginiaSecurityData(url) {
-      try {
-        const response = await axios.post(`${virginiaServer}/result/security`, {
-          customId,
-          url,
-          serverRegion: "Virginia",
-        });
-        const data = response.data;
+    fetchSecurityData();
+  }, [
+    customId,
+    url,
+    seoulServer,
+    virginiaServer,
+    londonServer,
+    setSeoulData,
+    setVirginiaData,
+    setLondonData,
+  ]);
 
-        setVirginiaData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getLondonSecurityData(url) {
-      try {
-        const response = await axios.post(`${londonServer}/result/security`, {
-          customId,
-          url,
-          serverRegion: "London",
-        });
-        const data = response.data;
-
-        setLondonData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getSeoulSecurityData(url);
-    getVirginiaSecurityData(url);
-    getLondonSecurityData(url);
-
+  useEffect(() => {
     if (selectedRegion === "Seoul") {
       setSecurityData(seoulData);
     } else if (selectedRegion === "Virginia") {
@@ -77,7 +70,7 @@ export default function Security() {
     } else if (selectedRegion === "London") {
       setSecurityData(londonData);
     }
-  }, [url, customId, securityData]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     <div className="flex flex-col justify-center mr-4 my-5 p-4 rounded-xl bg-blue-light shadow-md">

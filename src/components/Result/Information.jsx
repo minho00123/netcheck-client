@@ -21,63 +21,48 @@ export default function Information() {
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
   useEffect(() => {
-    async function getSeoulInformationData(url) {
+    async function fetchInformationData() {
       try {
-        const response = await axios.post(`${seoulServer}/result/information`, {
-          customId,
-          url,
-          serverRegion: "Seoul",
-        });
-        const data = response.data;
+        const [seoulResponse, virginiaResponse, londonResponse] =
+          await Promise.all([
+            axios.post(`${seoulServer}/result/information`, {
+              customId,
+              url,
+              serverRegion: "Seoul",
+            }),
+            axios.post(`${virginiaServer}/result/information`, {
+              customId,
+              url,
+              serverRegion: "Virginia",
+            }),
+            axios.post(`${londonServer}/result/information`, {
+              customId,
+              url,
+              serverRegion: "London",
+            }),
+          ]);
 
-        setSeoulData(data);
+        setSeoulData(seoulResponse.data);
+        setVirginiaData(virginiaResponse.data);
+        setLondonData(londonResponse.data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching information data:", error);
       }
     }
 
-    async function getVirginiaInformationData(url) {
-      try {
-        const response = await axios.post(
-          `${virginiaServer}/result/information`,
-          {
-            customId,
-            url,
-            serverRegion: "Virginia",
-          },
-        );
-        const data = response.data;
+    fetchInformationData();
+  }, [
+    customId,
+    url,
+    seoulServer,
+    virginiaServer,
+    londonServer,
+    setSeoulData,
+    setVirginiaData,
+    setLondonData,
+  ]);
 
-        setVirginiaData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    async function getLondonInformationData(url, server, serverRegion) {
-      try {
-        const response = await axios.post(
-          `${londonServer}/result/information`,
-          {
-            customId,
-            url,
-            serverRegion: "London",
-          },
-        );
-        const data = response.data;
-
-        setInformationData(data);
-
-        setLondonData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getSeoulInformationData(url);
-    getVirginiaInformationData(url);
-    getLondonInformationData(url);
-
+  useEffect(() => {
     if (selectedRegion === "Seoul") {
       setInformationData(seoulData);
     } else if (selectedRegion === "Virginia") {
@@ -85,7 +70,7 @@ export default function Information() {
     } else if (selectedRegion === "London") {
       setInformationData(londonData);
     }
-  }, [url, customId, informationData]);
+  }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
     informationData && (
