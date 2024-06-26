@@ -74,9 +74,9 @@ export default function Reliability() {
 
   return (
     reliabilityData && (
-      <div className="flex flex-col justify-center mx-4 p-4 rounded-xl bg-blue-light shadow-md">
+      <div className="flex flex-col justify-center mt-4 mx-4 p-4 rounded-xl bg-blue-light shadow-md">
         <h2 className="text-xl font-bold">Reliability</h2>
-        <div className="flex mt-2">
+        <div className="flex justify-around mt-2">
           <div className="mr-4 rounded-2xl bg-white text-md text-center shadow-md">
             <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Availability</h3>
             <div className="w-full h-1px bg-gray"></div>

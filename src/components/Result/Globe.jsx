@@ -81,5 +81,5 @@ export default function Globe({ markers }) {
 
     drawMap();
   }, [markers]);
-  return <svg ref={svgRef} width={600} height={400} />;
+  return <svg ref={svgRef} width={800} height={400} />;
 }

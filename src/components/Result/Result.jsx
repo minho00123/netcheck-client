@@ -10,8 +10,9 @@ import Loading from "../Common/Loading";
 import History from "./History";
 import Sidebar from "../Common/Sidebar";
 import Security from "./Security";
-import Information from "./Information";
+import Network from "./Network";
 import Reliability from "./Reliability";
+import BasicInformation from "./BasicInfomration";
 
 export default function Result() {
   const { customId } = useParams();
@@ -24,10 +25,40 @@ export default function Result() {
     setLondonData,
     setVirginiaData,
   } = useStore();
+  const [basicInformation, setBasicInformation] = useState({});
   const [tracerouteData, setTracerouteData] = useState([]);
   const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
   const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
   const londonServer = import.meta.env.VITE_LONDON_SERVER;
+
+  useEffect(() => {
+    async function getBasicInformationData(url, server) {
+      try {
+        const response = await axios.post(`${server}/result/basicInformation`, {
+          url,
+        });
+
+        setBasicInformation(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (selectedRegion === "Seoul") {
+      getBasicInformationData(url, seoulServer, "Seoul");
+    } else if (selectedRegion === "Virginia") {
+      getBasicInformationData(url, virginiaServer, "Virginia");
+    } else if (selectedRegion === "London") {
+      getBasicInformationData(url, londonServer, "London");
+    }
+  }, [
+    url,
+    customId,
+    selectedRegion,
+    seoulServer,
+    virginiaServer,
+    londonServer,
+  ]);
 
   useEffect(() => {
     async function getTracerouteData(url, server) {
@@ -51,30 +82,37 @@ export default function Result() {
       getTracerouteData(url, londonServer, "London");
     }
 
-    // async function getIdData(customId) {
-    //   try {
-    //     const response = await axios.post(`${seoulServer}/history/id`, {
-    //       customId,
-    //     });
-    //     if (response.data && response.data.length > 0) {
-    //       setUrl(response.data[0].url);
-    //       response.data.forEach(data => {
-    //         if (data.serverRegion === "Seoul") {
-    //           setSeoulData(data);
-    //         } else if (data.serverRegion === "Virginia") {
-    //           setVirginiaData(data);
-    //         } else if (data.serverRegion === "London") {
-    //           setLondonData(data);
-    //         }
-    //       });
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
+    async function getIdData(customId) {
+      try {
+        const response = await axios.post(`${seoulServer}/history/id`, {
+          customId,
+        });
+        if (response.data && response.data.length > 0) {
+          setUrl(response.data[0].url);
+          response.data.forEach(data => {
+            if (data.serverRegion === "Seoul") {
+              setSeoulData(data);
+            } else if (data.serverRegion === "Virginia") {
+              setVirginiaData(data);
+            } else if (data.serverRegion === "London") {
+              setLondonData(data);
+            }
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-    // getIdData(customId);
-  }, [url, customId, setUrl, setTracerouteData]);
+    getIdData(customId);
+  }, [
+    customId,
+    seoulServer,
+    setUrl,
+    setSeoulData,
+    setVirginiaData,
+    setLondonData,
+  ]);
 
   useEffect(() => {
     async function getSeoulPingData(url) {
@@ -92,7 +130,7 @@ export default function Result() {
 
     async function getVirginiaPingData(url) {
       try {
-        const response = await axios.post(`${seoulServer}/result/ping`, {
+        const response = await axios.post(`${virginiaServer}/result/ping`, {
           url,
         });
         const data = response.data;
@@ -105,7 +143,7 @@ export default function Result() {
 
     async function getLondonPingData(url) {
       try {
-        const response = await axios.post(`${seoulServer}/result/ping`, {
+        const response = await axios.post(`${londonServer}/result/ping`, {
           url,
         });
         const data = response.data;
@@ -119,7 +157,16 @@ export default function Result() {
     getSeoulPingData(url);
     getVirginiaPingData(url);
     getLondonPingData(url);
-  }, [url, customId]);
+  }, [
+    url,
+    customId,
+    seoulServer,
+    virginiaServer,
+    londonServer,
+    setSeoulData,
+    setVirginiaData,
+    setLondonData,
+  ]);
 
   useEffect(() => {
     if (tracerouteData && selectedRegion === "Seoul") {
@@ -138,15 +185,15 @@ export default function Result() {
 
       setMarkers(temp);
     }
-  }, [selectedRegion, tracerouteData]);
+  }, [selectedRegion, tracerouteData, basicInformation]);
 
   return (
-    <div className="flex h-100vh">
+    <div className="flex">
       <Sidebar />
       <div className="w-full" data-testid="network-info">
         <Header />
         <h1 className="text-2xl text-center font-bold">
-          This is the network information of your website,{" "}
+          The network information of website for{" "}
           <span className="text-blue">{`${url}`}</span>
         </h1>
         {selectedRegion === "History" ? (
@@ -155,15 +202,18 @@ export default function Result() {
           <Total />
         ) : (
           <>
-            <div className="flex justify-evenly">
-              <Information />
-              <Security />
+            <div className="flex justify-evenly w-full">
+              <BasicInformation />
+            </div>
+            <div className="flex flex-col justify-evenly w-full">
+              <div className="flex-1 p-2">
+                <Network />
+              </div>
+              <div className="flex-1 p-2">
+                <Security />
+              </div>
             </div>
             <div className="flex justify-evenly">
-              <div>
-                <Reliability />
-                <Speed />
-              </div>
               {markers && <Globe markers={markers} />}
             </div>
           </>

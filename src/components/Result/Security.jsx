@@ -73,36 +73,91 @@ export default function Security() {
   }, [selectedRegion, seoulData, virginiaData, londonData]);
 
   return (
-    <div className="flex flex-col justify-center mr-4 my-5 p-4 rounded-xl bg-blue-light shadow-md">
-      <h2 className="text-xl font-bold">Security</h2>
-      <div className="flex mt-2">
-        <div className="mr-4 rounded-2xl bg-white text-md shadow-md">
-          <h3 className="mx-5 mb-1 pt-2 text-lg text-center font-bold">
-            SSL Certificate
-          </h3>
+    <div className="flex flex-col justify-center mr-4 p-4 rounded-xl bg-blue-light shadow-md">
+      <h2 className="text-xl font-bold">SSL/TLS</h2>
+      <div className="flex flex-col mt-2">
+        <div className="flex">
+          <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+            <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Subject</h3>
+            <div className="w-full h-1px bg-gray"></div>
+            <p className="mx-5 mt-2 mb-2">
+              <span className="text-blue font-bold">Common Name: </span>
+              {securityData.subject && securityData.subject.commonName}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">Organization: </span>
+              {securityData.subject && securityData.subject.organization}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">State: </span>
+              {securityData.subject && securityData.subject.state}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">Country: </span>
+              {securityData.subject && securityData.subject.country}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">Location: </span>
+              {securityData.subject && securityData.subject.location}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">
+                Subject Alternative Name:{" "}
+              </span>
+              {securityData && securityData.subjectaltname}
+            </p>
+          </div>
+          <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+            <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Issuer</h3>
+            <div className="w-full h-1px bg-gray"></div>
+            <p className="mx-5 mt-2 mb-2">
+              <span className="text-blue font-bold">Common Name: </span>
+              {securityData.issuer && securityData.issuer.commonName}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">Organization: </span>
+              {securityData.issuer && securityData.issuer.organization}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">State: </span>
+              {securityData.issuer && securityData.issuer.state}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">Country: </span>
+              {securityData.issuer && securityData.issuer.country}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">Location: </span>
+              {securityData.issuer && securityData.issuer.location}
+            </p>
+            <p className="mx-5 pb-2">
+              <span className="text-blue font-bold">CA Issuers: </span>
+              {securityData && securityData.caIssuers}
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+          <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Other</h3>
           <div className="w-full h-1px bg-gray"></div>
           <p className="mx-5 mt-2 mb-2">
-            <span className="text-blue font-bold">Issuer: </span>
-            {securityData ? securityData.issuer : "N/A"}
+            <span className="text-blue font-bold">Publick Key Size: </span>
+            {securityData && securityData.publicKeySize}
           </p>
           <p className="mx-5 pb-2">
-            <span className="text-blue font-bold">Expiry Date: </span>
-            {securityData ? securityData.expiryDate : "N/A"}
+            <span className="text-blue font-bold">Public Key: </span>
+            {securityData && securityData.publicKey}
           </p>
-        </div>
-        <div className="rounded-2xl bg-white text-md shadow-md">
-          <h3 className="mx-5 mt-2 mb-1 text-lg text-center font-bold">
-            HTTP Header Analysis
-          </h3>
-          <div className="w-full h-1px bg-gray"></div>
-
-          <p className="mt-2 mx-5 mb-1">
-            <span className="text-blue font-bold">CSP: </span>
-            {securityData && (securityData.csp ? securityData.csp : "none")}
+          <p className="mx-5 pb-2">
+            <span className="text-blue font-bold">Serial Number: </span>
+            {securityData && securityData.serialNumber}
           </p>
-          <p className="mx-5">
-            <span className="text-blue font-bold">HSTS: </span>
-            {securityData && (securityData.hsts ? securityData.hsts : "none")}
+          <p className="mx-5 pb-2">
+            <span className="text-blue font-bold">Valid From: </span>
+            {securityData && securityData.validFrom}
+          </p>
+          <p className="mx-5 pb-2">
+            <span className="text-blue font-bold">Valid To: </span>
+            {securityData && securityData.validTo}
           </p>
         </div>
       </div>

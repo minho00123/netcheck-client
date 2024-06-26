@@ -29,7 +29,7 @@ export default function Sidebar() {
     }`;
 
   return (
-    <section className="w-1/4 h-full p-5 bg-blue-light">
+    <section className="w-1/4 h-96 p-5 bg-blue-light">
       <Link
         to="/"
         className="flex justify-center align-center"
