@@ -45,7 +45,9 @@ export default function Traceroute() {
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
-        <h2 className="text-xl font-bold">Traceroute</h2>
+        <h2 className="text-xl font-bold">
+          Traceroute<sup>?</sup>
+        </h2>
         {showTooltip && (
           <div className="absolute left-0 mt-2 w-64 p-2 bg-black text-white text-sm rounded-md shadow-md">
             Traceroute is a tool used to trace the path of data packets across a
