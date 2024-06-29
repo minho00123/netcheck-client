@@ -1,19 +1,21 @@
-import useStore from "../../store/store";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import logoImage from "../../assets/logo.png";
 import { FaHistory } from "react-icons/fa";
 import { IoInformationCircleOutline } from "react-icons/io5";
+import useStore from "../../store/store";
 
 export default function Sidebar() {
   const { setUrl, selectedButton, setSelectedButton } = useStore();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogoClick = () => {
-    setUrl("");
-    setSelectedButton("Information");
+    setSidebarOpen(false); // Close sidebar when logo is clicked
   };
 
   const handleButtonClick = selection => {
-    setSelectedButton(selection);
+    setSidebarOpen(false); // Close sidebar when a button is clicked
+    setSelectedButton(selection); // Update selected button
   };
 
   const buttonClass = selection =>
@@ -24,7 +26,29 @@ export default function Sidebar() {
     }`;
 
   return (
-    <section className="w-1/5 h-96 p-5 bg-blue-light">
+    <section
+      className={`w-1/5 h-96 p-5 bg-blue-light ${sidebarOpen ? "block" : "hidden"} lg:block`}
+    >
+      <div className="lg:hidden text-right pr-3 pt-3">
+        <button
+          className="text-white"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
+      </div>
       <Link
         to="/"
         className="flex justify-center align-center"

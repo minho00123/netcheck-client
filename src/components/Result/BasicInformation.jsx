@@ -34,8 +34,8 @@ export default function BasicInformation() {
   return (
     <div className="flex flex-col justify-center w-full mx-4 my-3 p-4 rounded-xl bg-blue-light shadow-md">
       <h2 className="text-xl font-bold">Basic Information</h2>
-      <div className="flex mt-2">
-        <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md">
+      <div className="flex mt-2 max-md:flex-col max-md:items-center">
+        <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md max-md:w-full">
           <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Background</h3>
           <div className="w-full h-[1.5px] bg-black"></div>
           <p className="mx-5 mt-2 mb-2">
@@ -47,7 +47,7 @@ export default function BasicInformation() {
             {basicInformation?.siteDescription || "N/A"}
           </p>
         </div>
-        <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md">
+        <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md max-md:mt-2 max-md:w-full">
           <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Availability</h3>
           <div className="w-full h-[1.5px] bg-black"></div>
           <p className="mx-5 mt-2 mb-1">

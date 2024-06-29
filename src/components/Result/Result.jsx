@@ -68,7 +68,7 @@ export default function Result() {
       <Sidebar />
       <div className="w-full" data-testid="network-info">
         <Header />
-        <h1 className="text-2xl text-center font-bold">
+        <h1 className="text-2xl text-center font-bold max-sm:text-lg">
           The network information of website for{" "}
           <span className="text-blue">{`${url}`}</span>
         </h1>

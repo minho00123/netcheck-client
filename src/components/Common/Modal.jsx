@@ -87,7 +87,7 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
           className="flex flex-col items-center border-blue border-2 rounded-xl bg-white p-5"
           onClick={e => e.stopPropagation()}
         >
-          <h2 className="flex items-center text-2xl font-bold">
+          <h2 className="flex items-center text-2xl font-bold max-sm:text-sm">
             Share with your friends using the link
             <span
               className="ml-2 cursor-pointer flex items-center"
@@ -97,7 +97,7 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
             </span>
           </h2>
           <p className="text-lg">or</p>
-          <h2 className="text-2xl font-bold">Using the email</h2>
+          <h2 className="text-2xl font-bold max-sm:text-sm">Using the email</h2>
           <form
             onSubmit={shareResult}
             className="flex flex-col items-center w-full"

@@ -45,7 +45,7 @@ export default function Input() {
         <input
           ref={inputRef}
           type="text"
-          className="w-full p-2 border-b-4 border-gray text-center text-sm md:text-xl lg:text-2xl placeholder-gray focus:outline-none focus:border-blue focus:placeholder-opacity-0"
+          className="w-full p-2 border-b-4 border-gray text-center text-sm md:text-xl lg:text-2xl placeholder-gray focus:outline-none focus:border-blue focus:placeholder-opacity-0 max-sm:border-b-2"
           placeholder="Write the URL here (ex. https://www.example.com)"
         />
         {showWarning && (

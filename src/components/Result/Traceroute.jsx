@@ -48,15 +48,16 @@ export default function Traceroute() {
         <h2 className="text-xl font-bold">Traceroute</h2>
         {showTooltip && (
           <div className="absolute left-0 mt-2 w-64 p-2 bg-black text-white text-sm rounded-md shadow-md">
-            Traceroute는 네트워크 경로를 추적하여 각 홉에서의 응답 시간을
-            측정하는 도구입니다.
+            Traceroute is a tool used to trace the path of data packets across a
+            network, measuring the response time at each hop. An asterisk (*)
+            indicates a timeout or no response from that hop.
           </div>
         )}
       </div>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="w-full mt-2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+        <div className="w-full mt-2 mr-4 rounded-2xl bg-white text-md shadow-md break-words max-sm:text-sm">
           <table className="w-full text-center">
             <thead>
               <tr className="border-b-2">
@@ -67,14 +68,12 @@ export default function Traceroute() {
                 <th>RTT</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="max-sm:text-xs">
               {tracerouteData.map(data => (
                 <tr
                   key={data.hop}
                   className={
-                    data.hop !== tracerouteData.length - 1
-                      ? "border-b-[1px]"
-                      : ""
+                    data.hop !== tracerouteData.length ? "border-b-[1px]" : ""
                   }
                 >
                   <td>{data.hop}</td>

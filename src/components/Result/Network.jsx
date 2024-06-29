@@ -68,8 +68,8 @@ export default function Information() {
   return (
     <div className="flex flex-col justify-center mx-4 mb-3 p-4 rounded-xl bg-blue-light shadow-md">
       <h2 className="text-xl font-bold">Network</h2>
-      <div className="flex mt-2">
-        <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+      <div className="flex mt-2 max-md:flex-col max-md:justify-center">
+        <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words max-md:w-full">
           <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Domain</h3>
           <div className="w-full h-[1.5px] bg-black"></div>
           <p className="mx-5 mt-2 mb-2">
@@ -103,7 +103,7 @@ export default function Information() {
             {domainData ? domainData.nameServers.join(", ") : "N/A"}
           </p>
         </div>
-        <div className="flex flex-col justify-between w-1/2">
+        <div className="flex flex-col justify-between w-1/2 max-md:w-full max-md:mt-4">
           <div className="mb-4 mr-4 py-1 rounded-2xl bg-white text-md shadow-md">
             <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">IP Address</h3>
             <div className="w-full h-[1.5px] bg-black"></div>
@@ -128,8 +128,8 @@ export default function Information() {
               </p>
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="w-1/3 mr-4 rounded-2xl bg-white text-md shadow-md">
+          <div className="flex justify-between max-md:flex-col">
+            <div className="w-1/3 mr-4 rounded-2xl bg-white text-md shadow-md max-md:w-full">
               <h3 className="mx-5 mt-2 mb-1 text-lg font-bold">Packet Loss</h3>
               <div className="w-full h-[1.5px] bg-black"></div>
               <div className="mt-10 mx-5 mb-2 text-center">
@@ -138,7 +138,7 @@ export default function Information() {
                 </div>
               </div>
             </div>
-            <div className="w-1/3 mr-4 rounded-2xl bg-white text-md shadow-md">
+            <div className="w-1/3 mr-4 rounded-2xl bg-white text-md shadow-md max-md:w-full max-md:mt-4">
               <h3 className="mx-5 mb-1 pt-2 font-bold text-lg">Latency</h3>
               <div className="w-full h-[1.5px] bg-black"></div>
               <p className="mx-5 mt-2 mb-2">
@@ -154,7 +154,7 @@ export default function Information() {
                 {pingData ? pingData.avg : "N/A"} ms
               </p>
             </div>
-            <div className="w-1/3 rounded-2xl bg-white text-md shadow-md">
+            <div className="w-1/3 rounded-2xl bg-white text-md shadow-md max-md:w-full max-md:mt-4">
               <h3 className="mx-5 mt-2 mb-1 font-bold text-lg">Bandwidth</h3>
               <div className="w-full h-[1.5px] bg-black"></div>
               <div className="mt-7 mx-5 mt-2 text-center">

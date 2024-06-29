@@ -35,8 +35,8 @@ export default function Security() {
     <div className="flex flex-col justify-center mr-4 p-4 rounded-xl bg-blue-light shadow-md">
       <h2 className="text-xl font-bold">SSL/TLS</h2>
       <div className="flex flex-col mt-2">
-        <div className="flex">
-          <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+        <div className="flex max-sm:flex-col">
+          <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words max-sm:w-full">
             <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Subject</h3>
             <div className="w-full h-[1.5px] bg-black"></div>
             <p className="mx-5 mt-2 mb-2">
@@ -66,7 +66,7 @@ export default function Security() {
               {securityData?.subjectaltname || "N/A"}
             </p>
           </div>
-          <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+          <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words max-sm:w-full max-sm:mt-4">
             <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Issuer</h3>
             <div className="w-full h-[1.5px] bg-black"></div>
             <p className="mx-5 mt-2 mb-2">
@@ -95,7 +95,7 @@ export default function Security() {
             </p>
           </div>
         </div>
-        <div className="mt-4 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
+        <div className="mt-4 mr-4 rounded-2xl bg-white text-md shadow-md break-words max-sm:w-full">
           <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Other</h3>
           <div className="w-full h-[1.5px] bg-black"></div>
           <p className="mx-5 mt-2 mb-2">
