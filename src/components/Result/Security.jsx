@@ -1,76 +1,35 @@
 import axios from "axios";
-import useStore from "../../store/store";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import useStore from "../../store/store";
 
 export default function Security() {
-  const { customId } = useParams();
-  const {
-    url,
-    seoulData,
-    virginiaData,
-    londonData,
-    selectedRegion,
-    setSeoulData,
-    setLondonData,
-    setVirginiaData,
-  } = useStore();
+  const { url, setData, historyData } = useStore();
   const [securityData, setSecurityData] = useState({});
-  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
-  const virginiaServer = import.meta.env.VITE_VIRGINIA_SERVER;
-  const londonServer = import.meta.env.VITE_LONDON_SERVER;
 
   useEffect(() => {
-    async function fetchSecurityData() {
-      try {
-        const [seoulResponse, virginiaResponse, londonResponse] =
-          await Promise.all([
-            axios.post(`${seoulServer}/result/security`, {
-              customId,
-              url,
-              serverRegion: "Seoul",
-            }),
-            axios.post(`${virginiaServer}/result/security`, {
-              customId,
-              url,
-              serverRegion: "Virginia",
-            }),
-            axios.post(`${londonServer}/result/security`, {
-              customId,
-              url,
-              serverRegion: "London",
-            }),
-          ]);
+    async function fetchSecurityData(url) {
+      if (historyData && historyData.security) {
+        setSecurityData(historyData.security);
+        return;
+      }
 
-        setSeoulData(seoulResponse.data);
-        setVirginiaData(virginiaResponse.data);
-        setLondonData(londonResponse.data);
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_SERVER}/result/security`,
+          { url },
+        );
+
+        setSecurityData(response.data);
+        setData({ security: response.data });
       } catch (error) {
         console.error("Error fetching security data:", error);
       }
     }
 
-    fetchSecurityData();
-  }, [
-    customId,
-    url,
-    seoulServer,
-    virginiaServer,
-    londonServer,
-    setSeoulData,
-    setVirginiaData,
-    setLondonData,
-  ]);
-
-  useEffect(() => {
-    if (selectedRegion === "Seoul") {
-      setSecurityData(seoulData);
-    } else if (selectedRegion === "Virginia") {
-      setSecurityData(virginiaData);
-    } else if (selectedRegion === "London") {
-      setSecurityData(londonData);
+    if (url) {
+      fetchSecurityData(url);
     }
-  }, [selectedRegion, seoulData, virginiaData, londonData]);
+  }, [url, historyData, setData]);
 
   return (
     <div className="flex flex-col justify-center mr-4 p-4 rounded-xl bg-blue-light shadow-md">
@@ -79,85 +38,85 @@ export default function Security() {
         <div className="flex">
           <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
             <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Subject</h3>
-            <div className="w-full h-1px bg-gray"></div>
+            <div className="w-full h-[1.5px] bg-black"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">Common Name: </span>
-              {securityData.subject && securityData.subject.commonName}
+              {securityData?.subject?.commonName || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">Organization: </span>
-              {securityData.subject && securityData.subject.organization}
+              {securityData?.subject?.organization || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">State: </span>
-              {securityData.subject && securityData.subject.state}
+              {securityData?.subject?.state || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">Country: </span>
-              {securityData.subject && securityData.subject.country}
+              {securityData?.subject?.country || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">Location: </span>
-              {securityData.subject && securityData.subject.location}
+              {securityData?.subject?.location || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">
                 Subject Alternative Name:{" "}
               </span>
-              {securityData && securityData.subjectaltname}
+              {securityData?.subjectaltname || "N/A"}
             </p>
           </div>
           <div className="w-1/2 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
             <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Issuer</h3>
-            <div className="w-full h-1px bg-gray"></div>
+            <div className="w-full h-[1.5px] bg-black"></div>
             <p className="mx-5 mt-2 mb-2">
               <span className="text-blue font-bold">Common Name: </span>
-              {securityData.issuer && securityData.issuer.commonName}
+              {securityData?.issuer?.commonName || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">Organization: </span>
-              {securityData.issuer && securityData.issuer.organization}
+              {securityData?.issuer?.organization || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">State: </span>
-              {securityData.issuer && securityData.issuer.state}
+              {securityData?.issuer?.state || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">Country: </span>
-              {securityData.issuer && securityData.issuer.country}
+              {securityData?.issuer?.country || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">Location: </span>
-              {securityData.issuer && securityData.issuer.location}
+              {securityData?.issuer?.location || "N/A"}
             </p>
             <p className="mx-5 pb-2">
               <span className="text-blue font-bold">CA Issuers: </span>
-              {securityData && securityData.caIssuers}
+              {securityData?.caIssuers || "N/A"}
             </p>
           </div>
         </div>
         <div className="mt-4 mr-4 rounded-2xl bg-white text-md shadow-md break-words">
           <h3 className="mx-5 mb-1 pt-2 text-lg font-bold">Other</h3>
-          <div className="w-full h-1px bg-gray"></div>
+          <div className="w-full h-[1.5px] bg-black"></div>
           <p className="mx-5 mt-2 mb-2">
-            <span className="text-blue font-bold">Publick Key Size: </span>
-            {securityData && securityData.publicKeySize}
+            <span className="text-blue font-bold">Public Key Size: </span>
+            {securityData?.publicKeySize || "N/A"}
           </p>
           <p className="mx-5 pb-2">
             <span className="text-blue font-bold">Public Key: </span>
-            {securityData && securityData.publicKey}
+            {securityData?.publicKey || "N/A"}
           </p>
           <p className="mx-5 pb-2">
             <span className="text-blue font-bold">Serial Number: </span>
-            {securityData && securityData.serialNumber}
+            {securityData?.serialNumber || "N/A"}
           </p>
           <p className="mx-5 pb-2">
             <span className="text-blue font-bold">Valid From: </span>
-            {securityData && securityData.validFrom}
+            {securityData?.validFrom || "N/A"}
           </p>
           <p className="mx-5 pb-2">
             <span className="text-blue font-bold">Valid To: </span>
-            {securityData && securityData.validTo}
+            {securityData?.validTo || "N/A"}
           </p>
         </div>
       </div>

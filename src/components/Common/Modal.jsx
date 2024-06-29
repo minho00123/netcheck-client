@@ -2,13 +2,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "./Loading";
+import { HiLink } from "react-icons/hi";
 
 export default function Modal({ isOpen, onClose, setIsModalOpen }) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [emailValid, setEmailValid] = useState(true);
+  const [isCopied, setIsCopied] = useState(false);
   const { id } = useParams();
-  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
 
   if (!isOpen) {
     return null;
@@ -22,7 +23,7 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
   };
 
   async function shareResult(event) {
-    event.preventDefault();
+    event.preventPreventDefault();
     setIsLoading(true);
 
     if (!validateEmail(email)) {
@@ -35,10 +36,13 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
     setEmailValid(true);
 
     try {
-      const response = await axios.post(`${seoulServer}/share`, {
-        email,
-        customId: id,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER}/share`,
+        {
+          email,
+          customId: id,
+        },
+      );
 
       if (response.statusText === "OK") {
         setIsModalOpen(false);
@@ -58,6 +62,19 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
     }
   }
 
+  function copyToClipboard() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(
+      () => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 1000);
+      },
+      error => {
+        console.error(error);
+      },
+    );
+  }
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center"
@@ -67,11 +84,24 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
         <Loading text="Sending Email" />
       ) : (
         <div
-          className="border-blue border-2 rounded-xl bg-white p-5"
+          className="flex flex-col items-center border-blue border-2 rounded-xl bg-white p-5"
           onClick={e => e.stopPropagation()}
         >
-          <h2 className="text-2xl font-bold">Share with your friends</h2>
-          <form onSubmit={shareResult} className="flex flex-col items-center">
+          <h2 className="flex items-center text-2xl font-bold">
+            Share with your friends using the link
+            <span
+              className="ml-2 cursor-pointer flex items-center"
+              onClick={copyToClipboard}
+            >
+              {isCopied ? <span className="text-sm">copied!</span> : <HiLink />}
+            </span>
+          </h2>
+          <p className="text-lg">or</p>
+          <h2 className="text-2xl font-bold">Using the email</h2>
+          <form
+            onSubmit={shareResult}
+            className="flex flex-col items-center w-full"
+          >
             <input
               type="email"
               placeholder="Write the email here."

@@ -1,35 +1,30 @@
 import useStore from "../../store/store";
 import { Link } from "react-router-dom";
 import logoImage from "../../assets/logo.png";
-import { IoEarth } from "react-icons/io5";
 import { FaHistory } from "react-icons/fa";
-import {
-  HiGlobeAsiaAustralia,
-  HiGlobeAmericas,
-  HiGlobeEuropeAfrica,
-} from "react-icons/hi2";
+import { IoInformationCircleOutline } from "react-icons/io5";
 
 export default function Sidebar() {
-  const { setUrl, selectedRegion, setSelectedRegion } = useStore();
+  const { setUrl, selectedButton, setSelectedButton } = useStore();
 
   const handleLogoClick = () => {
     setUrl("");
-    setSelectedRegion("Seoul");
+    setSelectedButton("Information");
   };
 
-  const handleRegionClick = region => {
-    setSelectedRegion(region);
+  const handleButtonClick = selection => {
+    setSelectedButton(selection);
   };
 
-  const buttonClass = region =>
+  const buttonClass = selection =>
     `flex items-center w-full p-3 rounded-lg text-md font-bold ${
-      selectedRegion === region
+      selectedButton === selection
         ? "bg-blue text-white"
         : "text-gray hover:bg-blue hover:text-white"
     }`;
 
   return (
-    <section className="w-1/4 h-96 p-5 bg-blue-light">
+    <section className="w-1/5 h-96 p-5 bg-blue-light">
       <Link
         to="/"
         className="flex justify-center align-center"
@@ -38,36 +33,15 @@ export default function Sidebar() {
         <img src={logoImage} alt="logo" className="h-10 mt-3 mb-20" />
       </Link>
       <button
-        className={buttonClass("Seoul")}
-        onClick={() => handleRegionClick("Seoul")}
+        className={buttonClass("Information")}
+        onClick={() => handleButtonClick("Information")}
       >
-        <HiGlobeAsiaAustralia className="mr-1" />
-        North East Asia (Seoul)
-      </button>
-      <button
-        className={buttonClass("Virginia")}
-        onClick={() => handleRegionClick("Virginia")}
-      >
-        <HiGlobeAmericas className="mr-1" />
-        US - East (Virginia)
-      </button>
-      <button
-        className={buttonClass("London")}
-        onClick={() => handleRegionClick("London")}
-      >
-        <HiGlobeEuropeAfrica className="mr-1" />
-        Europe (London)
-      </button>
-      <button
-        className={buttonClass("Total")}
-        onClick={() => handleRegionClick("Total")}
-      >
-        <IoEarth className="mr-1" />
-        Total
+        <IoInformationCircleOutline className="mr-1" />
+        Information
       </button>
       <button
         className={buttonClass("History")}
-        onClick={() => handleRegionClick("History")}
+        onClick={() => handleButtonClick("History")}
       >
         <FaHistory className="mr-1" />
         History

@@ -8,13 +8,15 @@ export default function History() {
   const [historyData, setHistoryData] = useState([]);
   const [colorMapping, setColorMapping] = useState({});
   const [selectedRegion, setSelectedRegion] = useState("All");
-  const seoulServer = import.meta.env.VITE_SEOUL_SERVER;
 
   useEffect(() => {
     async function getHistoryData(url) {
-      const response = await axios.post(`${seoulServer}/history/all`, {
-        url,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER}/history/all`,
+        {
+          url,
+        },
+      );
       const sortedData = sortData(response.data, sortOrder);
 
       setHistoryData(sortedData);
@@ -75,18 +77,6 @@ export default function History() {
               <option value="desc">↓ Desc.</option>
             </select>
           </th>
-          <th className="px-5 py-2">
-            <select
-              value={selectedRegion}
-              onChange={e => setSelectedRegion(e.target.value)}
-              className=""
-            >
-              <option value="All">All</option>
-              <option value="Seoul">Seoul</option>
-              <option value="Virginia">Virginia</option>
-              <option value="London">London</option>
-            </select>
-          </th>
           <th className="px-5 py-2">Status</th>
           <th className="px-5 py-2">Response Time</th>
           <th className="px-5 py-2">Packet Loss</th>
@@ -131,12 +121,11 @@ export default function History() {
                   hour12: false,
                 })}
               </td>
-              <td>{data.serverRegion}</td>
-              <td>{data.reliabilityData.statusCode}</td>
-              <td>{data.reliabilityData.responseTime}</td>
-              <td>{data.reliabilityData.lossRate}%</td>
-              <td>{data.speedData.averageLatency}</td>
-              <td>{data.speedData.bandwidth}</td>
+              <td>{data.data.basicInformation.statusCode}</td>
+              <td>{data.data.basicInformation.responseTime}</td>
+              <td>{data.data.ping.packetLoss}%</td>
+              <td>{data.data.ping.avg}</td>
+              <td>{data.data.speed.bandwidth}</td>
             </tr>
           ))}
       </tbody>

@@ -3,30 +3,18 @@ import { create } from "zustand";
 const useStore = create(set => ({
   customId: "",
   url: "",
-  seoulData: {},
-  londonData: {},
-  virginiaData: {},
-  selectedRegion: "Seoul",
-  pingData: {},
-  tracerouteData: [],
+  data: {},
+  historyData: {},
+  selectedButton: "Information",
+  resetData: () => set({ data: {} }),
   setId: customId => set({ customId }),
   setUrl: url => set({ url }),
-  resetData: () => set({ seoulData: {}, londonData: {}, virginiaData: {} }),
-  setSeoulData: data =>
+  setData: data =>
     set(state => ({
-      seoulData: { ...state.seoulData, ...data },
+      data: { ...state.data, ...data },
     })),
-  setLondonData: data =>
-    set(state => ({
-      londonData: { ...state.londonData, ...data },
-    })),
-  setVirginiaData: data =>
-    set(state => ({
-      virginiaData: { ...state.virginiaData, ...data },
-    })),
-  setSelectedRegion: region => set(() => ({ selectedRegion: region })),
-  setPingData: data => set({ pingData: data }),
-  setTracerouteData: data => set({ tracerouteData: data }),
+  setSelectedButton: selection => set(() => ({ selectedButton: selection })),
+  setHistoryData: data => set({ historyData: data }),
 }));
 
 export default useStore;
