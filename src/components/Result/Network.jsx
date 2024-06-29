@@ -100,7 +100,13 @@ export default function Information() {
           </p>
           <p className="mx-5 mb-2">
             <span className="text-blue font-bold">Nameservers: </span>
-            {domainData ? domainData.nameServers.join(", ") : "N/A"}
+            <ul className="list-disc list-inside">
+              {domainData
+                ? domainData.nameServers.map((server, index) => (
+                    <li key={index}>{server}</li>
+                  ))
+                : "N/A"}
+            </ul>
           </p>
         </div>
         <div className="flex flex-col justify-between w-1/2 max-md:w-full max-md:mt-4">

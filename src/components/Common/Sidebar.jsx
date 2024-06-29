@@ -10,12 +10,13 @@ export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogoClick = () => {
-    setSidebarOpen(false); // Close sidebar when logo is clicked
+    setSidebarOpen(false);
+    setUrl("");
   };
 
   const handleButtonClick = selection => {
-    setSidebarOpen(false); // Close sidebar when a button is clicked
-    setSelectedButton(selection); // Update selected button
+    setSidebarOpen(false);
+    setSelectedButton(selection);
   };
 
   const buttonClass = selection =>

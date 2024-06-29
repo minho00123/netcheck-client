@@ -30,11 +30,6 @@ export default function Home() {
             <h2 className="text-white text-lg md:text-3xl lg:text-5xl mb-2 md:mb-8 lg:mb-10">
               your website
             </h2>
-            <Link to="/learn">
-              <button className="py-2 px-4 md:py-3 md:px-6 rounded-xl bg-blue font-bold text-sm md:text-xl lg:text-2xl text-white hover:bg-white hover:text-blue">
-                Learn more
-              </button>
-            </Link>
           </div>
         </div>
         <Input />
