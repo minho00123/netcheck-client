@@ -23,7 +23,7 @@ export default function Modal({ isOpen, onClose, setIsModalOpen }) {
   };
 
   async function shareResult(event) {
-    event.preventPreventDefault();
+    event.preventDefault();
     setIsLoading(true);
 
     if (!validateEmail(email)) {

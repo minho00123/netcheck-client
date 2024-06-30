@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex items-center justify-center w-full h-20 mx-10 m-3 max-sm:mx-1">
+      <header className="flex items-center justify-center h-20 mx-10 m-3 max-sm:mx-1">
         <Input />
         <button
           onClick={() => setIsModalOpen(true)}
