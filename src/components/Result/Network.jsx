@@ -16,7 +16,7 @@ export default function Information() {
 
     async function fetchData() {
       try {
-        if (historyData && historyData.domain) {
+        if (historyData?.domain) {
           setDomainData(historyData.domain);
         } else {
           const domainResponse = await axios.post(
@@ -24,10 +24,10 @@ export default function Information() {
             { url },
           );
           setDomainData(domainResponse.data);
-          setData({ domain: domainResponse.data });
+          setData(prevData => ({ ...prevData, domain: domainResponse.data }));
         }
 
-        if (historyData && historyData.ip) {
+        if (historyData?.ip) {
           setIpData(historyData.ip);
         } else {
           const ipResponse = await axios.post(
@@ -35,10 +35,10 @@ export default function Information() {
             { url },
           );
           setIpData(ipResponse.data);
-          setData({ ip: ipResponse.data });
+          setData(prevData => ({ ...prevData, ip: ipResponse.data }));
         }
 
-        if (historyData && historyData.speed) {
+        if (historyData?.speed) {
           setSpeedData(historyData.speed);
         } else {
           const speedResponse = await axios.post(
@@ -46,10 +46,10 @@ export default function Information() {
             { url },
           );
           setSpeedData(speedResponse.data);
-          setData({ speed: speedResponse.data });
+          setData(prevData => ({ ...prevData, speed: speedResponse.data }));
         }
 
-        if (historyData && historyData.ping) {
+        if (historyData?.ping) {
           setPingData(historyData.ping);
           setLoadingPing(false);
         } else {
@@ -58,7 +58,7 @@ export default function Information() {
             { url },
           );
           setPingData(pingResponse.data);
-          setData({ ping: pingResponse.data });
+          setData(prevData => ({ ...prevData, ping: pingResponse.data }));
           setLoadingPing(false);
         }
       } catch (error) {
@@ -178,7 +178,7 @@ export default function Information() {
             <div className="w-1/3 rounded-2xl bg-white text-md shadow-md max-md:w-full max-md:mt-4">
               <h3 className="mx-5 mt-2 mb-1 font-bold text-lg">Bandwidth</h3>
               <div className="w-full h-[1.5px] bg-black"></div>
-              <div className="mt-7 mx-5 mt-2 text-center">
+              <div className="mt-5 mx-5 mb-3 text-center">
                 <div className="text-xl font-bold">
                   {speedData ? speedData.bandwidth : "N/A"}
                 </div>

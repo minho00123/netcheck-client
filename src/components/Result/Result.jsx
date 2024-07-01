@@ -1,9 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useStore from "../../store/store";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
-import Loading from "../Common/Loading";
 import History from "./History";
 import Sidebar from "../Common/Sidebar";
 import Security from "./Security";
@@ -13,8 +12,7 @@ import Traceroute from "./Traceroute";
 
 export default function Result() {
   const { customId } = useParams();
-  const { url, setUrl, selectedButton, historyData, data, setHistoryData } =
-    useStore();
+  const { url, setUrl, selectedButton, data, setHistoryData } = useStore();
 
   useEffect(() => {
     async function getIdData(customId) {

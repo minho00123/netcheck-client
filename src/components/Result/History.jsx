@@ -121,11 +121,11 @@ export default function History() {
                   hour12: false,
                 })}
               </td>
-              <td>{data.data.basicInformation.statusCode}</td>
-              <td>{data.data.basicInformation.responseTime}</td>
-              <td>{data.data.ping.packetLoss}%</td>
-              <td>{data.data.ping.avg}</td>
-              <td>{data.data.speed.bandwidth}</td>
+              <td>{data.data?.basicInformation?.statusCode}</td>
+              <td>{data.data?.basicInformation?.responseTime}</td>
+              <td>{data.data?.ping?.packetLoss}%</td>
+              <td>{data.data?.ping?.avg}</td>
+              <td>{data.data?.speed?.bandwidth}</td>
             </tr>
           ))}
       </tbody>

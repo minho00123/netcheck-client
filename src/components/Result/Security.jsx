@@ -131,7 +131,7 @@ export default function Security() {
             <span className="text-blue font-bold">Public Key Size: </span>
             {securityData?.publicKeySize || "N/A"}
           </p>
-          <p className="mx-5 pb-2">
+          <p className="mx-5 pb-2 overflow-hidden text-ellipsis whitespace-normal break-all">
             <span className="text-blue font-bold">Public Key: </span>
             {securityData?.publicKey || "N/A"}
           </p>
