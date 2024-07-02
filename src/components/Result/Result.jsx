@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useStore from "../../store/store";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
@@ -12,7 +12,9 @@ import Traceroute from "./Traceroute";
 
 export default function Result() {
   const { customId } = useParams();
-  const { url, setUrl, selectedButton, data, setHistoryData } = useStore();
+  const { url, setUrl, selectedButton, data, setHistoryData, id, setId } =
+    useStore();
+  const [dataSaved, setDataSaved] = useState(false);
 
   useEffect(() => {
     async function getIdData(customId) {
@@ -23,6 +25,7 @@ export default function Result() {
             customId,
           },
         );
+
         if (response.data && response.data.length > 0) {
           setUrl(response.data[0].url);
           setHistoryData(response.data[0].data);
@@ -33,7 +36,7 @@ export default function Result() {
     }
 
     getIdData(customId);
-  }, [customId, setUrl, setHistoryData]);
+  }, [url, id, setHistoryData]);
 
   useEffect(() => {
     async function saveData(url, customId, data) {
@@ -44,14 +47,21 @@ export default function Result() {
         data.ping &&
         data.security &&
         data.speed &&
-        data.traceroute
+        data.traceroute &&
+        !dataSaved
       ) {
         try {
-          await axios.post(`${import.meta.env.VITE_SERVER}/history/save`, {
-            url,
-            customId,
-            data,
-          });
+          const response = await axios.post(
+            `${import.meta.env.VITE_SERVER}/history/save`,
+            {
+              url,
+              customId,
+              data,
+            },
+          );
+
+          setId(response.data._id);
+          setDataSaved(true);
         } catch (error) {
           console.error(error);
         }
@@ -59,7 +69,7 @@ export default function Result() {
     }
 
     saveData(url, customId, data);
-  }, [url, customId, data]);
+  }, [url, customId, data, setId, dataSaved]);
 
   return (
     <div className="flex">

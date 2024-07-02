@@ -7,7 +7,6 @@ export default function History() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [historyData, setHistoryData] = useState([]);
   const [colorMapping, setColorMapping] = useState({});
-  const [selectedRegion, setSelectedRegion] = useState("All");
 
   useEffect(() => {
     async function getHistoryData(url) {
@@ -24,7 +23,7 @@ export default function History() {
     }
 
     getHistoryData(url);
-  }, [url, sortOrder]);
+  }, [sortOrder]);
 
   function sortData(data, order) {
     return data.sort((a, b) => {
@@ -85,49 +84,44 @@ export default function History() {
         </tr>
       </thead>
       <tbody className="text-md">
-        {historyData
-          .filter(
-            data =>
-              selectedRegion === "All" || data.serverRegion === selectedRegion,
-          )
-          .map((data, index) => (
-            <tr
-              key={data._id}
-              className="border-b border-gray-light"
-              style={{
-                backgroundColor:
-                  colorMapping[
-                    new Date(data.createdAt).toLocaleString("en-US", {
-                      month: "2-digit",
-                      day: "2-digit",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  ],
-              }}
+        {historyData.map((data, index) => (
+          <tr
+            key={data._id}
+            className="border-b border-gray-light"
+            style={{
+              backgroundColor:
+                colorMapping[
+                  new Date(data.createdAt).toLocaleString("en-US", {
+                    month: "2-digit",
+                    day: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                ],
+            }}
+          >
+            <td className="py-2">{index + 1}</td>
+            <td
+              className="cursor-pointer underline hover:text-blue"
+              onClick={() => handleClick(data.customId)}
             >
-              <td className="py-2">{index + 1}</td>
-              <td
-                className="cursor-pointer underline hover:text-blue"
-                onClick={() => handleClick(data.customId)}
-              >
-                {new Date(data.createdAt).toLocaleString("en-US", {
-                  month: "2-digit",
-                  day: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}
-              </td>
-              <td>{data.data?.basicInformation?.statusCode}</td>
-              <td>{data.data?.basicInformation?.responseTime}</td>
-              <td>{data.data?.ping?.packetLoss}%</td>
-              <td>{data.data?.ping?.avg}</td>
-              <td>{data.data?.speed?.bandwidth}</td>
-            </tr>
-          ))}
+              {new Date(data.createdAt).toLocaleString("en-US", {
+                month: "2-digit",
+                day: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              })}
+            </td>
+            <td>{data.data?.basicInformation?.statusCode}</td>
+            <td>{data.data?.basicInformation?.responseTime}</td>
+            <td>{data.data?.ping?.packetLoss}%</td>
+            <td>{data.data?.ping?.avg}</td>
+            <td>{data.data?.speed?.bandwidth}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

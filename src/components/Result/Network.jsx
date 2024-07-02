@@ -24,7 +24,7 @@ export default function Information() {
             { url },
           );
           setDomainData(domainResponse.data);
-          setData(prevData => ({ ...prevData, domain: domainResponse.data }));
+          setData({ domain: domainResponse.data });
         }
 
         if (historyData?.ip) {
@@ -35,7 +35,7 @@ export default function Information() {
             { url },
           );
           setIpData(ipResponse.data);
-          setData(prevData => ({ ...prevData, ip: ipResponse.data }));
+          setData({ ip: ipResponse.data });
         }
 
         if (historyData?.speed) {
@@ -46,7 +46,7 @@ export default function Information() {
             { url },
           );
           setSpeedData(speedResponse.data);
-          setData(prevData => ({ ...prevData, speed: speedResponse.data }));
+          setData({ speed: speedResponse.data });
         }
 
         if (historyData?.ping) {
@@ -58,7 +58,7 @@ export default function Information() {
             { url },
           );
           setPingData(pingResponse.data);
-          setData(prevData => ({ ...prevData, ping: pingResponse.data }));
+          setData({ ping: pingResponse.data });
           setLoadingPing(false);
         }
       } catch (error) {
