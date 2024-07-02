@@ -16,8 +16,6 @@ const useStore = create(set => ({
     })),
   setSelectedButton: selection => set(() => ({ selectedButton: selection })),
   setHistoryData: data => set({ historyData: data }),
-  historyDataLoaded: false,
-  setHistoryDataLoaded: loaded => set({ historyDataLoaded: loaded }),
 }));
 
 export default useStore;
