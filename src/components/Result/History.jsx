@@ -23,7 +23,7 @@ export default function History() {
     }
 
     getHistoryData(url);
-  }, [sortOrder]);
+  }, [url, sortOrder]);
 
   function sortData(data, order) {
     return data.sort((a, b) => {
@@ -65,6 +65,7 @@ export default function History() {
       <thead className="border-b-2 text-lg">
         <tr>
           <th className="px-5 py-2">No.</th>
+          <th className="px-5 py-2">URL</th>
           <th className="px-5 py-2">
             Date
             <select
@@ -102,6 +103,7 @@ export default function History() {
             }}
           >
             <td className="py-2">{index + 1}</td>
+            <td>{data?.url}</td>
             <td
               className="cursor-pointer underline hover:text-blue"
               onClick={() => handleClick(data.customId)}

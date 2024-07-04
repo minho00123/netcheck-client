@@ -55,13 +55,13 @@ export default function BasicInformation() {
             <span
               className={
                 basicInformation?.statusCode >= 200 &&
-                basicInformation?.statusCode < 300
+                basicInformation?.statusCode < 400
                   ? "text-green"
                   : "text-red"
               }
             >
               {basicInformation?.statusCode >= 200 &&
-              basicInformation?.statusCode < 300
+              basicInformation?.statusCode < 400
                 ? "OK"
                 : "Error"}
             </span>

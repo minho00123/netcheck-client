@@ -7,7 +7,8 @@ const useStore = create(set => ({
   data: {},
   historyData: {},
   selectedButton: "Information",
-  resetData: () => set({ data: {} }),
+  resetData: () =>
+    set({ data: {}, url: "", customId: "", id: "", historyData: {} }),
   setId: id => set({ id }),
   setUrl: url => set({ url }),
   setData: data =>
