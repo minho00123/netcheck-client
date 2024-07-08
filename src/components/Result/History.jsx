@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function History() {
   const { url } = useStore();
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [historyData, setHistoryData] = useState([]);
   const [colorMapping, setColorMapping] = useState({});
 
