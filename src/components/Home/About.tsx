@@ -1,4 +1,4 @@
-import Header from "./Header";
+import Header from "./Header.tsx";
 import profileImage from "../../assets/profile.png";
 import { SiGmail, SiGithub } from "react-icons/si";
 

@@ -1,13 +1,13 @@
-import useStore from "../../store/store";
+import useStore from "../../store/store.ts";
 import { useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
-import Input from "../Common/Input";
+import { Navigate } from "react-router-dom";
+import Input from "../Common/Input.tsx";
 import Header from "./Header";
 import homeImage from "../../assets/home-img.jpg";
 
 export default function Home() {
   const { id, url, setId } = useStore();
-  const customId = Math.random().toString(36).slice(2, 16);
+  const customId: string = Math.random().toString(36).slice(2, 16);
 
   useEffect(() => {
     setId(customId);
